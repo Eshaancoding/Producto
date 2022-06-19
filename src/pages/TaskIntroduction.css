@@ -1,0 +1,30 @@
+#Title {
+    position: relative;
+    padding: 0px;
+    margin: 0px;
+    width: 100%;
+    text-align: center;
+    font-size: 2em;
+    margin-top: 30px;
+    margin-bottom: 40px;
+}
+
+.Description {
+    width: 100%;
+    padding-left: 30px;
+    padding-right: 30px;    
+    text-align: center;
+    line-height: 22px;
+}
+
+.prompt {
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+#Continue {
+    position: relative;
+    top: 10%;
+    left: 50%;
+    transform: translateX(-50%);
+}
