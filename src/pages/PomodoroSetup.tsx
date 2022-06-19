@@ -1,28 +1,16 @@
 import {IonToggle, IonItem, IonLabel, IonInput, IonText, IonContent, IonButton, IonPage, IonTitle} from '@ionic/react';
 import './PomodoroSetup.css';
 
-/* React Redux*/
-import { useState } from 'react'; //for use with hooks
-import { useDispatch, useSelector } from 'react-redux';
-import { pomoWorkSlice } from '../name';
+import { useState } from 'react';
 
 const PomodoroSetup: React.FC = () => {
-    const pomoWorkInitial = useSelector((state:any={}) => state.pomoWork.value)
-    const dispatch = useDispatch();
-    const [pomoWorkBuff, setPomoWorkBuff] = useState(pomoWorkInitial);
-
-    function handleContinue () {
-        console.log("sdfsdf")
-        console.log(pomoWorkBuff, pomoWorkSlice);
-        dispatch(pomoWorkSlice.actions.changeValue(pomoWorkBuff));
-        window.location.href = '/taskIntro';
-    }
+    const [pomoWorkBuff, setPomoWorkBuff] = useState(-1);
 
     return (
         <IonPage>
             <IonContent fullscreen>
                 <IonTitle id="Title">
-                    Pomodoro Technique
+                    Pomodoro Technique 
                 </IonTitle> 
                 <IonText >
                     <p id="Description">
@@ -41,17 +29,17 @@ const PomodoroSetup: React.FC = () => {
 
                 <IonItem class="prompt">
                     <IonLabel>Work Length (minutes):</IonLabel>
-                    <IonInput id="SessionLength" type='number' placeholder="25" onIonChange={(e:any={}) =>setPomoWorkBuff(e.detail.value) }/>
+                    <IonInput id="SessionLength" type='number' placeholder="50" onIonChange={(e:any={}) =>setPomoWorkBuff(e.detail.value) }/>
                 </IonItem>
 
                 <br />
 
                 <IonItem class="prompt">
                     <IonLabel>Break Length (minutes):</IonLabel>
-                    <IonInput id="BreakLength" type='number' placeholder="5" />
+                    <IonInput id="BreakLength" type='number' placeholder="10" />
                 </IonItem>
 
-                <IonButton id="Continue" onClick={handleContinue}>
+                <IonButton id="Continue" href="/taskIntro">
                     Continue
                 </IonButton>
 

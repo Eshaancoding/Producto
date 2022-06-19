@@ -22,9 +22,26 @@
     padding-right: 20px;
 }
 
+#list {
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
 #Continue {
     position: relative;
     top: 10%;
     left: 50%;
     transform: translateX(-50%);
+}
+
+#footer {
+    position: relative;
+    top: 10%;
+    height: 5%;
+    width: 100%;
+}
+
+#AddText {
+    text-align: center;
+    width: 100%;
 }

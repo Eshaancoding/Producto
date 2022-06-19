@@ -7,8 +7,7 @@ import PomodoroSetup from './pages/PomodoroSetup';
 import TaskIntroduction from './pages/TaskIntroduction'; 
 
 /* Redux store*/
-import store from "./store"
-import { Provider } from "react-redux";
+import { Provider, useStore } from "react-redux";
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -32,29 +31,27 @@ import './theme/variables.css';
 setupIonicReact();
 
 const App: React.FC = () => (
-  <Provider store={store}>
-    <IonApp>
-      <IonReactRouter>
-        <IonRouterOutlet>
-          <Route exact path="/home">
-            <Home />
-          </Route>
-          <Route exact path="/calendar">
-            <Calendar /> 
-          </Route> 
-          <Route exact path="/session">
-            <PomodoroSetup  />
-          </Route>
-          <Route exact path="/taskIntro">
-            <TaskIntroduction />
-          </Route>
-          <Route exact path="/">
-            <Redirect to="/home" />
-          </Route>
-        </IonRouterOutlet>
-      </IonReactRouter>
-    </IonApp>
-  </Provider>
+  <IonApp>
+    <IonReactRouter>
+      <IonRouterOutlet>
+        <Route exact path="/home">
+          <Home />
+        </Route>
+        <Route exact path="/calendar">
+          <Calendar /> 
+        </Route> 
+        <Route exact path="/session">
+          <PomodoroSetup  />
+        </Route>
+        <Route exact path="/taskIntro">
+          <TaskIntroduction />
+        </Route>
+        <Route exact path="/">
+          <Redirect to="/home" />
+        </Route>
+      </IonRouterOutlet>
+    </IonReactRouter>
+  </IonApp>
 );
 
 export default App;
