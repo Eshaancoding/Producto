@@ -4,10 +4,12 @@ import "./TaskIntroduction.css";
 
 const TaskIntroduction: React.FC = () => {
     var [list, setList] = useState(["Step 1:", "Step 2:", "Step 3:"]);
-    var [responses, setResponses] = useState(["", "", ""]);
+    var [responses, setResponses] = useState(["", "", "", ""]);
     var [color, setColor] = useState("secondary")
+    var [placeholder, setPlaceholder] = useState(["Get out of the bed.", "Get the homework folder", "Set the homework on the desk"]); 
 
     function AddHandler () {
+        setPlaceholder([...placeholder, ""]);
         setColor("secondary");
         setResponses([...responses, ""]);
         setList([...list, "Step " + (list.length + 1) + ":"]);
@@ -26,7 +28,7 @@ const TaskIntroduction: React.FC = () => {
 
     function handleClick () {
         if (responses.every(x => x != "")) {
-            window.location.href = "/taskIntro";
+            window.location.href = "/taskProcedure";
         }
     }
 
@@ -43,7 +45,7 @@ const TaskIntroduction: React.FC = () => {
                 <br />
                 <IonItem class="prompt">
                     <IonLabel>Task Name:</IonLabel>
-                    <IonInput id="TaskName" type='text' placeholder="Task Name" /> 
+                    <IonInput id="TaskName" type='text' placeholder="Do my homework" onIonChange={(e) => handleResponses(e.detail.value, 0)}/> 
                 </IonItem>
                 <br />
                 <IonText>
@@ -52,14 +54,13 @@ const TaskIntroduction: React.FC = () => {
                     </p>
                 </IonText>
                 <br />
-                
 
                 <IonList id="list"> 
                     {list.map((item, index) => {
                         return (
                             <IonItem key={index}>
                                 <IonLabel>{item}</IonLabel>
-                                <IonInput className='listInput' type='text' onIonChange={(e) => handleResponses(e.detail.value, index)} />
+                                <IonInput className='listInput' type='text' placeholder={placeholder[index]} onIonChange={(e) => handleResponses(e.detail.value, index+1)} />
                             </IonItem>
                         )
                     })}

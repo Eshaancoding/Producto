@@ -5,9 +5,8 @@ import Home from './pages/Home';
 import Calendar from './pages/Calendar';
 import PomodoroSetup from './pages/PomodoroSetup';
 import TaskIntroduction from './pages/TaskIntroduction'; 
-
-/* Redux store*/
-import { Provider, useStore } from "react-redux";
+import TaskProcedure from './pages/TaskProcedure';
+import TaskEnd from './pages/TaskEnd';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -34,6 +33,12 @@ const App: React.FC = () => (
   <IonApp>
     <IonReactRouter>
       <IonRouterOutlet>
+        <Route exact path="/taskProcedure">
+          <TaskProcedure />
+        </Route>
+        <Route exact path="/taskEnd">
+          <TaskEnd /> 
+        </Route>
         <Route exact path="/home">
           <Home />
         </Route>
