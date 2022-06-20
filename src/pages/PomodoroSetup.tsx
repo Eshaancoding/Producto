@@ -67,4 +67,5 @@ const PomodoroSetup: React.FC = () => {
     );
 }
 
+export { StateContext } // Export the context
 export default PomodoroSetup;

@@ -82,7 +82,7 @@ const BreakSession: React.FC = () => {
                     "This information is from the episode 'Controlling Your Dopamine For Motivation, Focus & Satisfaction' from the Huberman Lab Podcast by Andrew Huberman! Check it out if you're interested for more information. A lot of these tips are from the Huberman Lab Podcast.",
                 ]} />
                 <IonText> 
-                    <h2>Quote from Marcus Aurelius</h2>
+                    <h2>Quote from Marcus Aurelius:</h2>
                 </IonText>
                 <List items={[
                     "Concentrate every minute on doing what's in front of you with precise and genuine seriousness, tenderly, willingly, with justice. And on freeing yourself from all other distractions.", 

@@ -57,7 +57,7 @@ const WorkSession: React.FC = () => {
             }
             // if done
             if (minutes === 0 && seconds === 0) {
-                window.location.href = "/break"
+                window.location.href = "/workSessionEnd"
             }
         }, 1000);
         return () => clearInterval(interval);

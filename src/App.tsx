@@ -9,6 +9,7 @@ import TaskProcedure from './pages/TaskProcedure';
 import TaskEnd from './pages/TaskEnd';
 import WorkSession from './pages/WorkSession';
 import BreakSession from './pages/BreakSession';
+import WorkSessionEnd from './pages/WorkSessionEnd';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -38,6 +39,9 @@ const App: React.FC = () => (
         <Route exact path="/break">
           <BreakSession />
         </Route>
+        <Route exact path="/workSessionEnd">
+          <WorkSessionEnd />
+        </Route>
         <Route exact path="/work">
           <WorkSession /> 
         </Route>
@@ -60,7 +64,7 @@ const App: React.FC = () => (
           <TaskIntroduction />
         </Route>
         <Route exact path="/">
-          <Redirect to="/break" />
+          <Redirect to="/home" />
         </Route>
       </IonRouterOutlet>
     </IonReactRouter>
