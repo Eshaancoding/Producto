@@ -17,7 +17,7 @@ const TaskEnd: React.FC = () => {
 
     function handleContinue () {
         if (responses.every(x => x != "")) {
-            window.location.href = "/taskEnd";
+            window.location.href = "/work";
         }
     }
 

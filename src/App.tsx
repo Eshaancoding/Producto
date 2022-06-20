@@ -7,6 +7,8 @@ import PomodoroSetup from './pages/PomodoroSetup';
 import TaskIntroduction from './pages/TaskIntroduction'; 
 import TaskProcedure from './pages/TaskProcedure';
 import TaskEnd from './pages/TaskEnd';
+import WorkSession from './pages/WorkSession';
+import BreakSession from './pages/BreakSession';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -33,6 +35,12 @@ const App: React.FC = () => (
   <IonApp>
     <IonReactRouter>
       <IonRouterOutlet>
+        <Route exact path="/break">
+          <BreakSession />
+        </Route>
+        <Route exact path="/work">
+          <WorkSession /> 
+        </Route>
         <Route exact path="/taskProcedure">
           <TaskProcedure />
         </Route>
@@ -52,7 +60,7 @@ const App: React.FC = () => (
           <TaskIntroduction />
         </Route>
         <Route exact path="/">
-          <Redirect to="/home" />
+          <Redirect to="/break" />
         </Route>
       </IonRouterOutlet>
     </IonReactRouter>
