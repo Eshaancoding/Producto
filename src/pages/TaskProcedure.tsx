@@ -1,8 +1,10 @@
 import {IonList, IonItem, IonLabel, IonInput, IonText, IonContent, IonButton, IonPage, IonTitle} from '@ionic/react';
+import { useHistory } from 'react-router';
 import { useState } from 'react';
 import "./TaskIntroduction.css"
 
 const TaskProcedure: React.FC = () => {
+    let history = useHistory(); 
     var [list, setList] = useState(["Step 1:", "Step 2:", "Step 3:", "Step 4:", "Step 5:"]);
     var [responses, setResponses] = useState(["", "", "", "", ""]);
     var [color, setColor] = useState("secondary")
@@ -28,7 +30,7 @@ const TaskProcedure: React.FC = () => {
 
     function handleClick () {
         if (responses.every(x => x != "")) {
-            window.location.href = "/taskEnd";
+            history.push("/taskEnd"); 
         }
     }
     return (

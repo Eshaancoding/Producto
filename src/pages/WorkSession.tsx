@@ -1,7 +1,10 @@
 import {IonProgressBar, IonList, IonItem, IonLabel, IonInput, IonText, IonContent, IonButton, IonPage, IonTitle, IonLoading} from '@ionic/react';
-import { useState, useEffect} from 'react';
+import { useHistory } from 'react-router';
+import { useState, useEffect, useContext} from 'react';
 import "./TaskIntroduction.css"
 import "./WorkSession.css"
+
+import { GlobalContext } from '../context/GlobalState';
 
 const BulletPoint = (props:any) => {
     return (
@@ -43,10 +46,12 @@ const TimeDisplay = (props:any) => {
 }
 
 const WorkSession: React.FC = () => {
-    const originalMinutes = 0;
-    const originalSeconds = 10;
+    let history = useHistory()
+    const { pomoWork } = useContext(GlobalContext);
+
+    const originalMinutes = pomoWork;
     const [minutes, setMinutes] = useState(originalMinutes); 
-    const [seconds, setSeconds] = useState(originalSeconds);
+    const [seconds, setSeconds] = useState(0);
 
     useEffect(() => {
         const interval = setInterval(() => {
@@ -57,7 +62,7 @@ const WorkSession: React.FC = () => {
             }
             // if done
             if (minutes === 0 && seconds === 0) {
-                window.location.href = "/workSessionEnd"
+                history.push("/workSessionEnd")
             }
         }, 1000);
         return () => clearInterval(interval);
@@ -66,7 +71,7 @@ const WorkSession: React.FC = () => {
     return (
         <IonPage>
             <IonContent fullscreen>
-                <IonProgressBar value={(minutes * 60 + seconds) / (originalMinutes * 60 + originalSeconds)}></IonProgressBar>
+                <IonProgressBar value={(minutes * 60 + seconds) / (originalMinutes * 60)}></IonProgressBar>
                 <IonTitle id="Title">Work Session</IonTitle>
                 <IonText>
                     <TimeDisplay minutes={minutes} seconds={seconds} />

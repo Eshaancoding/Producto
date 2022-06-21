@@ -1,8 +1,10 @@
 import {IonList, IonItem, IonLabel, IonInput, IonText, IonContent, IonButton, IonPage, IonTitle} from '@ionic/react';
+import { useHistory } from 'react-router';
 import { useState, useEffect} from 'react';
 import "./TaskIntroduction.css"
 
 const WorkSessionEnd: React.FC = () => {
+    let history = useHistory()
     var [responses, setResponses] = useState(["", ""]);
     var [color, setColor] = useState("secondary")
     function handleChange (e:any={}, idx:number) {
@@ -18,7 +20,7 @@ const WorkSessionEnd: React.FC = () => {
 
     function handleClick () {
         if (responses.every(x => x != "")) {
-            window.location.href = "/break"
+            history.push("/break")
         }
     }
 

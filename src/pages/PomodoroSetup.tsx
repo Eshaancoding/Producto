@@ -1,18 +1,21 @@
 import {IonToggle, IonItem, IonLabel, IonInput, IonText, IonContent, IonButton, IonPage, IonTitle} from '@ionic/react';
 import './PomodoroSetup.css';
 
-import { useState } from 'react';
+import { useHistory } from 'react-router';
+import { useState, useContext} from 'react';
+import { GlobalContext } from '../context/GlobalState';
 
 const PomodoroSetup: React.FC = () => {
-    const [pomoWorkBuff, setPomoWorkBuff] = useState(-1);
-    const [responses, setResponses] = useState([false, "", ""]);
-    const [color, setColor] = useState("primary")
+    let history = useHistory()
+    const [responses, setResponses] = useState(["", ""]);
+    const [color, setColor] = useState("secondary")
+    const { changePomoBreak, changePomoWork } = useContext(GlobalContext);
 
     function handleResponses (e:any={}, idx:number) {
         var newResponses = [...responses];
         newResponses[idx] = e;
         setResponses(newResponses);
-        if ((newResponses[1] != "" && newResponses[2] != "") || newResponses[0] === false) {
+        if (newResponses[0] != "" && newResponses[1] != "") {
             setColor("primary");
         } else {
             setColor("secondary");
@@ -20,8 +23,10 @@ const PomodoroSetup: React.FC = () => {
     }
 
     function handleClick () {
-        if ((responses[1] != "" && responses[2] != "") || responses[0] === false) {
-            window.location.href = "/taskIntro";
+        changePomoWork(parseInt(responses[0].toString())) 
+        changePomoBreak(parseInt(responses[1].toString()))
+        if (responses[0] != "" && responses[1] != "") {
+            history.push("/taskIntro")
         }
     }
 
@@ -39,23 +44,16 @@ const PomodoroSetup: React.FC = () => {
 
                 <br />
 
-                <IonItem class="prompt"> 
-                    <IonLabel>Use Pomodoro Technique?</IonLabel>
-                    <IonToggle slot="end" name="pomodoro" id="pomodoro" onIonChange={(e) => handleResponses(e.detail.checked, 0)} />
-                </IonItem>
-
-                <br />
-
                 <IonItem class="prompt">
                     <IonLabel>Work Length (minutes):</IonLabel>
-                    <IonInput id="SessionLength" type='number' placeholder="50" onIonChange={(e) => handleResponses(e.detail.value, 1) }/>
+                    <IonInput id="SessionLength" type='number' placeholder="50" onIonChange={(e) => handleResponses(e.detail.value, 0) }/>
                 </IonItem>
 
                 <br />
 
                 <IonItem class="prompt">
                     <IonLabel>Break Length (minutes):</IonLabel>
-                    <IonInput id="BreakLength" type='number' placeholder="10" onIonChange={(e) => handleResponses(e.detail.value, 2)}/>
+                    <IonInput id="BreakLength" type='number' placeholder="10" onIonChange={(e) => handleResponses(e.detail.value, 1)}/>
                 </IonItem>
 
                 <IonButton id="Continue" onClick={handleClick} color={color}>
@@ -67,5 +65,4 @@ const PomodoroSetup: React.FC = () => {
     );
 }
 
-export { StateContext } // Export the context
 export default PomodoroSetup;

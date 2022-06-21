@@ -1,8 +1,10 @@
 import {IonList, IonItem, IonLabel, IonInput, IonText, IonContent, IonButton, IonPage, IonTitle} from '@ionic/react';
+import { useHistory } from 'react-router';
 import { useState } from 'react';
 import "./TaskIntroduction.css"
 
 const TaskEnd: React.FC = () => {
+    let history = useHistory()
     const [responses, setResponses] = useState(["", "", ""]);
     const [color, setColor] = useState("secondary")
 
@@ -17,7 +19,7 @@ const TaskEnd: React.FC = () => {
 
     function handleContinue () {
         if (responses.every(x => x != "")) {
-            window.location.href = "/work";
+            history.push("/work")
         }
     }
 

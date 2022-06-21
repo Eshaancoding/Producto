@@ -15,11 +15,11 @@ const Home: React.FC = () => {
           <RandomQuote />
         </IonText>
 
-        <IonButton id="SessionButton" href="/session">
+        <IonButton id="SessionButton" routerLink='/session' routerDirection="back">
           Start Session
         </IonButton>
 
-        <IonButton id="CalendarButton" href="/calendar">
+        <IonButton id="CalendarButton" routerLink='/calendar' routerDirection="back">
           Calendar 
         </IonButton>
 
