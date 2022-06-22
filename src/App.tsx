@@ -2,7 +2,6 @@ import { Redirect, Route } from 'react-router-dom';
 import { IonApp, IonRouterOutlet, setupIonicReact} from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
 import Home from './pages/Home';
-import Calendar from './pages/Calendar';
 import PomodoroSetup from './pages/PomodoroSetup';
 import TaskIntroduction from './pages/TaskIntroduction'; 
 import TaskProcedure from './pages/TaskProcedure';
@@ -48,7 +47,6 @@ const App: React.FC = () => (
           <Route exact path="/work" component={WorkSession} />
           <Route exact path="/workSessionEnd" component={WorkSessionEnd} />
           <Route exact path="/break" component={BreakSession} /> 
-          <Route exact path="/calendar" component={Calendar} />
           <Redirect exact path="/" to="/home" />
         </IonRouterOutlet>
       </IonReactRouter>

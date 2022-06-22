@@ -4,6 +4,7 @@ import './PomodoroSetup.css';
 import { useHistory } from 'react-router';
 import { useState, useContext} from 'react';
 import { GlobalContext } from '../context/GlobalState';
+import CloseButton from '../helper/CloseButton';
 
 const PomodoroSetup: React.FC = () => {
     let history = useHistory()
@@ -33,6 +34,7 @@ const PomodoroSetup: React.FC = () => {
     return (
         <IonPage>
             <IonContent fullscreen>
+                <CloseButton /> 
                 <IonTitle id="Title">
                     Pomodoro Technique 
                 </IonTitle> 

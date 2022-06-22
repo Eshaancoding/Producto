@@ -1,10 +1,11 @@
 import {IonProgressBar, IonList, IonItem, IonLabel, IonInput, IonText, IonContent, IonButton, IonPage, IonTitle, IonLoading} from '@ionic/react';
-import { useHistory } from 'react-router';
 import { useState, useEffect, useContext} from 'react';
 import "./TaskIntroduction.css"
 import "./WorkSession.css"
 
 import { GlobalContext } from '../context/GlobalState';
+import { useHistory } from 'react-router';
+import habitCard from '../helper/HabitCard';
 
 const BulletPoint = (props:any) => {
     return (
@@ -46,10 +47,10 @@ const TimeDisplay = (props:any) => {
 }
 
 const BreakSession: React.FC = () => {
-    let history = useHistory();
+    const history = useHistory()
     const { pomoBreak } = useContext(GlobalContext);
 
-    console.log("Break Session pomobreak:", pomoBreak)
+    const { pomoWork, habitId} = useContext(GlobalContext);
     const originalMinutes = pomoBreak;
     const [minutes, setMinutes] = useState(originalMinutes); 
     const [seconds, setSeconds] = useState(0);
@@ -63,7 +64,7 @@ const BreakSession: React.FC = () => {
             }
             // if done
             if (minutes === 0 && seconds === 0) {
-                history.push("/work")
+                history.replace("/work")
             }
         }, 1000);
         return () => clearInterval(interval);

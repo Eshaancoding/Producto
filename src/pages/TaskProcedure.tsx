@@ -2,6 +2,7 @@ import {IonList, IonItem, IonLabel, IonInput, IonText, IonContent, IonButton, Io
 import { useHistory } from 'react-router';
 import { useState } from 'react';
 import "./TaskIntroduction.css"
+import CloseButton from '../helper/CloseButton';
 
 const TaskProcedure: React.FC = () => {
     let history = useHistory(); 
@@ -36,6 +37,7 @@ const TaskProcedure: React.FC = () => {
     return (
         <IonPage>
             <IonContent fullscreen>
+                <CloseButton />
                 <IonTitle id="Title"> Task Procedure </IonTitle> 
                 <IonText >
                     <p className="Description">

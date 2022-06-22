@@ -25,6 +25,9 @@ const Home: React.FC = () => {
   }
 
   useIonViewWillEnter(() => {
+    // check if we have to clear all mondays, tuesdays, etc.
+    // check if we lost streak
+    // finally set habits
     store.get("habits").then(value => setHabits(value))
   })
 

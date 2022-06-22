@@ -1,10 +1,15 @@
-import {IonProgressBar, IonList, IonItem, IonLabel, IonInput, IonText, IonContent, IonButton, IonPage, IonTitle, IonLoading} from '@ionic/react';
-import { useHistory } from 'react-router';
+import {IonProgressBar, IonList, IonItem, IonText, IonContent, IonPage, IonTitle, IonButton, useIonViewWillEnter} from '@ionic/react';
 import { useState, useEffect, useContext} from 'react';
 import "./TaskIntroduction.css"
 import "./WorkSession.css"
 
 import { GlobalContext } from '../context/GlobalState';
+import { useHistory } from 'react-router';
+import { Storage } from '@ionic/storage';
+
+function roundtoSecond (num:number) {
+    return Math.round((num + Number.EPSILON) * 100) / 100
+}
 
 const BulletPoint = (props:any) => {
     return (
@@ -21,7 +26,7 @@ const List = (props:any) => {
         <IonList id="list" lines='inset' inset={true}>
             {props.items.map((item:any, idx:number) => {
                 return (
-                    <BulletPoint text={item} />
+                    <BulletPoint key={idx} text={item} />
                 )
             })}
         </IonList>
@@ -46,15 +51,23 @@ const TimeDisplay = (props:any) => {
 }
 
 const WorkSession: React.FC = () => {
-    let history = useHistory()
-    const { pomoWork } = useContext(GlobalContext);
-
+    const history = useHistory()
+    const { pomoWork, habitId} = useContext(GlobalContext);
     const originalMinutes = pomoWork;
     const [minutes, setMinutes] = useState(originalMinutes); 
     const [seconds, setSeconds] = useState(0);
+    var interval:any = null;
+
+    // Habits list
+    const store = new Storage()
+    store.create()
+    const [habitsList, setHabitsList] = useState([])
+    useIonViewWillEnter(() => {
+        store.get("habits").then(value => setHabitsList(value))
+    }) 
 
     useEffect(() => {
-        const interval = setInterval(() => {
+        interval = setInterval(() => {
             setSeconds(seconds => seconds - 1);
             if (seconds === 0) {
                 setSeconds(59);
@@ -62,17 +75,40 @@ const WorkSession: React.FC = () => {
             }
             // if done
             if (minutes === 0 && seconds === 0) {
-                history.push("/workSessionEnd")
+                var original_habits: any = habitsList
+                original_habits[habitId]['hoursSpent'] += roundtoSecond(((originalMinutes*60) - (minutes * 60 + seconds)) / 360)
+                setHabitsList(original_habits)
+                store.set("habits", originalMinutes)
+                clearInterval(interval)
+                history.replace("/workSessionEnd")
             }
         }, 1000);
         return () => clearInterval(interval);
-    }, [seconds]);
+    });
+
+
+    function handleCloseButton () {
+        // get today's date
+        var num_to_day : {[key:number]: string} = {0: "sunday", 1: "monday", 2: "tuesday", 3: "wednesday", 4: "thursday", 5: "friday", 6: "saturday"}
+        const day :number = new Date().getDay()
+        var original_habits: any = habitsList
+        original_habits[habitId][num_to_day[day]] = true
+        original_habits[habitId]["sessions"] += 1
+        original_habits[habitId]['hoursSpent'] += roundtoSecond(((originalMinutes*60) - (minutes * 60 + seconds)) / 360)
+        setHabitsList(original_habits)
+        store.set("habits", original_habits)
+        clearInterval(interval)
+        history.replace("/home")
+    }
 
     return (
         <IonPage>
             <IonContent fullscreen>
                 <IonProgressBar value={(minutes * 60 + seconds) / (originalMinutes * 60)}></IonProgressBar>
                 <IonTitle id="Title">Work Session</IonTitle>
+                <IonButton color="danger" id="CloseButton" onClick={handleCloseButton}>
+                    End Session 
+                </IonButton>
                 <IonText>
                     <TimeDisplay minutes={minutes} seconds={seconds} />
                     <br />
