@@ -1,4 +1,4 @@
-import { IonToolbar, IonHeader, IonModal, IonButtons, IonItem, IonLabel, IonInput, IonText, IonContent, IonButton, IonPage, IonTitle, IonBadge, useIonViewWillEnter } from '@ionic/react';
+import { IonToolbar, IonHeader, IonModal, IonButtons, IonItem, IonLabel, IonInput, IonText, IonContent, IonButton, IonPage, IonTitle, useIonViewWillEnter } from '@ionic/react';
 import { useRef, useState } from 'react';
 import './Home.css';
 import RandomQuote from './RandomQuote';
