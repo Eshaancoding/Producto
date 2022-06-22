@@ -1,0 +1,24 @@
+.sessions {
+    --background: orange;
+}
+
+.hoursSpent {
+    --background: green;
+}
+
+.streak {
+    --background: red; 
+}
+
+.badge {
+    margin-right: 5px;
+}
+
+.habitName {
+    color: white;
+    font-size: 20px;
+}
+
+.descriptionName {
+    margin-bottom: 0px;
+}

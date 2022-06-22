@@ -17,15 +17,19 @@
 }
 
 #SessionButton {
-    position: absolute;
-    top: 52%;
+    position: relative;
+    top: 10%;
     left: 50%;
     transform: translate(-50%, -50%);
 }
 
-#CalendarButton {
-    position: absolute;
-    bottom: 35%;
-    left: 50%;
-    transform: translate(-50%, 50%);
+svg {
+    width: 100%;
 }
+
+
+#open-modal {
+    padding-left: 8px;
+    padding-right: 8px;
+}
+
