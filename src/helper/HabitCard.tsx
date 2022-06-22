@@ -1,7 +1,9 @@
-import {IonButton, IonInput, IonChip, IonCard, IonCardContent, IonBadge} from '@ionic/react';
+import {IonCardHeader, IonCardSubtitle, IonCardTitle, IonFab, IonIcon, IonInput, IonChip, IonCard, IonCardContent, IonBadge, IonFabButton} from '@ionic/react';
+import { closeOutline } from 'ionicons/icons'
 import "./HabitCard.css"
 
-function habitCard (key:number, habitName:string, habitDescription:string, totalHours:number, totalSessions:number, streaks:number, monday:boolean, tuesday:boolean, wednesday:boolean, thursday:boolean, friday:boolean, saturday:boolean, sunday:boolean) {
+
+function habitCard (key:number, habitName:string, habitDescription:string, totalHours:number, totalSessions:number, streaks:number, monday:boolean, tuesday:boolean, wednesday:boolean, thursday:boolean, friday:boolean, saturday:boolean, sunday:boolean, closeButtonCallback:Function) {
 
   function chip (green:boolean, innerText:string) {
     if (green) {
@@ -18,9 +20,17 @@ function habitCard (key:number, habitName:string, habitDescription:string, total
 
   return (
     <IonCard id="Card" key={key}>
+      <IonCardHeader>
+        <IonCardTitle>{habitName}</IonCardTitle>
+        <IonCardSubtitle>{habitDescription}</IonCardSubtitle>
+        <IonFab vertical='top' horizontal='end'>
+          <IonFabButton class="DeleteButton" onClick={() => {closeButtonCallback(key)}}>
+            <IonIcon icon={closeOutline}></IonIcon>  
+          </IonFabButton>  
+        </IonFab>
+      </IonCardHeader>
+
       <IonCardContent>
-        <IonInput className="habitName" type='text' value={habitName} placeholder='Insert Habit Name here'></IonInput>
-        <IonInput className="descriptionName" type='text' value={habitDescription} placeholder='Insert Habit Description here'></IonInput>
         {chip(monday, "Mon")}
         {chip(tuesday, "Tue")}
         {chip(wednesday, "Wed")}

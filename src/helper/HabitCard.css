@@ -1,5 +1,5 @@
 .sessions {
-    --background: orange;
+    --background: rgb(0, 0, 255);
 }
 
 .hoursSpent {
@@ -14,11 +14,6 @@
     margin-right: 5px;
 }
 
-.habitName {
-    color: white;
-    font-size: 20px;
-}
-
-.descriptionName {
-    margin-bottom: 0px;
+.DeleteButton {
+    --background: rgb(54, 54, 54);
 }
