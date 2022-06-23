@@ -25,10 +25,47 @@ const Home: React.FC = () => {
   }
 
   useIonViewWillEnter(() => {
-    // check if we have to clear all mondays, tuesdays, etc.
-    // check if we lost streak
-    // finally set habits
-    store.get("habits").then(value => setHabits(value))
+    store.get("habits").then((habit:[{[key:string]: any}]) => {
+      // get today's date
+      var num_to_day : {[key:number]: string} = {0: "sunday", 1: "monday", 2: "tuesday", 3: "wednesday", 4: "thursday", 5: "friday", 6: "saturday"}
+      const day : number = new Date().getDay()
+      
+      habit.forEach((value, index) => {
+        // -------- Update Streaks --------
+        // when it is sunday, we have to reference saturday
+        if (day == 0) {
+          if (value[num_to_day[6]] === true) {
+            habit[index]["streaks"] += 1 
+          } 
+          else {
+            habit[index]["streaks"] = 0
+            if (value[num_to_day[0]] === true) {
+              habit[index]["streaks"] = 1
+            }
+          }
+        }
+        // else reference the previous day, and update streak based on if user did the habit on that day
+        else if (value[num_to_day[day-1]] === true) {
+          habit[index]["streaks"] += 1
+        } 
+        else {
+          habit[index]["streaks"] = 0
+          if (value[num_to_day[day]] === true) {
+            habit[index]["streaks"] = 1
+          }
+        }
+        // once streaks is updated, clear all if it is monday (and habit is not done on monday)
+        if (day == 1 && value[num_to_day[1]] === false) {
+          for (var i = 0; i < 7; i++) {
+            habit[index][num_to_day[i]] = false
+          }
+        }
+      })
+
+      // update store and hook habit
+      store.set("habits", habit)
+      setHabits(habit as any)
+    })
   })
 
   async function deleteEntry(id: number) {
@@ -40,7 +77,7 @@ const Home: React.FC = () => {
 
   async function onWillDismiss(ev: CustomEvent<OverlayEventDetail>) {
     if (ev.detail.role === "confirm") {
-      const habitsAppend = {
+      const habitsAppend:{[key:string]: any} = {
         "title": ev.detail.data[0],
         "description": ev.detail.data[1],
         "monday": false,
@@ -52,7 +89,8 @@ const Home: React.FC = () => {
         "sunday": false,
         "hoursSpent": 0,
         "sessions": 0,
-        "streaks": 0
+        "streaks": 0,
+        "didDoLastSunday": false
       }
       var array = await store.get("habits")
       if (array === null) {
@@ -60,7 +98,7 @@ const Home: React.FC = () => {
       } else {
         array = [...array, habitsAppend]
       }
-      await store.set("habits", array)
+      store.set("habits", array)
 
       setHabits(array)
     }

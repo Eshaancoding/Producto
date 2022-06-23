@@ -91,12 +91,18 @@ const WorkSession: React.FC = () => {
         // get today's date
         var num_to_day : {[key:number]: string} = {0: "sunday", 1: "monday", 2: "tuesday", 3: "wednesday", 4: "thursday", 5: "friday", 6: "saturday"}
         const day :number = new Date().getDay()
+       
+        // change habits
         var original_habits: any = habitsList
         original_habits[habitId][num_to_day[day]] = true
         original_habits[habitId]["sessions"] += 1
         original_habits[habitId]['hoursSpent'] += roundtoSecond(((originalMinutes*60) - (minutes * 60 + seconds)) / 360)
+        
+        // set habits in store and locally
         setHabitsList(original_habits)
         store.set("habits", original_habits)
+        
+        // redirect to home page
         clearInterval(interval)
         history.replace("/home")
     }
