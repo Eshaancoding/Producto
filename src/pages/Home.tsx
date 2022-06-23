@@ -5,6 +5,7 @@ import RandomQuote from './RandomQuote';
 import { Storage } from '@ionic/storage'
 import habitCard from '../helper/HabitCard';
 import { OverlayEventDetail } from '@ionic/core/components';
+import { getDate, getDifferenceDay, getWeekDifference } from '../context/DateHelper';
 
 const Home: React.FC = () => {
   // Modal
@@ -24,49 +25,39 @@ const Home: React.FC = () => {
     modal.current?.dismiss([inputTitle.current?.value, inputDescription.current?.value], 'confirm')
   }
 
-  useIonViewWillEnter(() => {
-    store.get("habits").then((habit:[{[key:string]: any}]) => {
-      // get today's date
-      var num_to_day : {[key:number]: string} = {0: "sunday", 1: "monday", 2: "tuesday", 3: "wednesday", 4: "thursday", 5: "friday", 6: "saturday"}
-      const day : number = new Date().getDay()
-      
-      habit.forEach((value, index) => {
-        // -------- Update Streaks --------
-        // when it is sunday, we have to reference saturday
-        if (day == 0) {
-          if (value[num_to_day[6]] === true) {
-            habit[index]["streaks"] += 1 
-          } 
-          else {
-            habit[index]["streaks"] = 0
-            if (value[num_to_day[0]] === true) {
-              habit[index]["streaks"] = 1
-            }
-          }
-        }
-        // else reference the previous day, and update streak based on if user did the habit on that day
-        else if (value[num_to_day[day-1]] === true) {
-          habit[index]["streaks"] += 1
-        } 
-        else {
-          habit[index]["streaks"] = 0
-          if (value[num_to_day[day]] === true) {
-            habit[index]["streaks"] = 1
-          }
-        }
-        // once streaks is updated, clear all if it is monday (and habit is not done on monday)
-        if (day == 1 && value[num_to_day[1]] === false) {
-          for (var i = 0; i < 7; i++) {
-            habit[index][num_to_day[i]] = false
-          }
+  async function viewEntered () {
+    const habit = await store.get("habits")
+    if (habit !== null) {
+      const currentDate = getDate()
+      // check if we broke a habit
+      habit.forEach((value:any, index:any) => {
+        const lastSessionDate = value["lastSessionDate"] 
+        if (value["lastSessionDate"] !== null && getDifferenceDay(currentDate, lastSessionDate) >= 2) {
+          habit[index]["streaks"] = 0 
         }
       })
-
+      
+      // clear if new week 
+      const lastDateClear = await store.get("lastDateClear")
+      if (lastDateClear === null || getWeekDifference(currentDate, lastDateClear) >= 1) {
+        habit.forEach((value:any, index:any) => {
+          habit[index]["monday"] = false;
+          habit[index]["tuesday"] = false;
+          habit[index]["wednesday"] = false;
+          habit[index]["thursday"] = false;
+          habit[index]["friday"] = false;
+          habit[index]["saturday"] = false;
+          habit[index]["sunday"] = false;
+        })
+        await store.set("lastDateClear", getDate())
+      }
       // update store and hook habit
-      store.set("habits", habit)
+      await store.set("habits", habit)
       setHabits(habit as any)
-    })
-  })
+    }
+  }
+
+  useIonViewWillEnter(viewEntered)
 
   async function deleteEntry(id: number) {
     var array = await store.get("habits")
@@ -90,15 +81,16 @@ const Home: React.FC = () => {
         "hoursSpent": 0,
         "sessions": 0,
         "streaks": 0,
-        "didDoLastSunday": false
+        "lastSessionDate": null
       }
       var array = await store.get("habits")
       if (array === null) {
         array = [habitsAppend]
+        await store.set("lastDateClear", getDate())
       } else {
         array = [...array, habitsAppend]
       }
-      store.set("habits", array)
+      await store.set("habits", array)
 
       setHabits(array)
     }
