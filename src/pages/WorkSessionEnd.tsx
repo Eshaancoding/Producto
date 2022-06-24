@@ -1,12 +1,22 @@
-import {IonList, IonItem, IonLabel, IonInput, IonText, IonContent, IonButton, IonPage, IonTitle} from '@ionic/react';
+import {IonList, IonItem, IonLabel, IonInput, IonText, IonContent, IonButton, IonPage, IonTitle, useIonViewWillLeave, useIonViewWillEnter} from '@ionic/react';
 import { useHistory } from 'react-router';
 import { useState, useEffect} from 'react';
 import "./TaskIntroduction.css"
+import { Howl, Howler } from 'howler';
 
 const WorkSessionEnd: React.FC = () => {
     let history = useHistory()
     var [responses, setResponses] = useState(["", ""]);
     var [color, setColor] = useState("secondary")
+    
+    var sound = new Howl({
+        src: ["/assets/bell.mp3"]
+    })
+
+    useIonViewWillEnter(() => {
+        sound.play()
+    })
+
     function handleChange (e:any={}, idx:number) {
         var newResponses = [...responses];
         newResponses[idx] = e;
