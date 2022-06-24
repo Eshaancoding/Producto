@@ -1,9 +1,9 @@
-import {IonCardHeader, IonCardSubtitle, IonCardTitle, IonFab, IonIcon, IonInput, IonChip, IonCard, IonCardContent, IonBadge, IonFabButton} from '@ionic/react';
+import {IonCardHeader, IonCardSubtitle, IonCardTitle, IonFab, IonIcon, IonInput, IonChip, IonCard, IonCardContent, IonBadge, IonFabButton, IonButton} from '@ionic/react';
 import { closeOutline } from 'ionicons/icons'
 import "./HabitCard.css"
 
 
-function habitCard (key:number, habitName:string, habitDescription:string, totalHours:number, totalSessions:number, streaks:number, monday:boolean, tuesday:boolean, wednesday:boolean, thursday:boolean, friday:boolean, saturday:boolean, sunday:boolean, closeButtonCallback:Function) {
+function habitCard (key:number, habitName:string, habitDescription:string, totalHours:number, totalSessions:number, streaks:number, monday:boolean, tuesday:boolean, wednesday:boolean, thursday:boolean, friday:boolean, saturday:boolean, sunday:boolean, closeButtonCallback:Function, MarkAsCompleteCallback:Function) {
 
   function chip (green:boolean, innerText:string) {
     if (green) {
@@ -27,6 +27,7 @@ function habitCard (key:number, habitName:string, habitDescription:string, total
           <IonFabButton class="DeleteButton" onClick={() => {closeButtonCallback(key)}}>
             <IonIcon icon={closeOutline}></IonIcon>  
           </IonFabButton>  
+          <IonButton id="MarkAsComplete" onClick={() => {MarkAsCompleteCallback(key)}}> Mark As Complete </IonButton>
         </IonFab>
       </IonCardHeader>
 

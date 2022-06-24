@@ -5,7 +5,7 @@ import RandomQuote from './RandomQuote';
 import { Storage } from '@ionic/storage'
 import habitCard from '../helper/HabitCard';
 import { OverlayEventDetail } from '@ionic/core/components';
-import { getDate, getDifferenceDay, getWeekDifference } from '../context/DateHelper';
+import { getDate, getDifferenceDay, getWeekDifference, dayToString} from '../context/DateHelper';
 
 const Home: React.FC = () => {
   // Modal
@@ -66,6 +66,25 @@ const Home: React.FC = () => {
     setHabits(array)
   }
 
+  async function markAsComplete (habitId: number) {
+    var original_habits = await store.get("habits")
+    const date = getDate()
+    const day = date.getDay()
+
+    if (original_habits[habitId]["lastSessionDate"] != undefined && getDifferenceDay(date, original_habits[habitId]["lastSessionDate"]) === 1) {
+      original_habits[habitId]["streaks"] += 1
+    }
+    else if (original_habits[habitId][dayToString(day)] === false && original_habits[habitId]["streaks"] === 0) {
+        original_habits[habitId]["streaks"] = 1
+    }
+    original_habits[habitId][dayToString(day)] = true
+    original_habits[habitId]["sessions"] += 1
+    original_habits[habitId]["lastSessionDate"] = getDate()
+    // set habits in store and locally
+    await store.set("habits", original_habits)
+    setHabits(original_habits)
+  }
+
   async function onWillDismiss(ev: CustomEvent<OverlayEventDetail>) {
     if (ev.detail.role === "confirm") {
       const habitsAppend:{[key:string]: any} = {
@@ -110,7 +129,7 @@ const Home: React.FC = () => {
         <br />
 
         {habits.map(function (object, index) {
-          return habitCard(index, object["title"], object["description"], object["hoursSpent"], object["sessions"], object["streaks"], object["monday"], object["tuesday"], object["wednesday"], object["thursday"], object["friday"], object["saturday"], object["sunday"], deleteEntry)
+          return habitCard(index, object["title"], object["description"], object["hoursSpent"], object["sessions"], object["streaks"], object["monday"], object["tuesday"], object["wednesday"], object["thursday"], object["friday"], object["saturday"], object["sunday"], deleteEntry, markAsComplete)
         })}
 
         <IonButton id="open-modal" expand='block' color="light">
