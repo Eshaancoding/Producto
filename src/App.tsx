@@ -9,6 +9,7 @@ import TaskEnd from './pages/TaskEnd';
 import WorkSession from './pages/WorkSession';
 import BreakSession from './pages/BreakSession';
 import WorkSessionEnd from './pages/WorkSessionEnd';
+import BreakHabit from './pages/BreakHabit';
 
 /* Global State stuff */
 import { GlobalProvider } from './context/GlobalState';
@@ -46,9 +47,10 @@ const App: React.FC = () => (
           <Route exact path="/taskEnd" component={TaskEnd} />
           <Route exact path="/work" component={WorkSession} />
           <Route exact path="/workSessionEnd" component={WorkSessionEnd} />
+          <Route exact path="/breakBadHabit" component={BreakHabit} /> 
           <Route exact path="/break" component={BreakSession} /> 
           <Redirect exact path="/" to="/home" />
-        </IonRouterOutlet>
+       </IonRouterOutlet>
       </IonReactRouter>
     </IonApp>
   </GlobalProvider>

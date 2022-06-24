@@ -30,7 +30,7 @@ const WorkSessionEnd: React.FC = () => {
 
     function handleClick () {
         if (responses.every(x => x != "")) {
-            history.push("/break")
+            history.push("/breakBadHabit")
         }
     }
 
@@ -56,6 +56,7 @@ const WorkSessionEnd: React.FC = () => {
                     <IonLabel>Growth Mindset:</IonLabel>
                     <IonInput id="FeelInput" type="text" placeholder="Yes! I put great effort!" onIonChange={(e) => handleChange(e.detail.value, 1)}></IonInput>
                 </IonItem>
+                
                 <IonButton id="Continue" onClick={handleClick} color={color}>
                     Continue
                 </IonButton>

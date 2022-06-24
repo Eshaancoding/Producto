@@ -1,9 +1,10 @@
-* Mark as complete / Breaking habits
+* Breaking habits
+* Make down footer (for space)
 * Maybe a breathing exercise embedded into the app during your break. (may have to check out breathing from David Huberman)
+* Stoic philosophy
 * Bold everything important
+* Maybe to disable certain pages and not to disable other pages?
 * Create sepereate dialouges that explain why each techniques works.
-
-
 
 Tips for productivity (all from the Huberman Lab Podcast :). More specifically https://www.youtube.com/watch?v=QmOF0crdyRU&t=6186s and https://www.youtube.com/watch?v=Wcs2PFz5q6g&t=4214s
 

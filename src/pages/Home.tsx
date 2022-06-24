@@ -1,4 +1,4 @@
-import { IonToolbar, IonHeader, IonModal, IonButtons, IonItem, IonLabel, IonInput, IonText, IonContent, IonButton, IonPage, IonTitle, useIonViewWillEnter } from '@ionic/react';
+import { IonToolbar, IonHeader, IonModal, IonButtons, IonItem, IonLabel, IonInput, IonText, IonContent, IonButton, IonPage, IonTitle, useIonViewWillEnter, IonToggle, useIonToast} from '@ionic/react';
 import { useRef, useState } from 'react';
 import './Home.css';
 import RandomQuote from './RandomQuote';
@@ -6,12 +6,19 @@ import { Storage } from '@ionic/storage'
 import habitCard from '../helper/HabitCard';
 import { OverlayEventDetail } from '@ionic/core/components';
 import { getDate, getDifferenceDay, getWeekDifference, dayToString} from '../context/DateHelper';
+import { useHistory } from 'react-router';
 
 const Home: React.FC = () => {
+  // History
+  let history = useHistory()
+
+  // toast
+  const [habitToast, dismissToast] = useIonToast() 
   // Modal
   const modal = useRef<HTMLIonModalElement>(null);
   const inputDescription = useRef<HTMLIonInputElement>(null);
   const inputTitle = useRef<HTMLIonInputElement>(null);
+  const badHabitToggle = useRef<HTMLIonToggleElement>(null);
 
   // store 
   const store = new Storage();
@@ -22,7 +29,7 @@ const Home: React.FC = () => {
 
   // modal functions
   function confirm() {
-    modal.current?.dismiss([inputTitle.current?.value, inputDescription.current?.value], 'confirm')
+    modal.current?.dismiss([inputTitle.current?.value, inputDescription.current?.value, badHabitToggle.current?.checked], 'confirm')
   }
 
   async function viewEntered () {
@@ -100,7 +107,8 @@ const Home: React.FC = () => {
         "hoursSpent": 0,
         "sessions": 0,
         "streaks": 0,
-        "lastSessionDate": null
+        "lastSessionDate": null,
+        "isBadHabit": ev.detail.data[2]
       }
       var array = await store.get("habits")
       if (array === null) {
@@ -114,6 +122,28 @@ const Home: React.FC = () => {
       setHabits(array)
     }
   }
+
+  async function handleStart () {
+    const habits = await store.get("habits")
+    var bad_habit:number = 0 
+    var good_habit:number = 0
+    for (var i = 0; i < habits.length; i++) {
+      if (habits[i]["isBadHabit"] === true) {
+        bad_habit += 1 
+      } else {
+        good_habit += 1
+      }
+    }
+    if (bad_habit > 0 && good_habit > 0) {
+      history.push("/session")
+    } else {
+      habitToast({
+        buttons: [{ text: 'hide', handler: () => dismissToast() }],
+        message: "You must have at least one bad habit and one good habit!"
+      })
+    }
+  }
+  
   return (
     <IonPage>
       <IonContent fullscreen>
@@ -129,14 +159,14 @@ const Home: React.FC = () => {
         <br />
 
         {habits.map(function (object, index) {
-          return habitCard(index, object["title"], object["description"], object["hoursSpent"], object["sessions"], object["streaks"], object["monday"], object["tuesday"], object["wednesday"], object["thursday"], object["friday"], object["saturday"], object["sunday"], deleteEntry, markAsComplete)
+          return habitCard(index, object["title"], object["description"], object["hoursSpent"], object["sessions"], object["streaks"], object["monday"], object["tuesday"], object["wednesday"], object["thursday"], object["friday"], object["saturday"], object["sunday"], deleteEntry, markAsComplete, object["isBadHabit"])
         })}
 
         <IonButton id="open-modal" expand='block' color="light">
           Add habit
         </IonButton>
 
-        <IonButton id="SessionButton" routerLink='/session' routerDirection="back">
+        <IonButton id="SessionButton" routerDirection="back" onClick={handleStart}>
           Start Session
         </IonButton>
 
@@ -163,6 +193,10 @@ const Home: React.FC = () => {
             <IonItem>
               <IonLabel position="stacked">Enter description</IonLabel>
               <IonInput ref={inputDescription} type="text" />
+            </IonItem>
+            <IonItem>
+              <IonLabel>Is it a bad habit?</IonLabel>
+              <IonToggle ref={badHabitToggle}></IonToggle>
             </IonItem>
           </IonContent>
         </IonModal>

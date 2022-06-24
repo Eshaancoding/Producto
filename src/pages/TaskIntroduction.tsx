@@ -64,9 +64,11 @@ const TaskIntroduction: React.FC = () => {
         <IonItem class="prompt">
           <IonSelect interface='popover' placeholder='Select habit' onIonChange={(e) => handleResponses(e.detail.value, 0)}>
             {habitsList.map(function(object, index) {
-              return (
-                <IonSelectOption key={index} value={object["title"]}>{object["title"]}</IonSelectOption>
-              )
+              if (!object["isBadHabit"]) {
+                return (
+                  <IonSelectOption key={index} value={object["title"]}>{object["title"]}</IonSelectOption>
+                )
+              }
             })} 
           </IonSelect> 
         </IonItem>
@@ -80,12 +82,12 @@ const TaskIntroduction: React.FC = () => {
 
         <IonList id="list">
           {list.map((item, index) => {
-            return (
-              <IonItem key={index}>
-                <IonLabel>{item}</IonLabel>
-                <IonInput className='listInput' type='text' placeholder={placeholder[index]} onIonChange={(e) => handleResponses(e.detail.value, index + 1)} />
-              </IonItem>
-            )
+              return (
+                <IonItem key={index}>
+                  <IonLabel>{item}</IonLabel>
+                  <IonInput className='listInput' type='text' placeholder={placeholder[index]} onIonChange={(e) => handleResponses(e.detail.value, index + 1)} />
+                </IonItem>
+              )
           })}
         </IonList>
 

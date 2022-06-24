@@ -6,7 +6,24 @@ function roundtoHundredth (num:number) {
     return Math.round((num + Number.EPSILON) * 100) / 100
 }
 
-function habitCard (key:number, habitName:string, habitDescription:string, totalHours:number, totalSessions:number, streaks:number, monday:boolean, tuesday:boolean, wednesday:boolean, thursday:boolean, friday:boolean, saturday:boolean, sunday:boolean, closeButtonCallback:Function, MarkAsCompleteCallback:Function) {
+function habitCard (
+  key:number,
+  habitName:string,
+  habitDescription:string,
+  totalHours:number,
+  totalSessions:number,
+  streaks:number,
+  monday:boolean,
+  tuesday:boolean,
+  wednesday:boolean,
+  thursday:boolean,
+  friday:boolean,
+  saturday:boolean,
+  sunday:boolean,
+  closeButtonCallback:Function,
+  MarkAsCompleteCallback:Function,
+  isBadHabit:boolean
+) {
 
   function chip (green:boolean, innerText:string) {
     if (green) {
@@ -22,7 +39,7 @@ function habitCard (key:number, habitName:string, habitDescription:string, total
   }
 
   return (
-    <IonCard id="Card" key={key}>
+    <IonCard id="Card" key={key} className={isBadHabit ? "badHabit" : ""}>
       <IonCardHeader>
         <IonCardTitle>{habitName}</IonCardTitle>
         <IonCardSubtitle>{habitDescription}</IonCardSubtitle>
@@ -30,7 +47,7 @@ function habitCard (key:number, habitName:string, habitDescription:string, total
           <IonFabButton class="DeleteButton" onClick={() => {closeButtonCallback(key)}}>
             <IonIcon icon={closeOutline}></IonIcon>  
           </IonFabButton>  
-          <IonButton id="MarkAsComplete" onClick={() => {MarkAsCompleteCallback(key)}}> Mark As Complete </IonButton>
+          <IonButton id="MarkAsComplete" onClick={() => {MarkAsCompleteCallback(key)}}> {isBadHabit ? "Mark as avoided" : "Mark as Completed"} </IonButton>
         </IonFab>
       </IonCardHeader>
 
@@ -45,8 +62,10 @@ function habitCard (key:number, habitName:string, habitDescription:string, total
       </IonCardContent>
 
       <IonCardContent id="badgeContent">
-        <IonBadge class="badge hoursSpent"> {roundtoHundredth(totalHours)} hours spent</IonBadge>
-        <IonBadge class="badge sessions"> {totalSessions} sessions </IonBadge>
+        {!isBadHabit ? 
+          <IonBadge class="badge hoursSpent"> {roundtoHundredth(totalHours)} hours spent</IonBadge>
+        : <IonBadge class="badge">Bad Habit</IonBadge>}
+        <IonBadge class="badge sessions"> {totalSessions} {isBadHabit ? "times avoided" : "sessions"} </IonBadge>
         <IonBadge class="badge streak"> {streaks} days streak </IonBadge>
       </IonCardContent>
     </IonCard>
