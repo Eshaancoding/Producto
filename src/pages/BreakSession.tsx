@@ -1,4 +1,4 @@
-import {IonProgressBar, IonList, IonItem, IonLabel, IonInput, IonText, IonContent, IonButton, IonPage, IonTitle, IonLoading} from '@ionic/react';
+import {IonProgressBar, IonList, IonItem, IonLabel, IonInput, IonText, IonContent, IonButton, IonPage, IonTitle, IonLoading, useIonViewWillEnter} from '@ionic/react';
 import { useState, useEffect, useContext} from 'react';
 import "./TaskIntroduction.css"
 import "./WorkSession.css"
@@ -6,6 +6,7 @@ import "./WorkSession.css"
 import { GlobalContext } from '../context/GlobalState';
 import { useHistory } from 'react-router';
 import habitCard from '../helper/HabitCard';
+import { Howl } from 'howler';
 
 const BulletPoint = (props:any) => {
     return (
@@ -55,6 +56,11 @@ const BreakSession: React.FC = () => {
     const [minutes, setMinutes] = useState(originalMinutes); 
     const [seconds, setSeconds] = useState(0);
 
+    // sound
+    const sound = new Howl({
+        src: ['/assets/bell.mp3']
+    })
+
     useEffect(() => {
         const interval = setInterval(() => {
             setSeconds(seconds => seconds - 1);
@@ -69,6 +75,10 @@ const BreakSession: React.FC = () => {
         }, 1000);
         return () => clearInterval(interval);
     }, [seconds]);
+
+    useIonViewWillEnter(() => {
+        sound.play()
+    })
 
     return (
         <IonPage>

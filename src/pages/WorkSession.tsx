@@ -4,6 +4,7 @@ import "./TaskIntroduction.css"
 import "./WorkSession.css"
 import { getDate, getDifferenceDay, dayToString } from '../context/DateHelper';
 
+import { Howl, Howler } from 'howler';
 import { GlobalContext } from '../context/GlobalState';
 import { useHistory } from 'react-router';
 import { Storage } from '@ionic/storage';
@@ -59,12 +60,18 @@ const WorkSession: React.FC = () => {
     const [seconds, setSeconds] = useState(0);
     var interval:any = null;
 
+    // sound
+    const sound = new Howl({
+        src: ['/assets/bell.mp3']
+    })
+
     // Habits list
     const store = new Storage()
     store.create()
     const [habitsList, setHabitsList] = useState([])
     useIonViewWillEnter(() => {
         store.get("habits").then(value => setHabitsList(value))
+        sound.play()
     }) 
 
     useEffect(() => {
