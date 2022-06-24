@@ -1,4 +1,3 @@
-* Breaking habits
 * Make down footer (for space)
 * Maybe a breathing exercise embedded into the app during your break. (may have to check out breathing from David Huberman)
 * Stoic philosophy

@@ -28,3 +28,10 @@
     left: 50%;
     transform: translateX(-50%);
 }
+
+#footer {
+    position: relative;
+    top: 10%;
+    height: 5%;
+    width: 100%;
+}

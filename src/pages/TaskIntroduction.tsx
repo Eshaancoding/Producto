@@ -98,8 +98,7 @@ const TaskIntroduction: React.FC = () => {
         <IonButton id="Continue" onClick={handleClick} color={color}>
           Continue
         </IonButton>
-        <div id="footer">
-        </div>
+        <div id="footer" />
       </IonContent>
     </IonPage>
   )

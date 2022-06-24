@@ -51,6 +51,7 @@ const TaskEnd: React.FC = () => {
                 </IonItem>
                 <br />
                 <IonButton id="Continue" onClick={handleContinue} color={color}>Continue</IonButton>
+                <div id="footer" />
             </IonContent>
         </IonPage>
     )

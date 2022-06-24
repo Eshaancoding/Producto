@@ -200,6 +200,7 @@ const Home: React.FC = () => {
             </IonItem>
           </IonContent>
         </IonModal>
+        <div id="footer" />
       </IonContent>
     </IonPage>
   );

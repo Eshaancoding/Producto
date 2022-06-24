@@ -33,3 +33,9 @@ svg {
     padding-right: 8px;
 }
 
+#footer {
+    position: relative;
+    top: 10%;
+    height: 5%;
+    width: 100%;
+}

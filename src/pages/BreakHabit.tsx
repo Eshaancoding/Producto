@@ -80,7 +80,7 @@ const BreakHabit: React.FC = () => {
         <IonButton id="Continue" onClick={handleClick} color={color}>
           Continue
         </IonButton>
-
+        <div id="footer" />
       </IonContent>
     </IonPage>
  )

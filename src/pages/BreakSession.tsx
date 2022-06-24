@@ -99,6 +99,7 @@ const BreakSession: React.FC = () => {
                     "Stop being hypocritical, self-centered, and irritable.",
                     "You see how few things you have to do to live a satisfying and reverent life? If you can manage this, that's all even the gods can ask of you."
                 ]} />
+                <div id="footer" />
             </IonContent>
         </IonPage>
     )  

@@ -60,6 +60,7 @@ const TaskProcedure: React.FC = () => {
                     <IonLabel id="AddText">Add Step</IonLabel>
                 </IonItem>
                 <IonButton id="Continue" onClick={handleClick} color={color}>Continue</IonButton>
+                <div id="footer" />
             </IonContent>
         </IonPage>
     )

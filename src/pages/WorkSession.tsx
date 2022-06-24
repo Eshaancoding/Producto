@@ -9,9 +9,6 @@ import { GlobalContext } from '../context/GlobalState';
 import { useHistory } from 'react-router';
 import { Storage } from '@ionic/storage';
 
-function roundtoSecond (num:number) {
-    return Math.round((num + Number.EPSILON) * 100) / 100
-}
 
 const BulletPoint = (props:any) => {
     return (
@@ -183,6 +180,8 @@ const WorkSession: React.FC = () => {
                     "In doing this, you are positively assocating completing the entire sequence, and engage reward prediction error in the proper way that dopamine surge can lend itself toward motivation.",
                     "Ex: Hard time getting in that 30-60 minutes of exercise. Positively anticipate the onset and the offset of that session (taking my shoes, heading out of the door to the gym). Feel even happy that you are starting the habit in the first place! Learning into the effort, going out and doing the habit (the actual habit itself, you can use procedural memory if you'd like), and then feel how great you're going to feel after you have done the habit (feeling relaxed, happy, productive, happy you have done the habit, etc.)."
                 ]} />
+
+                <div id="footer" />
             </IonContent>
         </IonPage>
     )  
