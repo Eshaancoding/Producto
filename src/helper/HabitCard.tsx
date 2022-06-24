@@ -2,6 +2,9 @@ import {IonCardHeader, IonCardSubtitle, IonCardTitle, IonFab, IonIcon, IonInput,
 import { closeOutline } from 'ionicons/icons'
 import "./HabitCard.css"
 
+function roundtoHundredth (num:number) {
+    return Math.round((num + Number.EPSILON) * 100) / 100
+}
 
 function habitCard (key:number, habitName:string, habitDescription:string, totalHours:number, totalSessions:number, streaks:number, monday:boolean, tuesday:boolean, wednesday:boolean, thursday:boolean, friday:boolean, saturday:boolean, sunday:boolean, closeButtonCallback:Function, MarkAsCompleteCallback:Function) {
 
@@ -42,7 +45,7 @@ function habitCard (key:number, habitName:string, habitDescription:string, total
       </IonCardContent>
 
       <IonCardContent id="badgeContent">
-        <IonBadge class="badge hoursSpent"> {totalHours} hours spent</IonBadge>
+        <IonBadge class="badge hoursSpent"> {roundtoHundredth(totalHours)} hours spent</IonBadge>
         <IonBadge class="badge sessions"> {totalSessions} sessions </IonBadge>
         <IonBadge class="badge streak"> {streaks} days streak </IonBadge>
       </IonCardContent>

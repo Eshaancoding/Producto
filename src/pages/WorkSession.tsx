@@ -88,7 +88,7 @@ const WorkSession: React.FC = () => {
             // if done
             if (minutes === 0 && seconds === 0) {
                 var original_habits: any = habitsList
-                original_habits[habitId]['hoursSpent'] += roundtoSecond(((originalMinutes*60) - (minutes * 60 + seconds)) / 360)
+                original_habits[habitId]['hoursSpent'] += ((originalMinutes*60) - (minutes * 60 + seconds)) / 360
                 setHabitsList(original_habits)
                 setHabits(original_habits)
                 clearInterval(interval)
@@ -114,7 +114,7 @@ const WorkSession: React.FC = () => {
         }
         original_habits[habitId][dayToString(day)] = true
         original_habits[habitId]["sessions"] += 1
-        original_habits[habitId]['hoursSpent'] += roundtoSecond(((originalMinutes*60) - (minutes * 60 + seconds)) / 360)
+        original_habits[habitId]['hoursSpent'] += ((originalMinutes*60) - (minutes * 60 + seconds)) / 360
         original_habits[habitId]["lastSessionDate"] = getDate()
         // set habits in store and locally
         setHabitsList(original_habits)

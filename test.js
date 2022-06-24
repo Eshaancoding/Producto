@@ -28,3 +28,10 @@ console.log("Previous date", previousDate.getDate(), previousDate.getMonth() + 1
 
 console.log("Difference day:",getDifferenceDay(currentDate, previousDate))
 console.log("Week difference",getWeekDifference(currentDate, previousDate))
+
+
+function roundtoSecond (num) {
+    return Math.round((num + Number.EPSILON) * 100) / 100
+}
+
+console.log(roundtoSecond(16/234))
