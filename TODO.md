@@ -1,6 +1,4 @@
-* Make down footer (for space)
 * Maybe a breathing exercise embedded into the app during your break. (may have to check out breathing from David Huberman)
-* Stoic philosophy
 * Bold everything important
 * Maybe to disable certain pages and not to disable other pages?
 * Create sepereate dialouges that explain why each techniques works.

@@ -116,9 +116,9 @@ const WorkSession: React.FC = () => {
         // set habits in store and locally
         setHabitsList(original_habits)
         await store.set("habits", original_habits)
-        // redirect to home page
+        // redirect to stoicism (ending page after completed habit) 
         clearInterval(interval)
-        history.replace("/home")
+        history.replace("/stoicism")
     }
 
     return (
