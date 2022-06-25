@@ -71,7 +71,11 @@ const BreakHabit: React.FC = () => {
                   <IonInput type="text" onIonChange={(e) => inputChanged(e.detail.value, index)} />
                 </IonItem>
                 <IonItem>
-                  <IonLabel position='stacked' class="Label">What punishment will you take after your habit (optional):</IonLabel> 
+                  <IonLabel position='stacked' class="Label">What punishment will you take after your habit:</IonLabel> 
+                  <IonInput type="text" />
+                </IonItem>
+                <IonItem>
+                  <IonLabel position='stacked' class="Label">How will you feel when you successfully avoided the habit?</IonLabel> 
                   <IonInput type="text" />
                 </IonItem>
               </IonCard>
