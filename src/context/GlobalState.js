@@ -4,7 +4,7 @@ import AppReducer from './AppReducer';
 const initialState = {
     pomoWork: 50,
     pomoBreak: 10,
-    habitId: 0,
+    habitId: -1,
     changePomoWork: (item) => { },
     changePomoBreak: (item) => { },
     setHabitId: (item) => { },

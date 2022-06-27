@@ -1,4 +1,4 @@
-import {IonProgressBar, IonList, IonItem, IonText, IonContent, IonPage, IonTitle, IonButton, useIonViewWillEnter} from '@ionic/react';
+import {IonProgressBar, IonList, IonItem, IonText, IonContent, IonPage, IonTitle, IonButton, useIonViewWillEnter, useIonViewWillLeave} from '@ionic/react';
 import { useState, useEffect, useContext} from 'react';
 import "./TaskIntroduction.css"
 import "./WorkSession.css"
@@ -95,6 +95,30 @@ const WorkSession: React.FC = () => {
         return () => clearInterval(interval);
     });
 
+    async function setHabits (original_habits:any) {
+        await store.set("habits", original_habits)
+    }
+    useIonViewWillLeave(() => {
+        console.log("sdf")
+        const day :number = new Date().getDay()
+        const date = getDate()
+        var original_habits: any = habitsList
+
+        // change habits
+        if (original_habits[habitId]["lastSessionDate"] != undefined && getDifferenceDay(date, original_habits[habitId]["lastSessionDate"]) === 1) {
+            original_habits[habitId]["streaks"] += 1
+        }
+        else if (original_habits[habitId][dayToString(day)] === false && original_habits[habitId]["streaks"] === 0) {
+            original_habits[habitId]["streaks"] = 1
+        }
+        original_habits[habitId][dayToString(day)] = true
+        original_habits[habitId]["sessions"] += 1
+        original_habits[habitId]['hoursSpent'] += ((originalMinutes*60) - (minutes * 60 + seconds)) / 3600
+        original_habits[habitId]["lastSessionDate"] = getDate()
+        // set habits in store and locally
+        setHabitsList(original_habits)
+        setHabits(original_habits)
+    })
 
     async function handleCloseButton () {
         // get today's date
@@ -115,7 +139,7 @@ const WorkSession: React.FC = () => {
         original_habits[habitId]["lastSessionDate"] = getDate()
         // set habits in store and locally
         setHabitsList(original_habits)
-        await store.set("habits", original_habits)
+        await store.set("habits", original_habits).then
         // redirect to stoicism (ending page after completed habit) 
         clearInterval(interval)
         history.replace("/stoicism")

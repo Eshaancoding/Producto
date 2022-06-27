@@ -5,7 +5,7 @@ import "./WorkSession.css"
 
 import { GlobalContext } from '../context/GlobalState';
 import { useHistory } from 'react-router';
-import habitCard from '../helper/HabitCard';
+import HabitCard from '../helper/HabitCard';
 
 const BulletPoint = (props:any) => {
     return (

@@ -3,7 +3,7 @@ import { useRef, useState } from 'react';
 import './Home.css';
 import RandomQuote from './RandomQuote';
 import { Storage } from '@ionic/storage'
-import habitCard from '../helper/HabitCard';
+import HabitCard from '../helper/HabitCard';
 import { OverlayEventDetail } from '@ionic/core/components';
 import { getDate, getDifferenceDay, getWeekDifference, dayToString} from '../context/DateHelper';
 import { useHistory } from 'react-router';
@@ -65,13 +65,6 @@ const Home: React.FC = () => {
   }
 
   useIonViewWillEnter(viewEntered)
-
-  async function deleteEntry(id: number) {
-    var array = await store.get("habits")
-    array.splice(id, 1)
-    await store.set("habits", array)
-    setHabits(array)
-  }
 
   async function markAsComplete (habitId: number) {
     var original_habits = await store.get("habits")
@@ -159,7 +152,25 @@ const Home: React.FC = () => {
         <br />
 
         {habits.map(function (object, index) {
-          return habitCard(index, object["title"], object["description"], object["hoursSpent"], object["sessions"], object["streaks"], object["monday"], object["tuesday"], object["wednesday"], object["thursday"], object["friday"], object["saturday"], object["sunday"], deleteEntry, markAsComplete, object["isBadHabit"])
+          return (
+            <HabitCard key={index}
+              habitIndex={index}
+              habitName={object["title"]}
+              habitDescription={object["description"]}
+              totalHours={object["hoursSpent"]}
+              totalSessions={object["sessions"]}  
+              streaks={object["streaks"]}
+              monday={object["monday"]}
+              tuesday={object["tuesday"]}
+              wednesday={object["wednesday"]}
+              thursday={object["thursday"]}
+              friday={object["friday"]}
+              saturday={object["saturday"]}
+              sunday={object["sunday"]}
+              MarkAsCompleteCallback={markAsComplete}
+              isBadHabit={object["isBadHabit"]}
+            />
+          )
         })}
 
         <IonButton id="open-modal" expand='block' color="light">
@@ -171,7 +182,7 @@ const Home: React.FC = () => {
         </IonButton>
 
 
-        {/* Modal Code! */}
+        {/* Modal Code for add habit */}
         <IonModal ref={modal} trigger="open-modal" onWillDismiss={(ev) => onWillDismiss(ev)}>
           <IonHeader>
             <IonToolbar>

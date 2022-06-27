@@ -1,0 +1,8 @@
+#Delete {
+    --color: rgb(255, 255, 255); 
+    --background: rgb(255, 0, 0);
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-top: 40px;
+}
