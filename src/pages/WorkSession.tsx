@@ -141,7 +141,7 @@ const WorkSession: React.FC = () => {
       <IonContent fullscreen>
         <IonProgressBar value={(minutes * 60 + seconds) / (originalMinutes * 60)}></IonProgressBar>
         <IonTitle id="Title">Work Session</IonTitle>
-        <IonButton color="danger" id="CloseButton" onClick={handleCloseButton}>
+        <IonButton id="CloseButton" onClick={handleCloseButton}>
           End Session
         </IonButton>
         <IonText>
