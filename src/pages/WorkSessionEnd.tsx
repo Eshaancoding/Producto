@@ -29,9 +29,9 @@ const WorkSessionEnd: React.FC = () => {
     }
 
     function handleClick () {
-        if (responses.every(x => x != "")) {
+        if (responses.every(x => x !== "")) {
             history.push("/breakBadHabit")
-        }
+        } 
     }
 
     return (

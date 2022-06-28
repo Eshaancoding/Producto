@@ -49,8 +49,6 @@ const TimeDisplay = (props:any) => {
 const BreakSession: React.FC = () => {
     const history = useHistory()
     const { pomoBreak } = useContext(GlobalContext);
-
-    const { pomoWork, habitId} = useContext(GlobalContext);
     const originalMinutes = pomoBreak;
     const [minutes, setMinutes] = useState(originalMinutes); 
     const [seconds, setSeconds] = useState(0);

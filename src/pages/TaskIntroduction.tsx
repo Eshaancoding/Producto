@@ -33,6 +33,7 @@ const TaskIntroduction: React.FC = () => {
   function handleResponses(e: any={}, idx: number) {
     if (idx === 0) {
       setHabitId(habitsList.findIndex((value) => value["title"] === e))
+      console.log("set habit id to", habitsList.findIndex((value) => value["title"] === e))
     }
     var newResponses = [...responses];
     newResponses[idx] = e;

@@ -1,4 +1,4 @@
-import { IonButton, IonCard, IonContent, IonText, IonPage, IonTitle, IonItem, useIonViewDidEnter, IonLabel, IonInput } from '@ionic/react'
+import { IonButton, IonCard, IonContent, IonText, IonPage, IonTitle, IonItem, useIonViewDidEnter, IonLabel, IonInput, useIonViewWillEnter } from '@ionic/react'
 import "./TaskIntroduction.css"
 import { useState } from 'react'
 import { Storage } from '@ionic/storage'
@@ -12,26 +12,30 @@ const BreakHabit: React.FC = () => {
   const [color, setColor] = useState("secondary")
   const [badHabits, setBadHabits] = useState([])
   const [responses, setResponses] = useState([])
-  useIonViewDidEnter(() => {
-    store.get("habits").then((value) => {
-      var temp:any = []
-      var responses_temp:any = []
-      value.forEach((element:any, index:number) => {
-        if (element["isBadHabit"]) {
-          temp.push(element)
-          responses_temp.push("")
-        }
-      });
-      setBadHabits(temp)
-      setResponses(responses_temp)
-    })
+  useIonViewWillEnter(() => {
+      store.get("habits").then((value) => {
+        var temp:any = []
+        value.forEach((element:any, index:number) => {
+          if (element["isBadHabit"]) {
+            temp.push(element)
+          }
+        });
+        setBadHabits(temp)
+      })
   })
 
-  async function inputChanged (e:any, index:number) {
-    var responses_temp : any = responses 
-    responses_temp[index] = e
+  async function inputChanged (e:any, index:number, responseIndex:number) {
+    var responses_temp : any = responses
+    // fill responses as we go
+    for (var i = index; i > responses_temp.length - 1; i--) {
+      responses_temp.push(["", "", ""])
+    } 
+    
+    // set value
+    responses_temp[index][responseIndex] = e
+
     setResponses(responses_temp)
-    if (responses_temp.every((x:any) => x != "")) {
+    if (responses_temp.every((x:any) => (x.every((y:any) => y !== ""))) && responses.length === badHabits.length) {
       setColor("primary")
     } else {
       setColor("secondary")
@@ -39,7 +43,7 @@ const BreakHabit: React.FC = () => {
   } 
   
   function handleClick() {
-    if (responses.every((x) => x != "")) {
+    if (responses.every((x:any) => (x.every((y:any) => y !== ""))) && responses.length === badHabits.length) {
       history.push("/break")
     }
   }
@@ -68,15 +72,15 @@ const BreakHabit: React.FC = () => {
                 </IonTitle>
                 <IonItem>
                   <IonLabel position='stacked' class="Label">What are you do after your habit?</IonLabel> 
-                  <IonInput type="text" onIonChange={(e) => inputChanged(e.detail.value, index)} />
+                  <IonInput type="text" onIonChange={(e) => inputChanged(e.detail.value, index, 0)} />
                 </IonItem>
                 <IonItem>
                   <IonLabel position='stacked' class="Label">What punishment will you take after your habit:</IonLabel> 
-                  <IonInput type="text" />
+                  <IonInput type="text" onIonChange={(e) => inputChanged(e.detail.value, index, 1)} />
                 </IonItem>
                 <IonItem>
                   <IonLabel position='stacked' class="Label">How will you feel when you successfully avoided the habit?</IonLabel> 
-                  <IonInput type="text" />
+                  <IonInput type="text" onIonChange={(e) => inputChanged(e.detail.value, index, 2)} />
                 </IonItem>
               </IonCard>
             )
