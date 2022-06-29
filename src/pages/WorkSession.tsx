@@ -159,9 +159,9 @@ const WorkSession: React.FC = () => {
     original_habits[habitId]["lastSessionDate"] = getDate()
     // set habits in store
     await store.set("habits", original_habits)
-    // redirect to stoicism (ending page after completed habit) 
+    // redirect to TaskNext (ending page after completed habit) 
     clearInterval(interval)
-    history.replace("/stoicism")
+    history.replace("/taskNext")
   }
 
   return (
@@ -182,7 +182,6 @@ const WorkSession: React.FC = () => {
           "Long term potentiation, a facet of neuroplasticity, says that if neuron A is triggered neuron B, then later on they don't require as much activity or energy to be activated together",
           "If neuron A fires but Neuron B fires later, then it undergoes long-term depression: neurons connection starts to deterioate.",
           "Most research says to have a reward for not participating in the bad habit or punishment for forming the activity. (ex: rubber band on wrist). However, they can't monitor themselves.",
-          "Reminders, like notifications, just DO NOT WORK.",
           "The key to create long term depression: bring conscious awareness to the period afterward (which you do), and then take advantage of the neurons that was just fired whene generating the bad habit, then engage in a replacement behavior immediately afterward.",
           "You start to recruit neural circuits to dismantle the neurons associated with the bad habit."
         ]} />

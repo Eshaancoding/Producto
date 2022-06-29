@@ -10,7 +10,7 @@ import WorkSession from './pages/WorkSession';
 import BreakSession from './pages/BreakSession';
 import WorkSessionEnd from './pages/WorkSessionEnd';
 import BreakHabit from './pages/BreakHabit';
-import StoicPage from './pages/StoicPhilosophy';
+import TaskNext from './pages/TaskNext';
 import EditingHabitModal from './pages/EditingHabit';
 
 /* Global State stuff */
@@ -51,7 +51,7 @@ const App: React.FC = () => (
           <Route exact path="/workSessionEnd" component={WorkSessionEnd} />
           <Route exact path="/breakBadHabit" component={BreakHabit} /> 
           <Route exact path="/break" component={BreakSession} /> 
-          <Route exact path="/stoicism" component={StoicPage} />
+          <Route exact path="/taskNext" component={TaskNext} />
           <Route exact path="/editHabit" component={EditingHabitModal } /> 
           <Redirect exact path="/" to="/home" />
        </IonRouterOutlet>
