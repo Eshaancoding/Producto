@@ -2,9 +2,9 @@ import { IonProgressBar, IonList, IonItem, IonText, IonContent, IonPage, IonTitl
 import { useState, useEffect, useContext } from 'react';
 import "./TaskIntroduction.css"
 import "./WorkSession.css"
-import { getDate, getDifferenceDay, dayToString } from '../context/DateHelper';
+import { getDifferenceMinuteSeconds, getDate, getDifferenceDay, dayToString } from '../context/DateHelper';
 
-import { Howl, Howler } from 'howler';
+import { LocalNotifications } from '@capacitor/local-notifications'
 import { GlobalContext } from '../context/GlobalState';
 import { useHistory } from 'react-router';
 import { Storage } from '@ionic/storage';
@@ -45,7 +45,7 @@ const TimeDisplay = (props: any) => {
     seconds_text = "00";
   }
   return (
-    <p id="TimeDisplay">Time remaining: {minutes_text}:{seconds_text}</p>
+    <p id="TimeDisplay">Time Spent: {minutes_text}:{seconds_text}</p>
   )
 }
 
@@ -53,33 +53,40 @@ const WorkSession: React.FC = () => {
   const history = useHistory()
   const { pomoWork, habitId } = useContext(GlobalContext);
   const originalMinutes = pomoWork;
-  const [minutes, setMinutes] = useState(originalMinutes);
-  const [seconds, setSeconds] = useState(0);
+  const [ originalDate, setOriginalDate] = useState("")
+  const [ minutes, setMinutes ] = useState(0)
+  const [ seconds, setSeconds ] = useState(0)
   var interval: any = null;
-
-  // sound
-  const sound = new Howl({
-    src: ['/assets/bell.mp3']
-  })
-
-  // Habits list
   const store = new Storage()
   store.create()
-  useIonViewWillEnter(() => {
-    sound.play()
-  })
+
+  async function viewEnter () {
+    var date:any = null
+    var store_get = await store.get("startTime")
+    if (store_get === null) {
+      date = Date()
+      await store.set("startTime", date)
+    } else {
+      date = store_get
+    }
+    setOriginalDate(date)
+  }
+  useIonViewWillEnter(viewEnter)
 
   useEffect(() => {
     interval = setInterval(() => {
-      setSeconds(seconds => seconds - 1);
-      if (seconds === 0) {
-        setSeconds(59);
-        setMinutes(minutes => minutes - 1);
-      }
+      // update minutes and seconds
+      if (originalDate !== "") {
+        const date_or = new Date(originalDate)
+        const newDate = getDate()
+        const [minutesDiff, secondsDiff] = getDifferenceMinuteSeconds(newDate, date_or)
+        setMinutes(minutesDiff)
+        setSeconds(secondsDiff)
+      }       
       // if done
-      if (minutes === 0 && seconds === 0) {
+      if (minutes >= originalMinutes) {
         store.get("habits").then((original_habits) => {
-          original_habits[habitId]['hoursSpent'] += ((originalMinutes * 60) - (minutes * 60 + seconds)) / 3600
+          original_habits[habitId]['hoursSpent'] += (originalMinutes) / 60 
           store.set("habits", original_habits).then(() => {
             clearInterval(interval)
             history.replace("/workSessionEnd")
@@ -104,7 +111,7 @@ const WorkSession: React.FC = () => {
     }
     original_habits[habitId][dayToString(day)] = true
     original_habits[habitId]["sessions"] += 1
-    original_habits[habitId]['hoursSpent'] += ((originalMinutes * 60) - (minutes * 60 + seconds)) / 3600
+    original_habits[habitId]['hoursSpent'] += (minutes * 60 + seconds) / 3600
     original_habits[habitId]["lastSessionDate"] = getDate()
     // set habits in store
     await store.set("habits", original_habits)
@@ -127,7 +134,7 @@ const WorkSession: React.FC = () => {
     }
     original_habits[habitId][dayToString(day)] = true
     original_habits[habitId]["sessions"] += 1
-    original_habits[habitId]['hoursSpent'] += ((originalMinutes * 60) - (minutes * 60 + seconds)) / 3600
+    original_habits[habitId]['hoursSpent'] += (minutes * 60 + seconds) / 3600
     original_habits[habitId]["lastSessionDate"] = getDate()
     // set habits in store
     await store.set("habits", original_habits).then

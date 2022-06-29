@@ -33,6 +33,7 @@ const Home: React.FC = () => {
   }
 
   async function viewEntered () {
+    await store.set("startTime", null)
     const habit = await store.get("habits")
     if (habit !== null) {
       const currentDate = getDate()
