@@ -1,11 +1,12 @@
-import {IonProgressBar, IonList, IonItem, IonLabel, IonInput, IonText, IonContent, IonButton, IonPage, IonTitle, IonLoading, useIonViewWillEnter} from '@ionic/react';
+import {IonProgressBar, IonList, IonItem, IonLabel, IonInput, IonText, IonContent, IonButton, IonPage, IonTitle, IonLoading, useIonViewWillEnter, useIonViewDidEnter} from '@ionic/react';
 import { useState, useEffect, useContext} from 'react';
 import "./TaskIntroduction.css"
 import "./WorkSession.css"
 
 import { GlobalContext } from '../context/GlobalState';
 import { useHistory } from 'react-router';
-import HabitCard from '../helper/HabitCard';
+import { Storage } from '@ionic/storage';
+import { getDate, getDifferenceMinuteSeconds} from '../context/DateHelper';
 
 const BulletPoint = (props:any) => {
     return (
@@ -42,7 +43,7 @@ const TimeDisplay = (props:any) => {
         seconds_text = "00";
     }
     return (
-        <p id="TimeDisplay">Time remaining: {minutes_text}:{seconds_text}</p>
+        <p id="TimeDisplay">Time Spent: {minutes_text}:{seconds_text}</p>
     )
 }
 
@@ -52,22 +53,43 @@ const BreakSession: React.FC = () => {
     const originalMinutes = pomoBreak;
     const [minutes, setMinutes] = useState(originalMinutes); 
     const [seconds, setSeconds] = useState(0);
+    const [originalDate, setOriginaldate] = useState("")
+    const store = new Storage()
+    store.create()
+
+    async function viewEnter () {
+        var date:any = null
+        var store_get = await store.get("startTime")
+        if (store_get === null) {
+            date = Date()
+            await store.set("startTime", date)
+        } else {
+            date = store_get
+        }
+        setOriginaldate(date)
+    }
+    useIonViewWillEnter(viewEnter)
 
 
     useEffect(() => {
         const interval = setInterval(() => {
-            setSeconds(seconds => seconds - 1);
-            if (seconds === 0) {
-                setSeconds(59);
-                setMinutes(minutes => minutes - 1);
-            }
+            // update minutes and seconds
+            if (originalDate !== "") {
+                const date_or = new Date(originalDate)
+                const newDate = getDate()
+                const [minutesDiff, secondsDiff] = getDifferenceMinuteSeconds(newDate, date_or)
+                setMinutes(minutesDiff)
+                setSeconds(secondsDiff)
+            }             
             // if done
             if (minutes === 0 && seconds === 0) {
-                history.replace("/work")
+                store.set("startTime", null).then(() => {
+                    history.replace("/work")
+                })
             }
         }, 1000);
         return () => clearInterval(interval);
-    }, [seconds]);
+    });
 
 
     return (

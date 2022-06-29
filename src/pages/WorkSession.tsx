@@ -73,6 +73,15 @@ const WorkSession: React.FC = () => {
   }
   useIonViewWillEnter(viewEnter)
 
+  async function handleDone (interval:any) {
+    const original_habits = await store.get("habits")
+    original_habits[habitId]['hoursSpent'] += (originalMinutes) / 60
+    await store.set("habits", original_habits)
+    await store.set("startTime", null)
+    clearInterval(interval)
+    history.replace("/workSessionEnd")
+  }
+
   useEffect(() => {
     interval = setInterval(() => {
       // update minutes and seconds
@@ -85,13 +94,7 @@ const WorkSession: React.FC = () => {
       }       
       // if done
       if (minutes >= originalMinutes) {
-        store.get("habits").then((original_habits) => {
-          original_habits[habitId]['hoursSpent'] += (originalMinutes) / 60 
-          store.set("habits", original_habits).then(() => {
-            clearInterval(interval)
-            history.replace("/workSessionEnd")
-          })
-        })
+        handleDone(interval)
       }
     }, 1000);
     return () => clearInterval(interval);
@@ -137,7 +140,7 @@ const WorkSession: React.FC = () => {
     original_habits[habitId]['hoursSpent'] += (minutes * 60 + seconds) / 3600
     original_habits[habitId]["lastSessionDate"] = getDate()
     // set habits in store
-    await store.set("habits", original_habits).then
+    await store.set("habits", original_habits)
     // redirect to stoicism (ending page after completed habit) 
     clearInterval(interval)
     history.replace("/stoicism")
