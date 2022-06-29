@@ -4,7 +4,7 @@ import "./TaskIntroduction.css"
 import "./WorkSession.css"
 import { getDifferenceMinuteSeconds, getDate, getDifferenceDay, dayToString } from '../context/DateHelper';
 
-import { LocalNotifications } from '@capacitor/local-notifications'
+import { LocalNotifications, LocalNotificationSchema} from '@capacitor/local-notifications'
 import { GlobalContext } from '../context/GlobalState';
 import { useHistory } from 'react-router';
 import { Storage } from '@ionic/storage';
@@ -61,6 +61,24 @@ const WorkSession: React.FC = () => {
   store.create()
 
   async function viewEnter () {
+    // set notifications
+    await LocalNotifications.schedule({
+      notifications: [{
+        title: "Work Session", 
+        body: "It's time to work!", 
+        id: 1,
+      }]
+    })
+    await LocalNotifications.schedule({
+      notifications: [{
+        title: "Break Session",
+        body: "Yay! It's break time!",
+        id: 1,
+        schedule: {at: new Date(Date.now() + (originalMinutes * 1000))}
+      }]
+    })
+
+    // get start time
     var date:any = null
     var store_get = await store.get("startTime")
     if (store_get === null) {

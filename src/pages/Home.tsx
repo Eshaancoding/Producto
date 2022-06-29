@@ -7,6 +7,7 @@ import HabitCard from '../helper/HabitCard';
 import { OverlayEventDetail } from '@ionic/core/components';
 import { getDate, getDifferenceDay, getWeekDifference, dayToString} from '../context/DateHelper';
 import { useHistory } from 'react-router';
+import { LocalNotifications } from '@capacitor/local-notifications';
 
 const Home: React.FC = () => {
   // History
@@ -23,6 +24,9 @@ const Home: React.FC = () => {
   // store 
   const store = new Storage();
   store.create();
+
+  // Notifications 
+  LocalNotifications.requestPermissions().then(() => {console.log("Notification success!")})
 
   // variables that update habit cards
   const [habits, setHabits] = useState([])
