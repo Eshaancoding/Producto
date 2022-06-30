@@ -1,0 +1,6 @@
+{
+	"appId": "eshaancoding.github.io",
+	"appName": "Producto",
+	"webDir": "build",
+	"bundledWebRuntime": true
+}
