@@ -1,97 +1,42 @@
-import { IonButton, IonCard, IonContent, IonText, IonPage, IonTitle, IonItem, useIonViewDidEnter, IonLabel, IonInput, useIonViewWillEnter } from '@ionic/react'
-import "./TaskIntroduction.css"
-import { useState } from 'react'
-import { Storage } from '@ionic/storage'
-import "./BreakHabit.css"
-import { useHistory } from 'react-router'
+import ZenMessage from "../helper/ZenMessage"
+import { Storage } from "@ionic/storage";
+import { useIonViewWillEnter } from "@ionic/react";
+import { useState } from "react";
 
 const BreakHabit: React.FC = () => {
-  const store = new Storage()
+  const [badHabit, setBadHabit] = useState("") 
+  const store = new Storage() 
   store.create()
-  const history = useHistory()
-  const [color, setColor] = useState("secondary")
-  const [badHabits, setBadHabits] = useState([])
-  const [responses, setResponses] = useState([])
-  useIonViewWillEnter(() => {
-      store.get("habits").then((value) => {
-        var temp:any = []
-        value.forEach((element:any, index:number) => {
-          if (element["isBadHabit"]) {
-            temp.push(element)
-          }
-        });
-        setBadHabits(temp)
-      })
-  })
-
-  async function inputChanged (e:any, index:number, responseIndex:number) {
-    var responses_temp : any = responses
-    // fill responses as we go
-    for (var i = index; i > responses_temp.length - 1; i--) {
-      responses_temp.push(["", "", ""])
-    } 
-    
-    // set value
-    responses_temp[index][responseIndex] = e
-
-    setResponses(responses_temp)
-    if (responses_temp.every((x:any) => (x.every((y:any) => y !== ""))) && responses.length === badHabits.length) {
-      setColor("primary")
-    } else {
-      setColor("secondary")
-    }
-  } 
   
-  function handleClick() {
-    if (responses.every((x:any) => (x.every((y:any) => y !== ""))) && responses.length === badHabits.length) {
-      history.push("/break")
-    }
+  // get bad habit 
+  async function getBadHabit () {
+    const habits:any = await store.get("habits")
+    var habitString:string = ""
+    habits.map(function(object:any, index:number) {
+      if (!object["isBadHabit"]) {
+        if (habitString === "") habitString += object["title"]
+        else habitString += (", " + object["title"])
+      }
+    })
+    setBadHabit(habitString)
   }
+    
+  useIonViewWillEnter(getBadHabit)
 
   return (
-    <IonPage>
-      <IonContent fullscreen>
-        <IonTitle id="Title">
-          Breaking Habits
-        </IonTitle>
-        <IonText>
-          <p className="Description">
-            There is no doubt that bad habits can influence our lives too. For example, you may unhealthy amounts of junk food everyday. Another example is watching way too much Youtube on a daily basis. So it's important to pay attention to those habits, and try to break them.
-            <br /> <br />
-            To break those habits, you can do two things: either punish yourself or you can apply long term depression: engage in a good replacement habit <strong>immediately</strong> after you have done the bad habit. Doing this will recruit neural circuits to break down the bad habit's neural circuits, and replace it with a good habit.
-            <br /> <br />
-            I would suggest taking the long term depression approach, as it's easier to execute and punishing yourself must be maintained consistently.
-          </p>
-        </IonText>
-        <br />
-          {badHabits.map((item, index) => {
-            return (
-              <IonCard key={index}>
-                <IonTitle class="BadHabitTitle">
-                  Bad Habit: {item["title"]}
-                </IonTitle>
-                <IonItem>
-                  <IonLabel position='stacked' class="Label">What are you do after your habit?</IonLabel> 
-                  <IonInput type="text" onIonChange={(e) => inputChanged(e.detail.value, index, 0)} />
-                </IonItem>
-                <IonItem>
-                  <IonLabel position='stacked' class="Label">What punishment will you take after your habit:</IonLabel> 
-                  <IonInput type="text" onIonChange={(e) => inputChanged(e.detail.value, index, 1)} />
-                </IonItem>
-                <IonItem>
-                  <IonLabel position='stacked' class="Label">How will you feel when you successfully avoided the habit?</IonLabel> 
-                  <IonInput type="text" onIonChange={(e) => inputChanged(e.detail.value, index, 2)} />
-                </IonItem>
-              </IonCard>
-            )
-          })}
-        <IonButton id="Continue" onClick={handleClick} color={color}>
-          Continue
-        </IonButton>
-        <div id="footer" />
-      </IonContent>
-    </IonPage>
- )
+    <ZenMessage 
+      title={<>Visualize a <strong>good</strong> habit that you are going to do <strong>immediately</strong> after the <strong>bad</strong> habit!</>}
+      header={<>Your bad habits are: <strong>{badHabit}</strong> <br /></>}
+      description={<>
+      This technique is uses a method called <strong>Long-Term Depression</strong>, where neurons that fire at differing times would lead to a weaker connection. So, for every bad habit that you do, try to do a good habit <strong>immediately</strong> after the bad habit so you initiate long-term depression 
+      <br /> <br /> 
+      This method was introduced by Andrew Huberman in the <a href="https://hubermanlab.com">Huberman Lab</a> podcast. In fact, most of the tips here are inspired by his podcasts, so I highly recommend listening to it!
+      </>}
+      minutes={0}
+      seconds={45}
+      href="/break"
+    />
+  ) 
 }
 
 export default BreakHabit;

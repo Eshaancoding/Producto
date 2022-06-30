@@ -3,6 +3,7 @@ import { useState, useEffect, useContext} from 'react';
 import "./TaskIntroduction.css"
 import "./WorkSession.css"
 
+import CountBar from '../helper/CounterBar';
 import { GlobalContext } from '../context/GlobalState';
 import { useHistory } from 'react-router';
 import { Storage } from '@ionic/storage';
@@ -48,54 +49,18 @@ const TimeDisplay = (props:any) => {
 }
 
 const BreakSession: React.FC = () => {
-    const history = useHistory()
     const { pomoBreak } = useContext(GlobalContext);
     const originalMinutes = pomoBreak;
-    const [minutes, setMinutes] = useState(originalMinutes); 
+    const [minutes, setMinutes] = useState(0); 
     const [seconds, setSeconds] = useState(0);
-    const [originalDate, setOriginaldate] = useState("")
+    const history = useHistory()
     const store = new Storage()
     store.create()
-
-    async function viewEnter () {
-        var date:any = null
-        var store_get = await store.get("startTime")
-        if (store_get === null) {
-            date = Date()
-            await store.set("startTime", date)
-        } else {
-            date = store_get
-        }
-        setOriginaldate(date)
-    }
-    useIonViewWillEnter(viewEnter)
-
-
-    useEffect(() => {
-        const interval = setInterval(() => {
-            // update minutes and seconds
-            if (originalDate !== "") {
-                const date_or = new Date(originalDate)
-                const newDate = getDate()
-                const [minutesDiff, secondsDiff] = getDifferenceMinuteSeconds(newDate, date_or)
-                setMinutes(minutesDiff)
-                setSeconds(secondsDiff)
-            }             
-            // if done
-            if (minutes === 0 && seconds === 0) {
-                store.set("startTime", null).then(() => {
-                    history.replace("/work")
-                })
-            }
-        }, 1000);
-        return () => clearInterval(interval);
-    });
-
 
     return (
         <IonPage>
             <IonContent fullscreen>
-                <IonProgressBar value={(minutes * 60 + seconds) / (originalMinutes * 60)}></IonProgressBar>
+                <CountBar minutes={originalMinutes} seconds={0} useStartTime logMinutes={setMinutes} logSeconds={setSeconds} finish={() => history.push("/work")} />
                 <IonTitle id="Title">Break Session</IonTitle>
                 <IonText>
                     <TimeDisplay minutes={minutes} seconds={seconds} />

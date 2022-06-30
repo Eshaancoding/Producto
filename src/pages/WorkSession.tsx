@@ -2,7 +2,8 @@ import { IonProgressBar, IonList, IonItem, IonText, IonContent, IonPage, IonTitl
 import { useState, useEffect, useContext } from 'react';
 import "./TaskIntroduction.css"
 import "./WorkSession.css"
-import { getDifferenceMinuteSeconds, getDate, getDifferenceDay, dayToString } from '../context/DateHelper';
+import { getDate, getDifferenceDay, dayToString } from '../context/DateHelper';
+import CountBar from '../helper/CounterBar';
 
 import { LocalNotifications, LocalNotificationSchema} from '@capacitor/local-notifications'
 import { GlobalContext } from '../context/GlobalState';
@@ -53,70 +54,39 @@ const WorkSession: React.FC = () => {
   const history = useHistory()
   const { pomoWork, habitId } = useContext(GlobalContext);
   const originalMinutes = pomoWork;
-  const [ originalDate, setOriginalDate] = useState("")
   const [ minutes, setMinutes ] = useState(0)
   const [ seconds, setSeconds ] = useState(0)
-  var interval: any = null;
   const store = new Storage()
   store.create()
 
   async function viewEnter () {
     // set notifications
-    await LocalNotifications.schedule({
+    LocalNotifications.schedule({
       notifications: [{
         title: "Work Session", 
         body: "It's time to work!", 
         id: 1,
+        schedule: {at: new Date(Date.now())}
       }]
-    })
-    await LocalNotifications.schedule({
+    }).then(() => {console.log("Started first notification")})
+
+    LocalNotifications.schedule({
       notifications: [{
         title: "Break Session",
         body: "Yay! It's break time!",
-        id: 1,
+        id: 2,
         schedule: {at: new Date(Date.now() + (originalMinutes * 1000))}
       }]
-    })
-
-    // get start time
-    var date:any = null
-    var store_get = await store.get("startTime")
-    if (store_get === null) {
-      date = Date()
-      await store.set("startTime", date)
-    } else {
-      date = store_get
-    }
-    setOriginalDate(date)
+    }).then(() => {console.log("Started second notification")})
   }
   useIonViewWillEnter(viewEnter)
 
-  async function handleDone (interval:any) {
+  async function handleDone () {
     const original_habits = await store.get("habits")
     original_habits[habitId]['hoursSpent'] += (originalMinutes) / 60
     await store.set("habits", original_habits)
-    await store.set("startTime", null)
-    clearInterval(interval)
     history.replace("/workSessionEnd")
   }
-
-  useEffect(() => {
-    interval = setInterval(() => {
-      // update minutes and seconds
-      if (originalDate !== "") {
-        const date_or = new Date(originalDate)
-        const newDate = getDate()
-        const [minutesDiff, secondsDiff] = getDifferenceMinuteSeconds(newDate, date_or)
-        setMinutes(minutesDiff)
-        setSeconds(secondsDiff)
-      }       
-      // if done
-      if (minutes >= originalMinutes) {
-        handleDone(interval)
-      }
-    }, 1000);
-    return () => clearInterval(interval);
-  });
 
   async function ionLeave() {
     const day: number = new Date().getDay()
@@ -160,14 +130,13 @@ const WorkSession: React.FC = () => {
     // set habits in store
     await store.set("habits", original_habits)
     // redirect to TaskNext (ending page after completed habit) 
-    clearInterval(interval)
     history.replace("/taskNext")
   }
 
   return (
     <IonPage>
       <IonContent fullscreen>
-        <IonProgressBar value={(minutes * 60 + seconds) / (originalMinutes * 60)}></IonProgressBar>
+        <CountBar minutes={originalMinutes} seconds={0} useStartTime logMinutes={setMinutes} logSeconds={setSeconds} finish={handleDone} />
         <IonTitle id="Title">Work Session</IonTitle>
         <IonButton id="CloseButton" onClick={handleCloseButton}>
           End Session

@@ -27,7 +27,7 @@ const PomodoroSetup: React.FC = () => {
         changePomoWork(parseInt(responses[0].toString())) 
         changePomoBreak(parseInt(responses[1].toString()))
         if (responses[0] != "" && responses[1] != "") {
-            history.push("/taskIntro")
+            history.push("/taskSelect")
         }
     }
 

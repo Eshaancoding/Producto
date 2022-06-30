@@ -3,7 +3,8 @@ import { IonApp, IonRouterOutlet, setupIonicReact} from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
 import Home from './pages/Home';
 import PomodoroSetup from './pages/PomodoroSetup';
-import TaskIntroduction from './pages/TaskIntroduction'; 
+import TaskSelection from './pages/TaskSelection'; 
+import VisualizeIntroHabit from './pages/VisualizeIntroHabit';
 import TaskProcedure from './pages/TaskProcedure';
 import TaskEnd from './pages/TaskEnd';
 import WorkSession from './pages/WorkSession';
@@ -44,7 +45,8 @@ const App: React.FC = () => (
         <IonRouterOutlet>
           <Route exact path="/home" component={Home} />
           <Route exact path="/session" component={PomodoroSetup} />
-          <Route exact path="/taskIntro" component={TaskIntroduction} />
+          <Route exact path="/taskSelect" component={TaskSelection} />
+          <Route exact path="/IntroHabit" component={VisualizeIntroHabit}/>
           <Route exact path="/taskProcedure" component={TaskProcedure} />
           <Route exact path="/taskEnd" component={TaskEnd} />
           <Route exact path="/work" component={WorkSession} />

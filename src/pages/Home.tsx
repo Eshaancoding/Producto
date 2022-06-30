@@ -26,7 +26,7 @@ const Home: React.FC = () => {
   store.create();
 
   // Notifications 
-  LocalNotifications.requestPermissions().then(() => {console.log("Notification success!")})
+  LocalNotifications.requestPermissions().then(() => {})
 
   // variables that update habit cards
   const [habits, setHabits] = useState([])
