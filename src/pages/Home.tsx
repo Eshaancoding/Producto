@@ -26,7 +26,6 @@ const Home: React.FC = () => {
   store.create();
 
   // Notifications 
-  LocalNotifications.requestPermissions().then(() => {})
 
   // variables that update habit cards
   const [habits, setHabits] = useState([])
@@ -37,6 +36,7 @@ const Home: React.FC = () => {
   }
 
   async function viewEntered () {
+    await LocalNotifications.requestPermissions().then((value) => {console.log("success", value)}).catch((value) => {console.log("rejected", value)})
     await store.set("startTime", null)
     const habit = await store.get("habits")
     if (habit !== null) {

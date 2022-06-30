@@ -7,7 +7,7 @@
     "@awesome-cordova-plugins/native-audio": "^5.43.0",
     "@capacitor-community/native-audio": "^3.0.3",
     "@capacitor/app": "1.1.1",
-    "@capacitor/core": "3.6.0",
+    "@capacitor/core": "^3.6.0",
     "@capacitor/haptics": "1.1.4",
     "@capacitor/ios": "3.6.0",
     "@capacitor/keyboard": "1.2.3",
@@ -79,7 +79,7 @@
   "devDependencies": {
     "@babel/core": "^7.18.5",
     "@babel/preset-env": "^7.18.2",
-    "@capacitor/cli": "3.6.0",
+    "@capacitor/cli": "^3.6.0",
     "@types/howler": "^2.2.7",
     "react-scripts": "5.0.1",
     "webpack": "^4.19.1"

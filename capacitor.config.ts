@@ -1,10 +1,10 @@
 import { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'io.ionic.starter',
+  appId: 'eshaancoding.github.io',
   appName: 'Producto',
   webDir: 'build',
-  bundledWebRuntime: false
+  bundledWebRuntime: true
 };
 
 export default config;

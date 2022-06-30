@@ -5,7 +5,7 @@ import "./WorkSession.css"
 import { getDate, getDifferenceDay, dayToString } from '../context/DateHelper';
 import CountBar from '../helper/CounterBar';
 
-import { LocalNotifications, LocalNotificationSchema} from '@capacitor/local-notifications'
+import { LocalNotifications} from '@capacitor/local-notifications'
 import { GlobalContext } from '../context/GlobalState';
 import { useHistory } from 'react-router';
 import { Storage } from '@ionic/storage';
@@ -61,23 +61,29 @@ const WorkSession: React.FC = () => {
 
   async function viewEnter () {
     // set notifications
-    LocalNotifications.schedule({
+    await LocalNotifications.schedule({
       notifications: [{
         title: "Work Session", 
         body: "It's time to work!", 
         id: 1,
-        schedule: {at: new Date(Date.now())}
-      }]
-    }).then(() => {console.log("Started first notification")})
+        extra: {
+          data: "Work Session Notification"
+        }
+      }
+    ]
+    }).then((result) => console.log("success", result)).catch((value) => {console.log("rejected", value)})
 
-    LocalNotifications.schedule({
+    await LocalNotifications.schedule({
       notifications: [{
         title: "Break Session",
         body: "Yay! It's break time!",
         id: 2,
-        schedule: {at: new Date(Date.now() + (originalMinutes * 1000))}
+        schedule: {at: new Date(Date.now() + (originalMinutes * 1000))},
+        extra: {
+          data: "Break Session Notification"
+        }
       }]
-    }).then(() => {console.log("Started second notification")})
+    });
   }
   useIonViewWillEnter(viewEnter)
 
