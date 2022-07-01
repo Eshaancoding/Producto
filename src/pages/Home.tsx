@@ -1,7 +1,7 @@
 import { IonToolbar, IonHeader, IonModal, IonButtons, IonItem, IonLabel, IonInput, IonText, IonContent, IonButton, IonPage, IonTitle, useIonViewWillEnter, IonToggle, useIonToast} from '@ionic/react';
 import { useRef, useState } from 'react';
 import './Home.css';
-import RandomQuote from './RandomQuote';
+import RandomQuote from '../helper/RandomQuote';
 import { Storage } from '@ionic/storage'
 import HabitCard from '../helper/HabitCard';
 import { OverlayEventDetail } from '@ionic/core/components';
