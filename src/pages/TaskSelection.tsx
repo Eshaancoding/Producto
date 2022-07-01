@@ -10,6 +10,7 @@ import { GlobalContext } from '../context/GlobalState';
 const TaskSelection: React.FC = () => {
   let history = useHistory();
   const { setHabitId } = useContext(GlobalContext)
+  const [color, setColor] = useState("secondary")
 
   // Habits list
   const store = new Storage()
@@ -19,10 +20,15 @@ const TaskSelection: React.FC = () => {
     store.get("habits").then(value => setHabitsList(value))
   }) 
 
-
-  function handleResponses(e: any={}, idx: number) {
+  function handleResponses(e: any={}) {
     setHabitId(habitsList.findIndex((value) => value["title"] === e))
-    history.push("/IntroHabit")
+    setColor("primary")
+  }
+
+  function handleContinue () {
+    if (color === "primary") {
+      history.push("/IntroHabit")
+    }
   }
 
   return (
@@ -37,7 +43,7 @@ const TaskSelection: React.FC = () => {
         </IonText>
         <br />
         <IonItem class="prompt">
-          <IonSelect interface='popover' placeholder='Select habit' onIonChange={(e) => handleResponses(e.detail.value, 0)}>
+          <IonSelect interface='popover' placeholder='Select habit' onIonChange={(e) => handleResponses(e.detail.value)}>
             {habitsList.map(function(object, index) {
               if (!object["isBadHabit"]) {
                 return (
@@ -48,6 +54,7 @@ const TaskSelection: React.FC = () => {
           </IonSelect> 
         </IonItem>
         <br />
+        <IonButton id="Continue" color={color} onClick={handleContinue}>Continue</IonButton>
       </IonContent>
     </IonPage>
   )
