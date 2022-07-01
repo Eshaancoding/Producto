@@ -72,18 +72,6 @@ const WorkSession: React.FC = () => {
       }
     ]
     }).then((result) => console.log("success", result)).catch((value) => {console.log("rejected", value)})
-
-    await LocalNotifications.schedule({
-      notifications: [{
-        title: "Break Session",
-        body: "Yay! It's break time!",
-        id: 2,
-        schedule: {at: new Date(Date.now() + (originalMinutes * 1000))},
-        extra: {
-          data: "Break Session Notification"
-        }
-      }]
-    });
   }
   useIonViewWillEnter(viewEnter)
 

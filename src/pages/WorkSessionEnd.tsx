@@ -1,6 +1,24 @@
 import ZenMessage from "../helper/ZenMessage";
+import { LocalNotifications } from "@capacitor/local-notifications";
+import { useIonViewWillEnter } from "@ionic/react";
 
 const WorkSessionEnd: React.FC = () => {
+    
+    async function viewEnter () {
+        // set notification
+        await LocalNotifications.schedule({
+            notifications: [{
+                title: "Break Session", 
+                body: "It's time to take a break!", 
+                id: 1,
+                extra: {
+                data: "Break Session Notification"
+                }
+            }]
+        }).then((result) => console.log("success", result)).catch((value) => {console.log("rejected", value)})
+    }
+    useIonViewWillEnter(viewEnter)
+
     return (
         <ZenMessage
             title={<><strong>Congratulations</strong> on finishing the session! <br /> </>} 
