@@ -1,15 +1,16 @@
 import {IonFab, IonFabButton, IonIcon} from '@ionic/react'
 import { closeOutline } from 'ionicons/icons';
 import { useHistory } from 'react-router';
+import "./CloseButton.css"
 
 const CloseButton: React.FC = () => {
     const history = useHistory()
     function handleCloseButton () {
-        history.push("/home") 
+        history.replace("/home") 
     }
     return (
-        <IonFab vertical='top' horizontal='end'>
-            <IonFabButton class="DeleteButton" onClick={handleCloseButton}>
+        <IonFab id="Fab">
+            <IonFabButton size="small" id="Button" onClick={handleCloseButton}>
                 <IonIcon icon={closeOutline}></IonIcon>
             </IonFabButton>
         </IonFab>
