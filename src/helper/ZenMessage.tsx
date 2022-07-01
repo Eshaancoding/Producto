@@ -23,7 +23,7 @@ function ZenMessage (props:any) {
     return (
         <IonPage>
             <IonContent id="Content">
-                <CloseButton />
+                <CloseButton small />
                 <CountBar minutes={props.minutes} seconds={props.seconds} finish={handleEnd}/> 
                 <IonText> <p id="Title"> {props.title} </p> </IonText>
                 <IonText> <p id="Header"> {props.header} </p> </IonText> 
