@@ -13,7 +13,7 @@ const BreakHabit: React.FC = () => {
     const habits:any = await store.get("habits")
     var habitString:string = ""
     habits.map(function(object:any, index:number) {
-      if (!object["isBadHabit"]) {
+      if (object["isBadHabit"]) {
         if (habitString === "") habitString += object["title"]
         else habitString += (", " + object["title"])
       }
