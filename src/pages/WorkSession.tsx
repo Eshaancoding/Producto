@@ -89,28 +89,6 @@ const WorkSession: React.FC = () => {
     history.replace("/workSessionEnd")
   }
 
-  async function ionLeave() {
-    const day: number = new Date().getDay()
-    const date = getDate()
-    var original_habits: any = await store.get("habits")
-
-    // change habits
-    if (original_habits[habitId]["lastSessionDate"] != undefined && getDifferenceDay(date, original_habits[habitId]["lastSessionDate"]) === 1) {
-      original_habits[habitId]["streaks"] += 1
-    }
-    else if (original_habits[habitId][dayToString(day)] === false && original_habits[habitId]["streaks"] === 0) {
-      original_habits[habitId]["streaks"] = 1
-    }
-    original_habits[habitId][dayToString(day)] = true
-    original_habits[habitId]["sessions"] += 1
-    original_habits[habitId]['hoursSpent'] += (minutes * 60 + seconds) / 3600
-    original_habits[habitId]["lastSessionDate"] = getDate()
-    // set habits in store
-    await store.set("habits", original_habits)
-  }
-
-  useIonViewWillLeave(ionLeave)
-
   async function handleCloseButton() {
     // get today's date
     const day: number = new Date().getDay()

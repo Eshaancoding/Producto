@@ -52,7 +52,6 @@ const EditingHabitModal: React.FC = () => {
             habit["friday"] = false
             habit["saturday"] = false
             habit["sunday"] = false
-            
             habit["hoursSpent"] = 0
             habit["sessions"] = 0
             habit["streaks"] = 0

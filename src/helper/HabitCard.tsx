@@ -5,7 +5,8 @@ import { useHistory } from 'react-router';
 import { Storage } from '@ionic/storage';
 
 function roundtoHundredth (num:number) {
-    return Math.round((num + Number.EPSILON) * 100) / 100
+    return num
+    // return Math.round((num + Number.EPSILON) * 100) / 100
 }
 
 function HabitCard (props:any) {
