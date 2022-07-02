@@ -2,11 +2,10 @@ import { IonProgressBar, IonList, IonItem, IonText, IonContent, IonPage, IonTitl
 import { useState, useEffect, useContext } from 'react';
 import "./TaskIntroduction.css"
 import "./WorkSession.css"
-import { getDate, getDifferenceDay, dayToString } from '../context/DateHelper';
+import { getDate, getDifferenceDay, dayToString } from '../helper/DateHelper';
 import CountBar from '../helper/CounterBar';
 
 import { LocalNotifications} from '@capacitor/local-notifications'
-import { GlobalContext } from '../context/GlobalState';
 import { useHistory } from 'react-router';
 import { Storage } from '@ionic/storage';
 
@@ -52,8 +51,8 @@ const TimeDisplay = (props: any) => {
 
 const WorkSession: React.FC = () => {
   const history = useHistory()
-  const { pomoWork, habitId } = useContext(GlobalContext);
-  const originalMinutes = pomoWork;
+  const [ habitId, setHabitId] = useState(0)
+  const [ originalMinutes, setOriginalMinutes ] = useState(0)
   const [ minutes, setMinutes ] = useState(0)
   const [ seconds, setSeconds ] = useState(0)
   const store = new Storage()
@@ -71,7 +70,15 @@ const WorkSession: React.FC = () => {
         }
       }
     ]
-    }).then((result) => console.log("success", result)).catch((value) => {console.log("rejected", value)})
+    })
+
+    // set Original minutes
+    const pomoWork = await store.get("pomoWork")
+    setOriginalMinutes(pomoWork)
+
+    // get habit id 
+    const habitId = await store.get("habitId")
+    setHabitId(habitId)
   }
   useIonViewWillEnter(viewEnter)
 

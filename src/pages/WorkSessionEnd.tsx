@@ -15,7 +15,7 @@ const WorkSessionEnd: React.FC = () => {
                 data: "Break Session Notification"
                 }
             }]
-        }).then((result) => console.log("success", result)).catch((value) => {console.log("rejected", value)})
+        })
     }
     useIonViewWillEnter(viewEnter)
 

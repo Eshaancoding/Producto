@@ -14,9 +14,6 @@ import BreakHabit from './pages/BreakHabit';
 import TaskNext from './pages/TaskNext';
 import EditingHabitModal from './pages/EditingHabit';
 
-/* Global State stuff */
-import { GlobalProvider } from './context/GlobalState';
-
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
 
@@ -39,27 +36,25 @@ import './theme/variables.css';
 setupIonicReact();
 
 const App: React.FC = () => (
-  <GlobalProvider>
-    <IonApp>
-      <IonReactRouter>
-        <IonRouterOutlet>
-          <Route exact path="/home" component={Home} />
-          <Route exact path="/session" component={PomodoroSetup} />
-          <Route exact path="/taskSelect" component={TaskSelection} />
-          <Route exact path="/IntroHabit" component={VisualizeIntroHabit}/>
-          <Route exact path="/taskProcedure" component={TaskProcedure} />
-          <Route exact path="/taskEnd" component={TaskEnd} />
-          <Route exact path="/work" component={WorkSession} />
-          <Route exact path="/workSessionEnd" component={WorkSessionEnd} />
-          <Route exact path="/breakBadHabit" component={BreakHabit} /> 
-          <Route exact path="/break" component={BreakSession} /> 
-          <Route exact path="/taskNext" component={TaskNext} />
-          <Route exact path="/editHabit" component={EditingHabitModal } /> 
-          <Redirect exact path="/" to="/home" />
-       </IonRouterOutlet>
-      </IonReactRouter>
-    </IonApp>
-  </GlobalProvider>
+  <IonApp>
+    <IonReactRouter>
+      <IonRouterOutlet>
+        <Route exact path="/home" component={Home} />
+        <Route exact path="/session" component={PomodoroSetup} />
+        <Route exact path="/taskSelect" component={TaskSelection} />
+        <Route exact path="/IntroHabit" component={VisualizeIntroHabit}/>
+        <Route exact path="/taskProcedure" component={TaskProcedure} />
+        <Route exact path="/taskEnd" component={TaskEnd} />
+        <Route exact path="/work" component={WorkSession} />
+        <Route exact path="/workSessionEnd" component={WorkSessionEnd} />
+        <Route exact path="/breakBadHabit" component={BreakHabit} /> 
+        <Route exact path="/break" component={BreakSession} /> 
+        <Route exact path="/taskNext" component={TaskNext} />
+        <Route exact path="/editHabit" component={EditingHabitModal } /> 
+        <Redirect exact path="/" to="/home" />
+      </IonRouterOutlet>
+    </IonReactRouter>
+  </IonApp>
 );
 
 export default App;

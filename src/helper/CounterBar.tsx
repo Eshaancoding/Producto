@@ -1,6 +1,6 @@
 import { IonProgressBar, useIonViewWillEnter } from "@ionic/react";
 import { useEffect, useState } from "react";
-import { getDifferenceMinuteSeconds, getMillisecondDifference, getDate } from '../context/DateHelper';
+import { getDifferenceMinuteSeconds, getMillisecondDifference, getDate } from './DateHelper';
 import { Storage } from "@ionic/storage"
 
 function CountBar (props:any) {
@@ -56,7 +56,7 @@ function CountBar (props:any) {
                 props.finish()
             }
         }, 100)
-        return () => clearInterval(interval)
+        return () => {clearInterval(interval)}
     })
 
     return (

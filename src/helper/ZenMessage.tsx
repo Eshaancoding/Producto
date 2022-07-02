@@ -17,7 +17,7 @@ function ZenMessage (props:any) {
     }
 
     function ContinueClick () {
-        if (color === "primary") history.push(props.href)
+        if (color === "primary") history.replace(props.href)
     }
     
     return (

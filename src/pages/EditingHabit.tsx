@@ -66,7 +66,7 @@ const EditingHabitModal: React.FC = () => {
         // set 
         setHabits(array)
         store.set("habits", array)
-        history.push("/home")
+        history.replace("/home")
     }    
 
     async function deleteHabit () {
@@ -74,7 +74,7 @@ const EditingHabitModal: React.FC = () => {
         array.splice(habitId, 1)
         await store.set("habits", array)
         setHabits(array)
-        history.push("/home")
+        history.replace("/home")
     }
     
 
@@ -83,7 +83,7 @@ const EditingHabitModal: React.FC = () => {
             <IonHeader>
                 <IonToolbar>
                     <IonButtons slot="start">
-                        <IonButton onClick={() => history.push("/home")}>Cancel</IonButton>
+                        <IonButton onClick={() => history.replace("/home")}>Cancel</IonButton>
                     </IonButtons>
                     <IonButtons slot="end">
                         <IonButton strong={true} onClick={() => confirm()}>

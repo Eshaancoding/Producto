@@ -28,7 +28,7 @@ function HabitCard (props:any) {
 
   async function editHabit () {
     await store.set("habitIdEdit", props.habitIndex)
-    history.push("/editHabit")
+    history.replace("/editHabit")
   }
 
   return (

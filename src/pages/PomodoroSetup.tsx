@@ -2,15 +2,16 @@ import {IonToggle, IonItem, IonLabel, IonInput, IonText, IonContent, IonButton, 
 import './PomodoroSetup.css';
 
 import { useHistory } from 'react-router';
-import { useState, useContext} from 'react';
-import { GlobalContext } from '../context/GlobalState';
+import { useState} from 'react';
 import CloseButton from '../helper/CloseButton';
+import { Storage } from '@ionic/storage';
 
 const PomodoroSetup: React.FC = () => {
     let history = useHistory()
     const [responses, setResponses] = useState(["", ""]);
     const [color, setColor] = useState("secondary")
-    const { changePomoBreak, changePomoWork } = useContext(GlobalContext);
+    const store = new Storage() 
+    store.create()
 
     function handleResponses (e:any={}, idx:number) {
         var newResponses = [...responses];
@@ -23,11 +24,11 @@ const PomodoroSetup: React.FC = () => {
         }
     }
 
-    function handleClick () {
-        changePomoWork(parseInt(responses[0].toString())) 
-        changePomoBreak(parseInt(responses[1].toString()))
+    async function handleClick () {
+        await store.set("pomoWork", parseInt(responses[0].toString())) 
+        await store.set("pomoBreak", parseInt(responses[1].toString()))
         if (responses[0] != "" && responses[1] != "") {
-            history.push("/taskSelect")
+            history.replace("/taskSelect")
         }
     }
 

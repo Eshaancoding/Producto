@@ -4,12 +4,10 @@ import { useHistory } from 'react-router';
 import { Storage } from '@ionic/storage'
 import "./TaskIntroduction.css";
 import CloseButton from '../helper/CloseButton';
-import { GlobalContext } from '../context/GlobalState';
 
 
 const TaskSelection: React.FC = () => {
   let history = useHistory();
-  const { setHabitId } = useContext(GlobalContext)
   const [color, setColor] = useState("secondary")
 
   // Habits list
@@ -20,14 +18,14 @@ const TaskSelection: React.FC = () => {
     store.get("habits").then(value => setHabitsList(value))
   }) 
 
-  function handleResponses(e: any={}) {
-    setHabitId(habitsList.findIndex((value) => value["title"] === e))
+  async function handleResponses(e: any={}) {
+    await store.set("habitId", habitsList.findIndex((value) => value["title"] === e))
     setColor("primary")
   }
 
   function handleContinue () {
     if (color === "primary") {
-      history.push("/IntroHabit")
+      history.replace("/IntroHabit")
     }
   }
 

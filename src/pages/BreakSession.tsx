@@ -1,13 +1,11 @@
-import {IonProgressBar, IonList, IonItem, IonLabel, IonInput, IonText, IonContent, IonButton, IonPage, IonTitle, IonLoading, useIonViewWillEnter, useIonViewDidEnter} from '@ionic/react';
-import { useState, useEffect, useContext} from 'react';
+import {IonList, IonItem, IonText, IonContent, IonPage, IonTitle, useIonViewWillEnter} from '@ionic/react';
+import { useState} from 'react';
 import "./TaskIntroduction.css"
 import "./WorkSession.css"
 
 import CountBar from '../helper/CounterBar';
-import { GlobalContext } from '../context/GlobalState';
 import { useHistory } from 'react-router';
 import { Storage } from '@ionic/storage';
-import { getDate, getDifferenceMinuteSeconds} from '../context/DateHelper';
 
 const BulletPoint = (props:any) => {
     return (
@@ -49,18 +47,22 @@ const TimeDisplay = (props:any) => {
 }
 
 const BreakSession: React.FC = () => {
-    const { pomoBreak } = useContext(GlobalContext);
-    const originalMinutes = pomoBreak;
+    const [originalMinutes, setOriginalMinutes] = useState(0)
     const [minutes, setMinutes] = useState(0); 
     const [seconds, setSeconds] = useState(0);
     const history = useHistory()
     const store = new Storage()
     store.create()
 
+    async function onIonEnter () {
+        store.get("pomoBreak").then((value) => {setOriginalMinutes(value)})
+    }
+    useIonViewWillEnter(onIonEnter)
+
     return (
         <IonPage>
             <IonContent fullscreen>
-                <CountBar minutes={originalMinutes} seconds={0} useStartTime logMinutes={setMinutes} logSeconds={setSeconds} finish={() => history.push("/work")} />
+                <CountBar minutes={originalMinutes} seconds={0} useStartTime logMinutes={setMinutes} logSeconds={setSeconds} finish={() => history.replace("/work")} />
                 <IonTitle id="Title">Break Session</IonTitle>
                 <IonText>
                     <TimeDisplay minutes={minutes} seconds={seconds} />
