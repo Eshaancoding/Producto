@@ -1,4 +1,4 @@
-import {IonList, IonItem, IonText, IonContent, IonPage, IonTitle, useIonViewWillEnter} from '@ionic/react';
+import {IonList, IonItem, IonText, IonContent, IonPage, IonTitle, useIonViewWillEnter, IonButton} from '@ionic/react';
 import { useState} from 'react';
 import "./TaskIntroduction.css"
 import "./WorkSession.css"
@@ -6,6 +6,7 @@ import "./WorkSession.css"
 import CountBar from '../helper/CounterBar';
 import { useHistory } from 'react-router';
 import { Storage } from '@ionic/storage';
+import { getDate, dayToString, getDifferenceDay} from '../helper/DateHelper';
 
 const BulletPoint = (props:any) => {
     return (
@@ -50,20 +51,44 @@ const BreakSession: React.FC = () => {
     const [originalMinutes, setOriginalMinutes] = useState(0)
     const [minutes, setMinutes] = useState(0); 
     const [seconds, setSeconds] = useState(0);
+    const [habitId, setHabitId] = useState(-1)
     const history = useHistory()
     const store = new Storage()
     store.create()
 
     async function onIonEnter () {
         store.get("pomoBreak").then((value) => {setOriginalMinutes(value)})
+        store.get("habitId").then((value) => {setHabitId(value)})
     }
     useIonViewWillEnter(onIonEnter)
 
+    async function handleCloseButton() {
+        // get today's date
+        const day: number = new Date().getDay()
+        const date = getDate()
+        var original_habits: any = await store.get("habits")
+
+        // change habits
+        if (original_habits[habitId]["lastSessionDate"] != undefined && getDifferenceDay(date, original_habits[habitId]["lastSessionDate"]) === 1) {
+            original_habits[habitId]["streaks"] += 1
+        }
+        else if (original_habits[habitId][dayToString(day)] === false && original_habits[habitId]["streaks"] === 0) {
+            original_habits[habitId]["streaks"] = 1
+        }
+        original_habits[habitId][dayToString(day)] = true
+        original_habits[habitId]["sessions"] += 1
+        original_habits[habitId]["lastSessionDate"] = getDate()
+        // set habits in store
+        await store.set("habits", original_habits)
+        // redirect to TaskNext (ending page after completed habit) 
+        history.replace("/taskNext")
+    }
     return (
         <IonPage>
             <IonContent fullscreen>
                 <CountBar minutes={originalMinutes} seconds={0} useStartTime logMinutes={setMinutes} logSeconds={setSeconds} finish={() => history.replace("/work")} />
                 <IonTitle id="Title">Break Session</IonTitle>
+                <IonButton id="CloseButton" onClick={handleCloseButton}> End Session </IonButton>
                 <IonText>
                     <TimeDisplay minutes={minutes} seconds={seconds} />
                     <br />
