@@ -83,8 +83,10 @@ const WorkSession: React.FC = () => {
   useIonViewWillEnter(viewEnter)
 
   async function handleDone () {
+    const day: number = new Date().getDay()
     const original_habits = await store.get("habits")
     original_habits[habitId]['hoursSpent'] += (originalMinutes) / 60
+    original_habits[habitId][dayToString(day)] += (originalMinutes) / 60
     await store.set("habits", original_habits)
     history.replace("/workSessionEnd")
   }
@@ -102,7 +104,7 @@ const WorkSession: React.FC = () => {
     else if (original_habits[habitId][dayToString(day)] === false && original_habits[habitId]["streaks"] === 0) {
       original_habits[habitId]["streaks"] = 1
     }
-    original_habits[habitId][dayToString(day)] = true
+    original_habits[habitId][dayToString(day)] += (minutes * 60 + seconds) / 3600
     original_habits[habitId]["sessions"] += 1
     original_habits[habitId]['hoursSpent'] += (minutes * 60 + seconds) / 3600
     original_habits[habitId]["lastSessionDate"] = getDate()

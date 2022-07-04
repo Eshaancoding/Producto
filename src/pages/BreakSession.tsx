@@ -75,7 +75,6 @@ const BreakSession: React.FC = () => {
         else if (original_habits[habitId][dayToString(day)] === false && original_habits[habitId]["streaks"] === 0) {
             original_habits[habitId]["streaks"] = 1
         }
-        original_habits[habitId][dayToString(day)] = true
         original_habits[habitId]["sessions"] += 1
         original_habits[habitId]["lastSessionDate"] = getDate()
         // set habits in store

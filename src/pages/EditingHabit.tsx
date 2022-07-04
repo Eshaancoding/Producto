@@ -45,13 +45,13 @@ const EditingHabitModal: React.FC = () => {
         habit["description"] = data[1];
         // changed to bad habit
         if ((habit["isBadHabit"] === false && data[3] === true) || (habit["isBadHabit"] === true && data[3] === false)) {
-            habit["monday"] = false
-            habit["tuesday"] = false
-            habit["wednesday"] = false
-            habit["thursday"] = false
-            habit["friday"] = false
-            habit["saturday"] = false
-            habit["sunday"] = false
+            habit["monday"] = 0
+            habit["tuesday"] = 0
+            habit["wednesday"] = 0
+            habit["thursday"] = 0
+            habit["friday"] = 0
+            habit["saturday"] = 0
+            habit["sunday"] = 0
             habit["hoursSpent"] = 0
             habit["sessions"] = 0
             habit["streaks"] = 0

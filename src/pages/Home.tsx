@@ -51,13 +51,13 @@ const Home: React.FC = () => {
       const lastDateClear = await store.get("lastDateClear")
       if (lastDateClear === null || getWeekDifference(currentDate, lastDateClear) >= 1) {
         habit.forEach((value:any, index:any) => {
-          habit[index]["monday"] = false;
-          habit[index]["tuesday"] = false;
-          habit[index]["wednesday"] = false;
-          habit[index]["thursday"] = false;
-          habit[index]["friday"] = false;
-          habit[index]["saturday"] = false;
-          habit[index]["sunday"] = false;
+          habit[index]["monday"] = 0;
+          habit[index]["tuesday"] = 0;
+          habit[index]["wednesday"] = 0;
+          habit[index]["thursday"] = 0;
+          habit[index]["friday"] = 0;
+          habit[index]["saturday"] = 0;
+          habit[index]["sunday"] = 0;
         })
         await store.set("lastDateClear", getDate())
       }
@@ -80,7 +80,7 @@ const Home: React.FC = () => {
     else if (original_habits[habitId][dayToString(day)] === false && original_habits[habitId]["streaks"] === 0) {
         original_habits[habitId]["streaks"] = 1
     }
-    original_habits[habitId][dayToString(day)] = true
+    original_habits[habitId][dayToString(day)] += 0.01 
     original_habits[habitId]["sessions"] += 1
     original_habits[habitId]["lastSessionDate"] = getDate()
     // set habits in store and locally
@@ -93,13 +93,13 @@ const Home: React.FC = () => {
       const habitsAppend:{[key:string]: any} = {
         "title": ev.detail.data[0],
         "description": ev.detail.data[1],
-        "monday": false,
-        "tuesday": false,
-        "wednesday": false,
-        "thursday": false,
-        "friday": false,
-        "saturday": false,
-        "sunday": false,
+        "monday": 0,
+        "tuesday": 0,
+        "wednesday": 0,
+        "thursday": 0,
+        "friday": 0,
+        "saturday": 0,
+        "sunday": 0,
         "hoursSpent": 0,
         "sessions": 0,
         "streaks": 0,
@@ -135,7 +135,8 @@ const Home: React.FC = () => {
     } else {
       habitToast({
         buttons: [{ text: 'hide', handler: () => dismissToast() }],
-        message: "You must have at least one bad habit and one good habit!"
+        message: "You must have at least one bad habit and one good habit!",
+        cssClass: "toast"
       })
     }
   }
