@@ -21,17 +21,32 @@ export const hoursToString = function(value, full=false) {
     const minutes = Math.floor((value - hours) * 60)
     var hoursString = ""
     var minutesString = ""
+    var suffix = (is_min) => { 
+        if (is_min) {
+            if (minutes > 1) {
+                if (full) return " minutes "
+                else return " mins "
+            } else {
+                if (full) return " minute "
+                else return " min "
+            }
+        } else {
+            if (hours > 1) {
+                if (full) return " hours "
+                else return " hrs "
+            } else {
+                if (full) return " hour "
+                else return " hr "
+            }
+        }
+    }  
+
+    // fill in hoursString and minutesString
     if (hours > 0) {
-        if (full) hoursString = hours.toString() + " hours " 
-        else hoursString = hours.toString() + " hrs " 
+        hoursString = hours.toString() + suffix(false)
     }
-    if (minutes > 0) {
-        if (full) minutesString = minutes.toString() + " minutes "
-        else minutesString = minutes.toString() + " mins "
-    }
-    if (minutes === 0 && hours === 0) {
-        if (full) minutesString = "0 minute "
-        else minutesString = "0 min "
+    if (minutes > 0 || (minutes === 0 && hours === 0)) {
+        minutesString = minutes.toString() + suffix(true) 
     }
     return hoursString + minutesString 
 }
