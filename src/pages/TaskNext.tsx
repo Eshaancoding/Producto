@@ -3,9 +3,15 @@ import ZenMessage from "../helper/ZenMessage";
 const TaskNext: React.FC = () => {
   return (
     <ZenMessage 
-      title={(<> <strong>Congratulations!</strong> You just finished your task!</>)}
-      header={<> Before you go, <strong>Visualize</strong> getting into the next task!</>}
-      description={(<>An example can be visualizing how you get up from your chair, plop down on your bed, and just think of the achievments and the things that you have done. Then you visualize just relaxing, with no electronics (no high spike of dopmaine) for 10 minutes. Then, you get stand up, go back to your work desk, and then get ready for the next task. You open up Visual Studio Code, pull up the sophomore research project that you have been working on, and then begin typing some code! </>)}
+      title={(<> <strong>Congratulations!</strong> You just finished your task! </>)}
+      header={(<> Let's prepare you for the next task!</>)}
+      description={<>  
+        Positively <strong>anticipate</strong> the 5 minutes <strong>before</strong> the habit and 5 minutes <strong>after</strong> the habit that you want to do.  
+        Think about <strong>leaning</strong> into the effort.
+        Think about how you will feel <strong>after</strong> the habit, and also how <strong>hard</strong> it is to get the habit started! <strong>Reward</strong> yourself on overcoming the barrier of starting the habit <strong>as you are doing it!</strong> 
+        <br /> <br />
+        Going to sleep? Make sure to get a <strong>good night's sleep</strong> because sleep is vitally important for <strong>Neuroplasticity</strong>, which is the ability of the brain to grow and learn. In other words, getting your good habits to stick and bad habits to go away will <strong>not happen</strong> if you don't <strong>sleep well!</strong>
+      </>}
       minutes={0}
       seconds={30}
       href="/home"

@@ -1,6 +1,6 @@
 import {IonList, IonItem, IonText, IonContent, IonPage, IonTitle, useIonViewWillEnter, IonButton} from '@ionic/react';
 import { useState} from 'react';
-import "./TaskIntroduction.css"
+import "./Main.css"
 import "./WorkSession.css"
 
 import CountBar from '../helper/CounterBar';

@@ -2,7 +2,7 @@ import { IonSelect, IonSelectOption, IonList, IonItem, IonLabel, IonInput, IonTe
 import { useContext, useState } from 'react';
 import { useHistory } from 'react-router';
 import { Storage } from '@ionic/storage'
-import "./TaskIntroduction.css";
+import "./Main.css";
 import CloseButton from '../helper/CloseButton';
 
 
@@ -25,7 +25,7 @@ const TaskSelection: React.FC = () => {
 
   function handleContinue () {
     if (color === "primary") {
-      history.replace("/IntroHabit")
+      history.replace("/procedure")
     }
   }
 

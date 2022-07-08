@@ -39,7 +39,7 @@ const PomodoroSetup: React.FC = () => {
                 <IonTitle id="Title">
                     Pomodoro Technique 
                 </IonTitle> 
-                <IonText >
+                <IonText>
                     <p id="Description">
                         The Pomodoro Technique is a time management system in which you work for a fixed number of minutes, then take a break for a fixed number of minutes. This cycle repeats until you complete a set number of work periods. For many people, it is a very useful and effective tool for focusing on the task at hand.
                     </p>

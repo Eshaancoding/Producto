@@ -4,9 +4,8 @@ import { IonReactRouter } from '@ionic/react-router';
 import Home from './pages/Home';
 import PomodoroSetup from './pages/PomodoroSetup';
 import TaskSelection from './pages/TaskSelection'; 
-import VisualizeIntroHabit from './pages/VisualizeIntroHabit';
-import TaskProcedure from './pages/TaskProcedure';
-import TaskEnd from './pages/TaskEnd';
+import Procedural from './pages/Procedural';
+import TaskSpotlight from './pages/TaskSpotlight';
 import WorkSession from './pages/WorkSession';
 import BreakSession from './pages/BreakSession';
 import WorkSessionEnd from './pages/WorkSessionEnd';
@@ -42,9 +41,8 @@ const App: React.FC = () => (
         <Route exact path="/home" component={Home} />
         <Route exact path="/session" component={PomodoroSetup} />
         <Route exact path="/taskSelect" component={TaskSelection} />
-        <Route exact path="/IntroHabit" component={VisualizeIntroHabit}/>
-        <Route exact path="/taskProcedure" component={TaskProcedure} />
-        <Route exact path="/taskEnd" component={TaskEnd} />
+        <Route exact path="/procedure" component={Procedural} />
+        <Route exact path="/taskSpotlight" component={TaskSpotlight} />
         <Route exact path="/work" component={WorkSession} />
         <Route exact path="/workSessionEnd" component={WorkSessionEnd} />
         <Route exact path="/breakBadHabit" component={BreakHabit} /> 
