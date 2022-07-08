@@ -16,6 +16,26 @@ export const getMillisecondDifference = function(currentDate, previousDate) {
     return diff%1000
 }
 
+export const hoursToString = function(value, full=false) {
+    const hours = Math.floor(value)
+    const minutes = Math.floor((value - hours) * 60)
+    var hoursString = ""
+    var minutesString = ""
+    if (hours > 0) {
+        if (full) hoursString = hours.toString() + " hours " 
+        else hoursString = hours.toString() + " hrs " 
+    }
+    if (minutes > 0) {
+        if (full) minutesString = minutes.toString() + " minutes "
+        else minutesString = minutes.toString() + " mins "
+    }
+    if (minutes === 0 && hours === 0) {
+        if (full) minutesString = "0 minute "
+        else minutesString = "0 min "
+    }
+    return hoursString + minutesString 
+}
+
 export const dayToString = function (day) {
     var dict = {0: "sunday", 1: "monday", 2: "tuesday", 3: "wednesday", 4: "thursday", 5: "friday", 6: "saturday"}
     return dict[day]

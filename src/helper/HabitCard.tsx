@@ -4,10 +4,7 @@ import "./HabitCard.css"
 import { useHistory } from 'react-router';
 import { Storage } from '@ionic/storage';
 import { useState } from 'react';
-
-function roundtoHundredth (num:number) {
-    return Math.round((num + Number.EPSILON) * 100) / 100
-}
+import { hoursToString } from './DateHelper.js'
 
 function HabitCard (props:any) {
   const history = useHistory()
@@ -28,7 +25,7 @@ function HabitCard (props:any) {
       habitToast({ 
         cssClass: "toast",
         buttons: [{text: 'hide', handler: () => dismissToast() }],
-        message: "Hours spent on " + dateName + ": " + value.toString(),
+        message: "You spent " + hoursToString(value, true) + " on " + dateName,
       })
     }
 
@@ -76,7 +73,7 @@ function HabitCard (props:any) {
 
       <IonCardContent id="badgeContent">
         {!props.isBadHabit ? 
-          <IonBadge class="badge hoursSpent"> {roundtoHundredth(props.totalHours)} hours spent</IonBadge>
+          <IonBadge class="badge hoursSpent"> {hoursToString(props.totalHours)} </IonBadge>
         : <IonBadge class="badge">Bad Habit</IonBadge>}
         <IonBadge class="badge sessions"> {props.totalSessions} {props.isBadHabit ? "times avoided" : "sessions"} </IonBadge>
         <IonBadge class="badge streak"> {props.streaks} days streak </IonBadge>
