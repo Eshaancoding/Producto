@@ -3,15 +3,18 @@ export const getDate = function() {
     return date
 }
 export const getDifferenceDay = function(currentDate, previousDate) {
+    if (currentDate == null || previousDate == null) return -1
     return Math.round((currentDate - previousDate)/(1000*60*60*24)) 
 }
 
 export const getDifferenceMinuteSeconds = function(currentDate, previousDate) {
+    if (currentDate == null || previousDate == null) return [-1,-1]
     let diff = Math.abs(currentDate.getTime() - previousDate.getTime())
     return [Math.floor(diff/(1000*60)), Math.floor(diff/1000)%60]
 }
 
 export const getMillisecondDifference = function(currentDate, previousDate) {
+    if (currentDate == null || previousDate == null) return -1
     let diff = Math.abs(currentDate.getTime() - previousDate.getTime())
     return diff%1000
 }
@@ -57,6 +60,7 @@ export const dayToString = function (day) {
 }
 
 export const getWeekDifference = function (currentDate, previousDate) {
+    if (currentDate == null || previousDate == null) return -1
     const mon_diff = {0:-6, 1:0, 2: -1, 3: -2, 4: -3, 5: -4, 6: -5}
     const monCurrentDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate() + mon_diff[currentDate.getDay()])
     const monPreviousDate = new Date(previousDate.getFullYear(), previousDate.getMonth(), previousDate.getDate() + mon_diff[previousDate.getDay()])

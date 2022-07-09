@@ -47,7 +47,7 @@ function HabitCard (props:any) {
   }
 
   return (
-    <IonCard id="Card" className={props.isBadHabit ? "badHabit" : ""}>
+    <IonCard id="Card" className={(props.isBadHabit ? "badHabit " : "") + (props.didToday ? "didToday" : "")}>
       <IonCardHeader>
         <IonCardTitle>{props.habitName}</IonCardTitle>
         <IonCardSubtitle>{props.habitDescription}</IonCardSubtitle>

@@ -173,6 +173,7 @@ const Home: React.FC = () => {
               sunday={object["sunday"]}
               MarkAsCompleteCallback={markAsComplete}
               isBadHabit={object["isBadHabit"]}
+              didToday={getDifferenceDay(object["lastSessionDate"], getDate()) == 0}
             />
           )
         })}
