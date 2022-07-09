@@ -61,7 +61,7 @@ const EditingHabitModal: React.FC = () => {
         // order ref
         if (data[2] >= 1 && data[2] <= habits.length && data[2]-1 !== habitId) {
             var replace = array.splice(habitId, 1)[0]
-            array.splice(data[2]-1, 0, replace)
+            array.splice(data[2]-1, 0, habit)
         }
         // set 
         setHabits(array)

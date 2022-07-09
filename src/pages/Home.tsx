@@ -42,7 +42,7 @@ const Home: React.FC = () => {
       // check if we broke a habit
       habit.forEach((value:any, index:any) => {
         const lastSessionDate = value["lastSessionDate"] 
-        if (value["lastSessionDate"] !== null && getDifferenceDay(currentDate, lastSessionDate) >= 2) {
+        if (getDifferenceDay(currentDate, lastSessionDate) >= 2) {
           habit[index]["streaks"] = 0 
         }
       })
@@ -74,15 +74,15 @@ const Home: React.FC = () => {
     const date = getDate()
     const day = date.getDay()
 
-    if (original_habits[habitId]["lastSessionDate"] != undefined && getDifferenceDay(date, original_habits[habitId]["lastSessionDate"]) === 1) {
+    if (getDifferenceDay(date, original_habits[habitId]["lastSessionDate"]) === 1) {
       original_habits[habitId]["streaks"] += 1
     }
-    else if (original_habits[habitId][dayToString(day)] === false && original_habits[habitId]["streaks"] === 0) {
-        original_habits[habitId]["streaks"] = 1
+    else if (original_habits[habitId][dayToString(day)] === 0 && original_habits[habitId]["streaks"] === 0) {
+      original_habits[habitId]["streaks"] = 1
     }
     original_habits[habitId][dayToString(day)] += 0.01 
     original_habits[habitId]["sessions"] += 1
-    original_habits[habitId]["lastSessionDate"] = getDate()
+    original_habits[habitId]["lastSessionDate"] = date
     // set habits in store and locally
     await store.set("habits", original_habits)
     setHabits(original_habits)
@@ -106,6 +106,7 @@ const Home: React.FC = () => {
         "lastSessionDate": null,
         "isBadHabit": ev.detail.data[2]
       }
+      console.log("set last session date in onWillDismiss")
       var array = await store.get("habits")
       if (array === null) {
         array = [habitsAppend]
@@ -173,7 +174,7 @@ const Home: React.FC = () => {
               sunday={object["sunday"]}
               MarkAsCompleteCallback={markAsComplete}
               isBadHabit={object["isBadHabit"]}
-              didToday={getDifferenceDay(object["lastSessionDate"], getDate()) == 0}
+              didToday={getDifferenceDay(object["lastSessionDate"], getDate()) === 0}
             />
           )
         })}

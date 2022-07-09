@@ -69,10 +69,10 @@ const BreakSession: React.FC = () => {
         var original_habits: any = await store.get("habits")
 
         // change habits
-        if (original_habits[habitId]["lastSessionDate"] != undefined && getDifferenceDay(date, original_habits[habitId]["lastSessionDate"]) === 1) {
+        if (getDifferenceDay(date, original_habits[habitId]["lastSessionDate"]) === 1) {
             original_habits[habitId]["streaks"] += 1
         }
-        else if (original_habits[habitId][dayToString(day)] === false && original_habits[habitId]["streaks"] === 0) {
+        else if (original_habits[habitId][dayToString(day)] === 0 && original_habits[habitId]["streaks"] === 0) {
             original_habits[habitId]["streaks"] = 1
         }
         original_habits[habitId]["sessions"] += 1
