@@ -188,7 +188,7 @@ const Home: React.FC = () => {
           Start Session
         </IonButton>
 
-        <IonButton id="WhyUseButton" routerDirection="back" onClick={() => {history.push("/why")}}>
+        <IonButton id="WhyUseButton" routerDirection="back" onClick={() => {history.replace("/why")}}>
           Why use this app?
         </IonButton>
 

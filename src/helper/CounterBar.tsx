@@ -56,12 +56,7 @@ function CountBar (props:any) {
                 props.finish()
             }
         }, 100)
-        return () => {
-            clearInterval(interval)
-            if (props.useStartTime) setStartTimeNull()
-            interval = null
-            props.finish()
-        }
+        return () => {clearInterval(interval)}
     })
 
     return (
