@@ -23,6 +23,13 @@
     transform: translate(-50%, -50%);
 }
 
+#WhyUseButton {
+    position: absolute;
+    top: 40px;
+    right: 30px;
+    --background: rgb(83, 83, 83);
+}
+
 svg {
     width: 100%;
 }

@@ -19,16 +19,36 @@ function ZenMessage (props:any) {
     function ContinueClick () {
         if (color === "primary") history.replace(props.href)
     }
-    
+
+    function ConditionalCountdown (props:any) {
+        if (props.removeCountdown === true) {
+            return (<></>)
+        } else {
+            return (
+                <CountBar minutes={props.minutes} seconds={props.seconds} finish={handleEnd}/> 
+            )
+        }
+    }
+
+    function ConditionalContinue (props:any) {
+        if (props.removeCountdown === true) {
+            return (<></>)
+        } else {
+            return (
+                <IonButton id="Continue" color={color} onClick={ContinueClick}>Continue</IonButton>
+            )
+        }
+    }
+
     return (
         <IonPage>
             <IonContent id="Content">
                 <CloseButton small />
-                <CountBar minutes={props.minutes} seconds={props.seconds} finish={handleEnd}/> 
+                <ConditionalCountdown removeCountdown={props.removeCountdown} minutes={props.minutes} seconds={props.seconds}/>
                 <IonText> <p id="Title"> {props.title} </p> </IonText>
                 <IonText> <p id="Header"> {props.header} </p> </IonText> 
                 <IonText> <p id="Description"> {props.description} </p> </IonText>
-                <IonButton id="Continue" color={color} onClick={ContinueClick}>Continue</IonButton>
+                <ConditionalContinue removeCountdown={props.removeCountdown} /> 
                 <p id="Credits">Huge Thanks to Andrew Huberman and <a href="https://hubermanlab.com">The Huberman Lab Podcast</a>, which has given free, and accessible tips to a variety of platforms (ex: Spotify, Apple Podcasts, Youtube) to improve daily life. Most of the tips are actually from the episode, "Controlling Your Dopamine For Motivation, Focus & Satisfaction" and "The Science of Making & Breaking Habits" :D </p>
                 <div id="footer" />
             </IonContent>

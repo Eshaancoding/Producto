@@ -2,6 +2,7 @@ import { Redirect, Route } from 'react-router-dom';
 import { IonApp, IonRouterOutlet, setupIonicReact} from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
 import Home from './pages/Home';
+import UsefulPage from './pages/UsefulPage';
 import PomodoroSetup from './pages/PomodoroSetup';
 import TaskSelection from './pages/TaskSelection'; 
 import Procedural from './pages/Procedural';
@@ -39,6 +40,7 @@ const App: React.FC = () => (
     <IonReactRouter>
       <IonRouterOutlet>
         <Route exact path="/home" component={Home} />
+        <Route exact path="/why" component={UsefulPage}/>
         <Route exact path="/session" component={PomodoroSetup} />
         <Route exact path="/taskSelect" component={TaskSelection} />
         <Route exact path="/procedure" component={Procedural} />

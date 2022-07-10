@@ -1,4 +1,4 @@
-import { IonToolbar, IonHeader, IonModal, IonButtons, IonItem, IonLabel, IonInput, IonText, IonContent, IonButton, IonPage, IonTitle, useIonViewWillEnter, IonToggle, useIonToast} from '@ionic/react';
+import { IonToolbar, IonHeader, IonModal, IonButtons, IonItem, IonLabel, IonInput, IonText, IonContent, IonButton, IonPage, IonTitle, useIonViewWillEnter, IonToggle, useIonToast, IonIcon, IonFabButton} from '@ionic/react';
 import { useRef, useState } from 'react';
 import './Home.css';
 import RandomQuote from '../helper/RandomQuote';
@@ -8,6 +8,7 @@ import { OverlayEventDetail } from '@ionic/core/components';
 import { getDate, getDifferenceDay, getWeekDifference, dayToString} from '../helper/DateHelper';
 import { useHistory } from 'react-router';
 import { LocalNotifications } from '@capacitor/local-notifications';
+import { helpOutline } from 'ionicons/icons';
 
 const Home: React.FC = () => {
   // History
@@ -185,6 +186,10 @@ const Home: React.FC = () => {
 
         <IonButton id="SessionButton" routerDirection="back" onClick={handleStart}>
           Start Session
+        </IonButton>
+
+        <IonButton id="WhyUseButton" routerDirection="back" onClick={() => {history.push("/why")}}>
+          Why use this app?
         </IonButton>
 
 
