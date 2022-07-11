@@ -2,8 +2,8 @@ import { IonSelect, IonSelectOption, IonList, IonItem, IonLabel, IonInput, IonTe
 import { useContext, useState } from 'react';
 import { useHistory } from 'react-router';
 import { Storage } from '@ionic/storage'
-import "./Main.css";
-import CloseButton from '../helper/CloseButton';
+import "../ProductoStyle.css";
+import CloseButton from '../../helper/CloseButton';
 
 
 const TaskSelection: React.FC = () => {
@@ -25,7 +25,7 @@ const TaskSelection: React.FC = () => {
 
   function handleContinue () {
     if (color === "primary") {
-      history.replace("/procedure")
+      history.replace("/BeforeHabitExec")
     }
   }
 
@@ -36,7 +36,7 @@ const TaskSelection: React.FC = () => {
         <IonTitle id="Title">Task Selection</IonTitle>
         <IonText>
           <p className="Description">
-            What is the task that you want to complete? (Create a habit in the homepage if there's no dropdown)
+            Pick a habit that you want to form (Create a habit in the homepage if there's no dropdown)
           </p>
         </IonText>
         <br />

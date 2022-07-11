@@ -1,6 +1,6 @@
 import { IonProgressBar, IonList, IonItem, IonText, IonContent, IonPage, IonTitle, IonButton, useIonViewWillEnter, useIonViewWillLeave } from '@ionic/react';
 import { useState, useEffect, useContext } from 'react';
-import "./Main.css"
+import "./ProductoStyle.css"
 import "./WorkSession.css"
 import { getDate, getDifferenceDay, dayToString } from '../helper/DateHelper';
 import CountBar from '../helper/CounterBar';

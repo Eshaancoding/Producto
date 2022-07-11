@@ -13,7 +13,6 @@ function ZenMessage (props:any) {
     useIonViewWillEnter(() => {setColor("secondary")})
 
     function handleEnd () {
-        console.log("handle end")
         setColor("primary")
     }
 
@@ -30,7 +29,7 @@ function ZenMessage (props:any) {
                 <IonText> <p id="Header"> {props.header} </p> </IonText> 
                 <IonText> <p id="Description"> {props.description} </p> </IonText>
                 <IonButton id="Continue" color={color} onClick={ContinueClick}>Continue</IonButton>
-                <p id="Credits">Huge Thanks to Andrew Huberman and <a href="https://hubermanlab.com">The Huberman Lab Podcast</a>, which has given free, and accessible tips to a variety of platforms (ex: Spotify, Apple Podcasts, Youtube) to improve daily life. Most of the tips are actually from the episode, "Controlling Your Dopamine For Motivation, Focus & Satisfaction" and "The Science of Making & Breaking Habits" :D </p>
+                <p id="Credits">Huge Thanks to Andrew Huberman and <a href="https://hubermanlab.com">The Huberman Lab Podcast</a> for all the tips! Most of the ideas in this app are from Andrew Huberman and his team. </p>
                 <div id="footer" />
             </IonContent>
         </IonPage>

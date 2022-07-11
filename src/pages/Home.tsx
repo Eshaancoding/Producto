@@ -147,8 +147,7 @@ const Home: React.FC = () => {
     <IonPage>
       <IonContent fullscreen>
         <IonTitle size="large" id="Title">
-          Welcome! <br />
-          Let's get started!
+          Producto 
         </IonTitle>
 
         <IonText>

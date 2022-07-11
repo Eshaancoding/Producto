@@ -1,4 +1,4 @@
-#Title {
+#CustomTitle {
     margin-left: 60px;
     margin-right: 60px;
     font-size: 40px;
@@ -20,12 +20,6 @@
     text-align: center;
 }
 
-#footer {
-    position: relative;
-    height: 20px;
-    width: 100%;
-}
-
 #Continue {
     position: relative;
     left: 50%;
@@ -33,10 +27,16 @@
 }
 
 #Credits {
-    position: absolute;
+    position: relative;
+    top: 120px;
+    width: 100%;
     padding-left: 20px;
     padding-right: 20px;
+    padding-bottom: 40px;
     font-size: 13px;
     text-align: center;
-    bottom: 10px; 
+}
+
+#StepLabel {
+    text-align: center;
 }

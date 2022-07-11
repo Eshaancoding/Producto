@@ -4,9 +4,11 @@ import { IonReactRouter } from '@ionic/react-router';
 import Home from './pages/Home';
 import UsefulPage from './pages/UsefulPage';
 import PomodoroSetup from './pages/PomodoroSetup';
-import TaskSelection from './pages/TaskSelection'; 
-import Procedural from './pages/Procedural';
-import TaskSpotlight from './pages/TaskSpotlight';
+import TaskSelection from './pages/begin/TaskSelection'; 
+import BeforeHabitExec from './pages/begin/BeforeHabitExec';
+import DuringHabitExec from './pages/begin/DuringHabitExec'; 
+import AfterHabitExec from './pages/begin/AfterHabitExec';
+import SummingUp from './pages/begin/SummingUp';
 import WorkSession from './pages/WorkSession';
 import BreakSession from './pages/BreakSession';
 import WorkSessionEnd from './pages/WorkSessionEnd';
@@ -42,9 +44,13 @@ const App: React.FC = () => (
         <Route exact path="/home" component={Home} />
         <Route exact path="/why" component={UsefulPage}/>
         <Route exact path="/session" component={PomodoroSetup} />
+
         <Route exact path="/taskSelect" component={TaskSelection} />
-        <Route exact path="/procedure" component={Procedural} />
-        <Route exact path="/taskSpotlight" component={TaskSpotlight} />
+        <Route exact path="/BeforeHabitExec" component={BeforeHabitExec} />
+        <Route exact path="/DuringHabitExec" component={DuringHabitExec} />
+        <Route exact path="/AfterHabitExec" component={AfterHabitExec} />
+        <Route exact path="/SummingUp" component={SummingUp} />
+        
         <Route exact path="/work" component={WorkSession} />
         <Route exact path="/workSessionEnd" component={WorkSessionEnd} />
         <Route exact path="/breakBadHabit" component={BreakHabit} /> 
