@@ -1,8 +1,8 @@
 import { IonSelect, IonSelectOption, IonList, IonItem, IonLabel, IonInput, IonText, IonContent, IonButton, IonPage, IonTitle, useIonViewWillEnter } from '@ionic/react';
-import { useContext, useState } from 'react';
+import { useState } from 'react';
 import { useHistory } from 'react-router';
 import { Storage } from '@ionic/storage'
-import "../ProductoStyle.css";
+import "./EntireHabitExec.css"
 import CloseButton from '../../helper/CloseButton';
 
 
@@ -25,7 +25,7 @@ const TaskSelection: React.FC = () => {
 
   function handleContinue () {
     if (color === "primary") {
-      history.replace("/BeforeHabitExec")
+      history.replace("/EntireHabitExec")
     }
   }
 

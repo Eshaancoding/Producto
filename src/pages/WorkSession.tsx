@@ -110,8 +110,8 @@ const WorkSession: React.FC = () => {
     original_habits[habitId]["lastSessionDate"] = getDate()
     // set habits in store
     await store.set("habits", original_habits)
-    // redirect to TaskNext (ending page after completed habit) 
-    history.replace("/taskNext")
+    // redirect to home (ending page after completed habit) 
+    history.replace("/home")
   }
 
   return (

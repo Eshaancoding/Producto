@@ -37,6 +37,7 @@ const Home: React.FC = () => {
   async function viewEntered () {
     await LocalNotifications.requestPermissions()
     await store.set("startTime", null)
+    await store.set("steps", [])
     const habit = await store.get("habits")
     if (habit !== null) {
       const currentDate = getDate()
