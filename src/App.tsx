@@ -1,16 +1,13 @@
 import { Redirect, Route } from 'react-router-dom';
 import { IonApp, IonRouterOutlet, setupIonicReact} from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
-import Home from './pages/Home';
-import UsefulPage from './pages/UsefulPage';
-import PomodoroSetup from './pages/PomodoroSetup';
-import TaskSelection from './pages/begin/TaskSelection'; 
-import EntireHabitExec from './pages/begin/EntireHabitExec';
-import WorkSession from './pages/WorkSession';
-import BreakSession from './pages/BreakSession';
-import WorkSessionEnd from './pages/WorkSessionEnd';
-import BreakHabit from './pages/BreakHabit';
-import EditingHabitModal from './pages/EditingHabit';
+import Home from './pages/Home/Home';
+import UsefulPage from './pages/Home/UsefulPage';
+import PomodoroSetup from './pages/PreSession/PomodoroSetup';
+import TaskSelection from './pages/PreSession/TaskSelection'; 
+import WorkSession from './pages/Sessions/WorkSession';
+import BreakSession from './pages/Sessions/BreakSession';
+import EditingHabitModal from './pages/Home/EditHabit/EditingHabit';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -42,12 +39,7 @@ const App: React.FC = () => (
         <Route exact path="/session" component={PomodoroSetup} />
 
         <Route exact path="/taskSelect" component={TaskSelection} />
-        <Route exact path="/EntireHabitExec" component={EntireHabitExec} />
-        
         <Route exact path="/work" component={WorkSession} />
-        <Route exact path="/workSessionEnd" component={WorkSessionEnd} />
-        <Route exact path="/breakBadHabit" component={BreakHabit} /> 
-
         <Route exact path="/break" component={BreakSession} /> 
         <Route exact path="/editHabit" component={EditingHabitModal } /> 
         <Redirect exact path="/" to="/home" />

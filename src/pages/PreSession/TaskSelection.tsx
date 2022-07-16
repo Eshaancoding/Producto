@@ -2,7 +2,6 @@ import { IonSelect, IonSelectOption, IonList, IonItem, IonLabel, IonInput, IonTe
 import { useState } from 'react';
 import { useHistory } from 'react-router';
 import { Storage } from '@ionic/storage'
-import "./EntireHabitExec.css"
 import CloseButton from '../../helper/CloseButton';
 
 

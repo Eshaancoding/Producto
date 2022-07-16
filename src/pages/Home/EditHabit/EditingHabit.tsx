@@ -54,8 +54,6 @@ const EditingHabitModal: React.FC = () => {
             habit["sunday"] = 0
             habit["hoursSpent"] = 0
             habit["sessions"] = 0
-            habit["streaks"] = 0
-            habit["lastSessionDate"] = null
             habit["isBadHabit"] = data[3]
         }
         // order ref

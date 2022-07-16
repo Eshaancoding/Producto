@@ -1,12 +1,12 @@
 import {IonList, IonItem, IonText, IonContent, IonPage, IonTitle, useIonViewWillEnter, IonButton} from '@ionic/react';
 import { useState} from 'react';
-import "./ProductoStyle.css"
+import "../ProductoStyle.css"
 import "./WorkSession.css"
 
-import CountBar from '../helper/CounterBar';
+import CountBar from '../../helper/CounterBar';
 import { useHistory } from 'react-router';
 import { Storage } from '@ionic/storage';
-import { getDate, dayToString, getDifferenceDay} from '../helper/DateHelper';
+import { getDate, dayToString, getDifferenceDay} from '../../helper/DateHelper';
 
 const BulletPoint = (props:any) => {
     return (
@@ -69,14 +69,7 @@ const BreakSession: React.FC = () => {
         var original_habits: any = await store.get("habits")
 
         // change habits
-        if (getDifferenceDay(date, original_habits[habitId]["lastSessionDate"]) === 1) {
-            original_habits[habitId]["streaks"] += 1
-        }
-        else if (original_habits[habitId][dayToString(day)] === 0 && original_habits[habitId]["streaks"] === 0) {
-            original_habits[habitId]["streaks"] = 1
-        }
         original_habits[habitId]["sessions"] += 1
-        original_habits[habitId]["lastSessionDate"] = getDate()
         // set habits in store
         await store.set("habits", original_habits)
         // redirect to home (ending page after completed habit) 

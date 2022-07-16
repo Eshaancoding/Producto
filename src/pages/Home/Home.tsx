@@ -1,14 +1,14 @@
 import { IonToolbar, IonHeader, IonModal, IonButtons, IonItem, IonLabel, IonInput, IonText, IonContent, IonButton, IonPage, IonTitle, useIonViewWillEnter, IonToggle, useIonToast, IonIcon, IonFabButton} from '@ionic/react';
 import { useRef, useState } from 'react';
 import './Home.css';
-import RandomQuote from '../helper/RandomQuote';
+import RandomQuote from '../../helper/RandomQuote';
 import { Storage } from '@ionic/storage'
-import HabitCard from '../helper/HabitCard';
+import HabitCard from '../../helper/HabitCard';
 import { OverlayEventDetail } from '@ionic/core/components';
-import { getDate, getDifferenceDay, getWeekDifference, dayToString} from '../helper/DateHelper';
+import { getDate, getDifferenceDay, getWeekDifference, dayToString} from '../../helper/DateHelper';
 import { useHistory } from 'react-router';
 import { LocalNotifications } from '@capacitor/local-notifications';
-import { helpOutline } from 'ionicons/icons';
+import TwentyOneDaySys from './TwentyOneDaySys/TwentyOneDay';
 
 const Home: React.FC = () => {
   // History
@@ -41,14 +41,6 @@ const Home: React.FC = () => {
     const habit = await store.get("habits")
     if (habit !== null) {
       const currentDate = getDate()
-      // check if we broke a habit
-      habit.forEach((value:any, index:any) => {
-        const lastSessionDate = value["lastSessionDate"] 
-        if (getDifferenceDay(currentDate, lastSessionDate) >= 2) {
-          habit[index]["streaks"] = 0 
-        }
-      })
-      
       // clear if new week 
       const lastDateClear = await store.get("lastDateClear")
       if (lastDateClear === null || getWeekDifference(currentDate, lastDateClear) >= 1) {
@@ -76,15 +68,8 @@ const Home: React.FC = () => {
     const date = getDate()
     const day = date.getDay()
 
-    if (getDifferenceDay(date, original_habits[habitId]["lastSessionDate"]) === 1) {
-      original_habits[habitId]["streaks"] += 1
-    }
-    else if (original_habits[habitId][dayToString(day)] === 0 && original_habits[habitId]["streaks"] === 0) {
-      original_habits[habitId]["streaks"] = 1
-    }
     original_habits[habitId][dayToString(day)] += 0.01 
     original_habits[habitId]["sessions"] += 1
-    original_habits[habitId]["lastSessionDate"] = date
     // set habits in store and locally
     await store.set("habits", original_habits)
     setHabits(original_habits)
@@ -104,8 +89,6 @@ const Home: React.FC = () => {
         "sunday": 0,
         "hoursSpent": 0,
         "sessions": 0,
-        "streaks": 0,
-        "lastSessionDate": null,
         "isBadHabit": ev.detail.data[2]
       }
       console.log("set last session date in onWillDismiss")
@@ -157,6 +140,10 @@ const Home: React.FC = () => {
 
         <br />
 
+        <TwentyOneDaySys habits={habits} />
+
+        <br /> 
+
         {habits.map(function (object, index) {
           return (
             <HabitCard key={index}
@@ -165,7 +152,6 @@ const Home: React.FC = () => {
               habitDescription={object["description"]}
               totalHours={object["hoursSpent"]}
               totalSessions={object["sessions"]}  
-              streaks={object["streaks"]}
               monday={object["monday"]}
               tuesday={object["tuesday"]}
               wednesday={object["wednesday"]}
@@ -175,7 +161,7 @@ const Home: React.FC = () => {
               sunday={object["sunday"]}
               MarkAsCompleteCallback={markAsComplete}
               isBadHabit={object["isBadHabit"]}
-              didToday={getDifferenceDay(object["lastSessionDate"], getDate()) === 0}
+              didToday={object[dayToString(new Date().getDay())]}
             />
           )
         })}

@@ -1,4 +1,4 @@
-import ZenMessageNoProg from "../helper/ZenMessageNoProg";
+import ZenMessageNoProg from "../../helper/ZenMessageNoProg";
 
 const UsefulPage: React.FC = () => {
     return (

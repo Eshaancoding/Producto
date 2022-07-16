@@ -76,7 +76,6 @@ function HabitCard (props:any) {
           <IonBadge class="badge hoursSpent"> {hoursToString(props.totalHours)} </IonBadge>
         : <IonBadge class="badge">Bad Habit</IonBadge>}
         <IonBadge class="badge sessions"> {props.totalSessions} {props.isBadHabit ? "times avoided" : "sessions"} </IonBadge>
-        <IonBadge class="badge streak"> {props.streaks} days streak </IonBadge>
       </IonCardContent>
     </IonCard>
   ) 

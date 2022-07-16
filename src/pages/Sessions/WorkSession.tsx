@@ -1,9 +1,8 @@
 import { IonProgressBar, IonList, IonItem, IonText, IonContent, IonPage, IonTitle, IonButton, useIonViewWillEnter, useIonViewWillLeave } from '@ionic/react';
 import { useState, useEffect, useContext } from 'react';
-import "./ProductoStyle.css"
 import "./WorkSession.css"
-import { getDate, getDifferenceDay, dayToString } from '../helper/DateHelper';
-import CountBar from '../helper/CounterBar';
+import { getDate, getDifferenceDay, dayToString } from '../../helper/DateHelper';
+import CountBar from '../../helper/CounterBar';
 
 import { LocalNotifications} from '@capacitor/local-notifications'
 import { useHistory } from 'react-router';
@@ -98,16 +97,9 @@ const WorkSession: React.FC = () => {
     var original_habits: any = await store.get("habits")
 
     // change habits
-    if (getDifferenceDay(date, original_habits[habitId]["lastSessionDate"]) === 1) {
-      original_habits[habitId]["streaks"] += 1
-    }
-    else if (original_habits[habitId][dayToString(day)] === 0 && original_habits[habitId]["streaks"] === 0) {
-      original_habits[habitId]["streaks"] = 1
-    }
     original_habits[habitId][dayToString(day)] += (minutes * 60 + seconds) / 3600
     original_habits[habitId]["sessions"] += 1
     original_habits[habitId]['hoursSpent'] += (minutes * 60 + seconds) / 3600
-    original_habits[habitId]["lastSessionDate"] = getDate()
     // set habits in store
     await store.set("habits", original_habits)
     // redirect to home (ending page after completed habit) 

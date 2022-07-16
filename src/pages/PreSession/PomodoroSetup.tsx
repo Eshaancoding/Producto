@@ -3,7 +3,7 @@ import './PomodoroSetup.css';
 
 import { useHistory } from 'react-router';
 import { useState} from 'react';
-import CloseButton from '../helper/CloseButton';
+import CloseButton from '../../helper/CloseButton';
 import { Storage } from '@ionic/storage';
 
 const PomodoroSetup: React.FC = () => {
