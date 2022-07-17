@@ -20,10 +20,15 @@ function TwentyOneDaySys (props:any) {
         setLastDay(lastTimeDay)
     })
     
+    async function resetDay () {
+        await store.set("TwentyOneDayLastTime", getDate())   
+    }
+
     function HabitChip (props:any) {
         var habit_needed = Math.floor(props.habits.filter((habit:any) => (habit["isBadHabit"] === false)).length * 0.75)
         var habit_done = props.habits.filter((habit:any) => (habit[day] > 0 && habit["isBadHabit"] === false)).length
         if (props.habits.filter((habit:any) => (habit["isBadHabit"] === false)).length < 2) {
+            resetDay()
             return (
                 <IonChip> Create at least 2 good habits to get started! You have {props.habits.filter((habit:any) => (habit["isBadHabit"] === false)).length} good habits.</IonChip>
             )

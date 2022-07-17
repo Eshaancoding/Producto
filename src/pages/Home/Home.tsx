@@ -4,7 +4,7 @@ import './Home.css';
 import RandomQuote from '../../helper/RandomQuote';
 import { Storage } from '@ionic/storage'
 import HabitCard from '../../helper/HabitCard';
-import { getDate, getWeekDifference, dayToString, sortTimeFunction} from '../../helper/DateHelper';
+import { getDate, getWeekDifference, dayToString, getDifferenceDay} from '../../helper/DateHelper';
 import { useHistory } from 'react-router';
 import { LocalNotifications} from '@capacitor/local-notifications';
 import TwentyOneDaySys from './TwentyOneDaySys/TwentyOneDay';
@@ -15,12 +15,7 @@ const Home: React.FC = () => {
 
   // toast
   const [habitToast, dismissToast] = useIonToast() 
-  // Modal
-  const modal = useRef<HTMLIonModalElement>(null);
-  const inputDescription = useRef<HTMLIonInputElement>(null);
-  const inputTitle = useRef<HTMLIonInputElement>(null);
-  const badHabitToggle = useRef<HTMLIonToggleElement>(null);
-
+  
   // store 
   const store = new Storage();
   store.create();
@@ -36,6 +31,27 @@ const Home: React.FC = () => {
     const habit = await store.get("habits")
     if (habit !== null) {
       const currentDate = getDate()
+      
+      // Check if any habits that require reflection
+      var indexes:any = []
+      var habitsNeedReflection = habit.filter((value:any, index:any) => {
+        const lastRefl = value["lastRefl"]
+        if (getDifferenceDay(currentDate, lastRefl) >= value["intervalRefl"]) {
+          indexes.push(index)
+          return true
+        }
+        else return false
+      })
+      // if we have any habits that need reflection, then send it to HabitReflection
+      if (habitsNeedReflection.length > 0) {
+        // attach a habit Id on each
+        for (var i = 0; i < habitsNeedReflection.length; i++) {
+          habitsNeedReflection[i]["habitId"] = indexes[i]
+        }
+        await store.set("habitsNeedReflection", habitsNeedReflection)
+        history.replace("/HabitReflection")
+      }
+
       // clear if new week 
       const lastDateClear = await store.get("lastDateClear")
       if (lastDateClear === null || getWeekDifference(currentDate, lastDateClear) >= 1) {
@@ -127,6 +143,9 @@ const Home: React.FC = () => {
               friday={object["friday"]}
               saturday={object["saturday"]}
               sunday={object["sunday"]}
+              intervalRefl={object["intervalRefl"]}
+              HabitOften={object["HabitOften"]} 
+              SessionsProductive={object["SessionsProductive"]}
               startTime={object["startTime"] as string}
               endTime={object["endTime"] as string}
               MarkAsCompleteCallback={markAsComplete}

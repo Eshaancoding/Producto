@@ -47,3 +47,11 @@
     text-align: center;
     width: 100%;
 }
+
+.card {
+    padding: 20px;
+}
+
+.highlight {
+    color: rgb(235, 235, 235);
+}

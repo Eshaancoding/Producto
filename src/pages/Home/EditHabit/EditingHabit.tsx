@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { Storage } from "@ionic/storage";
 import { useHistory } from "react-router";
 import "./EditingHabit.css"
-import { sortTimeFunction } from "../../../helper/DateHelper";
+import { getDate, sortTimeFunction } from "../../../helper/DateHelper";
 
 function EditingHabitModal (props:any) {
     const history = useHistory()
@@ -13,12 +13,14 @@ function EditingHabitModal (props:any) {
     const badHabitRef = useRef<HTMLIonToggleElement>(null);
     const startTimeRef = useRef<HTMLIonInputElement>(null);
     const endTimeRef = useRef<HTMLIonInputElement>(null);
+    const reflectionInterval = useRef<HTMLIonInputElement>(null);
 
     const [originalTitle, setOriginalTitle]= useState("Enter Title here")
     const [originalDescription, setOriginalDescription] = useState("Enter Description Here")
     const [originalBadHabit, setOriginalBadHabit] = useState(false)
     const [originalEndTime, setOriginalEndTime] = useState()
     const [originalStartTime, setOriginalStartTime] = useState()
+    const [originalIntervalRefl, setOriginalIntervalRefl] = useState(1)
 
     const [habits, setHabits] = useState([])
     const store = new Storage()
@@ -36,6 +38,7 @@ function EditingHabitModal (props:any) {
                     setOriginalBadHabit(habitValue[habitIdValue]["isBadHabit"])
                     setOriginalStartTime(habitValue[habitIdValue]["startTime"])
                     setOriginalEndTime(habitValue[habitIdValue]["endTime"])
+                    setOriginalIntervalRefl(habitValue[habitIdValue]["intervalRefl"])
                 })
             })
         }
@@ -49,6 +52,7 @@ function EditingHabitModal (props:any) {
         const newTitle:any = newTitleRef.current?.value
         const startTime:any = startTimeRef.current?.value
         const endTime:any = endTimeRef.current?.value
+        const intervalRefl:any = reflectionInterval.current?.value
         // arrays
         var array:any = await store.get("habits")
         var habit:any = []
@@ -62,6 +66,12 @@ function EditingHabitModal (props:any) {
         // set start time and end time
         habit["startTime"] = startTime
         habit["endTime"] = endTime
+
+        // set reflection variables
+        habit["intervalRefl"] = parseInt(intervalRefl)
+        habit["lastRefl"] = getDate()
+        habit["HabitOften"] = ""
+        habit["SessionsProductive"] = ""
 
         // changed to bad habit
         if ((habit["isBadHabit"] === false && badHabit === true) || (habit["isBadHabit"] === true && badHabit === false) || props.create === true) {
@@ -159,8 +169,12 @@ function EditingHabitModal (props:any) {
                     <IonCardTitle>Is it a bad habit:</IonCardTitle> 
                     <IonToggle id="Toggle" ref={badHabitRef} checked={originalBadHabit}></IonToggle>
                 </IonCard>
+                <IonCard className="card">
+                    <IonCardTitle>The number of days between each habit reflection:</IonCardTitle> 
+                    <IonInput ref={reflectionInterval} type="number" value={originalIntervalRefl}></IonInput>
+                </IonCard>
                 <Time /> 
-                <CondDeleteButton create={true}/>
+                <CondDeleteButton create={props.create}/>
                 <br />
             </IonContent>
         </IonPage>
