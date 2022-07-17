@@ -53,6 +53,9 @@ function HabitCard (props:any) {
         AM_PM = "PM"
         hours -= 12
       }
+      if (hours === 12) {
+        AM_PM = "PM"
+      }
       if (minutes < 10) {
         add_zero = "0"
       }
