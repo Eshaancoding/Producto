@@ -88,3 +88,24 @@ export const determineIfBetweenTime = function (startTime, endTime) {
         return false
     }
 }
+
+export const sortTimeFunction = function (a, b) {
+    // if bad habit we are going it last
+    if (a["isBadHabit"] && !b["isBadHabit"]) return 1;
+    if (b["isBadHabit"] && !a["isBadHabit"]) return -1;
+    if (b["isBadHabit"] && a["isBadHabit"]) return 0;
+    if (a["startTime"] == null || b["startTime"] == null) return 0;
+    const aStartTime = a["startTime"]
+    const bStartTime = b["startTime"]
+    const aStartTimeHrs = parseInt(aStartTime.split(":")[0])    
+    const aStartTimeMin = parseInt(aStartTime.split(":")[1])    
+    const bStartTimeHrs = parseInt(bStartTime.split(":")[0])    
+    const bStartTimeMin = parseInt(bStartTime.split(":")[1])    
+
+
+    if (aStartTimeHrs > bStartTimeHrs) return 1;
+    else if (aStartTimeHrs === bStartTimeHrs && aStartTimeMin > bStartTimeMin) return 1; 
+    else if (aStartTimeHrs < bStartTimeHrs) return -1; 
+    else if (aStartTimeHrs === bStartTimeHrs && aStartTimeMin < bStartTimeMin) return -1;
+    else return 0; 
+}

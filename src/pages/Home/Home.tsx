@@ -4,7 +4,7 @@ import './Home.css';
 import RandomQuote from '../../helper/RandomQuote';
 import { Storage } from '@ionic/storage'
 import HabitCard from '../../helper/HabitCard';
-import { getDate, getWeekDifference, dayToString} from '../../helper/DateHelper';
+import { getDate, getWeekDifference, dayToString, sortTimeFunction} from '../../helper/DateHelper';
 import { useHistory } from 'react-router';
 import { LocalNotifications} from '@capacitor/local-notifications';
 import TwentyOneDaySys from './TwentyOneDaySys/TwentyOneDay';
@@ -92,6 +92,8 @@ const Home: React.FC = () => {
     }
   }
   
+  
+  
   return (
     <IonPage>
       <IonContent fullscreen>
@@ -109,7 +111,8 @@ const Home: React.FC = () => {
 
         <br /> 
 
-        {habits.map(function (object, index) {
+        {habits
+        .map(function (object, index) {
           return (
             <HabitCard key={index}
               habitIndex={index}

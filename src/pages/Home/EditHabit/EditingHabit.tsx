@@ -1,21 +1,21 @@
 import { IonPage, IonContent, IonHeader, IonButton, IonItem, IonLabel, IonInput, useIonViewWillEnter, IonToggle, IonToolbar, IonButtons, IonText, IonTitle, IonCard, IonCardTitle} from "@ionic/react";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Storage } from "@ionic/storage";
 import { useHistory } from "react-router";
 import "./EditingHabit.css"
+import { sortTimeFunction } from "../../../helper/DateHelper";
 
 function EditingHabitModal (props:any) {
     const history = useHistory()
 
     const newTitleRef = useRef<HTMLIonInputElement>(null);
     const newDescriptionRef = useRef<HTMLIonInputElement>(null);
-    const orderRef = useRef<HTMLIonInputElement>(null);
     const badHabitRef = useRef<HTMLIonToggleElement>(null);
     const startTimeRef = useRef<HTMLIonInputElement>(null);
     const endTimeRef = useRef<HTMLIonInputElement>(null);
 
-    const [originalTitle, setOriginalTitle]= useState("Excercise")
-    const [originalDescription, setOriginalDescription] = useState("Zone 2 Cardio for 1 hour every week")
+    const [originalTitle, setOriginalTitle]= useState("Enter Title here")
+    const [originalDescription, setOriginalDescription] = useState("Enter Description Here")
     const [originalBadHabit, setOriginalBadHabit] = useState(false)
     const [originalEndTime, setOriginalEndTime] = useState()
     const [originalStartTime, setOriginalStartTime] = useState()
@@ -45,13 +45,12 @@ function EditingHabitModal (props:any) {
     async function confirm () {
         // set event
         const badHabit:any = badHabitRef.current?.checked
-        const order:any = orderRef.current?.value 
         const newDescription:any = newDescriptionRef.current?.value
         const newTitle:any = newTitleRef.current?.value
         const startTime:any = startTimeRef.current?.value
         const endTime:any = endTimeRef.current?.value
         // arrays
-        const array:any = await store.get("habits")
+        var array:any = await store.get("habits")
         var habit:any = []
         if (props.create === false) habit = array[habitId];
         else habit = {}
@@ -77,14 +76,11 @@ function EditingHabitModal (props:any) {
             habit["sessions"] = 0
             habit["isBadHabit"] = badHabit
         }
-        // order ref
-        if (order >= 1 && order <= habits.length && props.create === false) {
-            if (props.create === false) array.splice(habitId, 1)
-            array.splice(order-1, 0, habit)
-        }
-        else if (props.create === true) {
-            array.splice(order-1, 0, habit)
-        }
+        // transform array
+        if (props.create === false) array[habitId] = habit
+        else array.push(habit)
+        // sort habit array 
+        array = array.sort(sortTimeFunction)
         // set 
         setHabits(array)
         store.set("habits", array)
@@ -107,6 +103,21 @@ function EditingHabitModal (props:any) {
         } else {
             return (<></>)
         }
+    }
+
+    function Time (props:any) {
+        return (
+            <>
+                <IonCard className="card">
+                    <IonCardTitle>Enter your start time:</IonCardTitle> 
+                    <IonInput ref={startTimeRef} value={originalStartTime} type="time" />
+                </IonCard>
+                <IonCard className="card">
+                    <IonCardTitle>Enter your end time:</IonCardTitle> 
+                    <IonInput ref={endTimeRef} value={originalEndTime} type="time" />
+                </IonCard> 
+            </>
+        )
     }
 
     return (
@@ -145,22 +156,11 @@ function EditingHabitModal (props:any) {
                     <IonInput ref={newDescriptionRef} type="text" value={originalDescription}></IonInput>
                 </IonCard>
                 <IonCard className="card">
-                    <IonCardTitle>Change order:</IonCardTitle>
-                    <IonInput ref={orderRef} type="number" min={1} max={habits.length} value={habitId+1}></IonInput>
-                </IonCard>
-                <IonCard className="card">
                     <IonCardTitle>Is it a bad habit:</IonCardTitle> 
                     <IonToggle id="Toggle" ref={badHabitRef} checked={originalBadHabit}></IonToggle>
                 </IonCard>
-                <IonCard className="card">
-                    <IonCardTitle>Enter your start time:</IonCardTitle> 
-                    <IonInput ref={startTimeRef} value={originalStartTime} type="time" />
-                </IonCard>
-                <IonCard className="card">
-                    <IonCardTitle>Enter your end time:</IonCardTitle> 
-                    <IonInput ref={endTimeRef} value={originalEndTime} type="time" />
-                </IonCard>
-                <CondDeleteButton create={props.create}/>
+                <Time /> 
+                <CondDeleteButton create={true}/>
                 <br />
             </IonContent>
         </IonPage>
