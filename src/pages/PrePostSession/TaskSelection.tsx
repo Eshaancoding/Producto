@@ -26,7 +26,7 @@ const TaskSelection: React.FC = () => {
 
   function handleContinue () {
     if (color === "primary") {
-      history.replace("/EntireHabitExec")
+      history.replace("/Visualization")
     }
   }
 
