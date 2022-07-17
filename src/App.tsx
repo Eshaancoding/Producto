@@ -41,7 +41,12 @@ const App: React.FC = () => (
         <Route exact path="/taskSelect" component={TaskSelection} />
         <Route exact path="/work" component={WorkSession} />
         <Route exact path="/break" component={BreakSession} /> 
-        <Route exact path="/editHabit" component={EditingHabitModal } /> 
+        <Route exact path="/editHabit">
+          <EditingHabitModal create={false} />
+        </Route> 
+        <Route exact path="/createHabit">
+          <EditingHabitModal create={true} />
+        </Route>  
         <Redirect exact path="/" to="/home" />
       </IonRouterOutlet>
     </IonReactRouter>

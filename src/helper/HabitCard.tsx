@@ -41,6 +41,35 @@ function HabitCard (props:any) {
     }
   }
 
+  function TimeDisplay (props:any) {
+    function indv (time:string) {
+      if (time == null) return "null"
+      var split:any = time.split(":")
+      var hours:number = parseInt(split[0])
+      var minutes:number = parseInt(split[1])
+      var AM_PM = "AM"
+      var add_zero = ""
+      if (hours > 12) {
+        AM_PM = "PM"
+        hours -= 12
+      }
+      if (minutes < 10) {
+        add_zero = "0"
+      }
+      return hours.toString() + ":" + add_zero + minutes.toString() + " " + AM_PM
+    }
+
+    if (props.startTime == null || props.endTime == null) {
+      return (<></>) 
+    } else {
+      return (
+        <>
+          ({indv(props.startTime)} to {indv(props.endTime)})
+        </>
+      )
+    }
+  }
+
   async function editHabit () {
     await store.set("habitIdEdit", props.habitIndex)
     history.replace("/editHabit")
@@ -49,7 +78,7 @@ function HabitCard (props:any) {
   return (
     <IonCard id="Card" className={(props.isBadHabit ? "badHabit " : "") + (props.didToday ? "didToday" : "")}>
       <IonCardHeader>
-        <IonCardTitle>{props.habitName}</IonCardTitle>
+        <IonCardTitle>{props.habitName} <TimeDisplay startTime={props.startTime} endTime={props.endTime} /> </IonCardTitle>
         <IonCardSubtitle>{props.habitDescription}</IonCardSubtitle>
         <IonFab vertical='top' horizontal='end'>
           <IonFabButton id="edit" onClick={editHabit}>

@@ -1,20 +1,24 @@
-import { IonPage, IonContent, IonHeader, IonButton, IonItem, IonLabel, IonInput, useIonViewWillEnter, IonToggle, IonToolbar, IonButtons} from "@ionic/react";
+import { IonPage, IonContent, IonHeader, IonButton, IonItem, IonLabel, IonInput, useIonViewWillEnter, IonToggle, IonToolbar, IonButtons, IonText, IonTitle, IonCard, IonCardTitle} from "@ionic/react";
 import { useRef, useState } from "react";
 import { Storage } from "@ionic/storage";
 import { useHistory } from "react-router";
 import "./EditingHabit.css"
 
-const EditingHabitModal: React.FC = () => {
+function EditingHabitModal (props:any) {
     const history = useHistory()
 
     const newTitleRef = useRef<HTMLIonInputElement>(null);
     const newDescriptionRef = useRef<HTMLIonInputElement>(null);
     const orderRef = useRef<HTMLIonInputElement>(null);
     const badHabitRef = useRef<HTMLIonToggleElement>(null);
+    const startTimeRef = useRef<HTMLIonInputElement>(null);
+    const endTimeRef = useRef<HTMLIonInputElement>(null);
 
-    const [originalTitle, setOriginalTitle]= useState("")
-    const [originalDescription, setOriginalDescription] = useState("")
+    const [originalTitle, setOriginalTitle]= useState("Excercise")
+    const [originalDescription, setOriginalDescription] = useState("Zone 2 Cardio for 1 hour every week")
     const [originalBadHabit, setOriginalBadHabit] = useState(false)
+    const [originalEndTime, setOriginalEndTime] = useState()
+    const [originalStartTime, setOriginalStartTime] = useState()
 
     const [habits, setHabits] = useState([])
     const store = new Storage()
@@ -22,29 +26,46 @@ const EditingHabitModal: React.FC = () => {
 
     store.create();
     useIonViewWillEnter(() => {
-        store.get("habitIdEdit").then((habitIdValue) => { 
-            setHabitId(habitIdValue) 
-            store.get("habits").then((habitValue) => {
-                setHabits(habitValue)
-                setOriginalTitle(habitValue[habitIdValue]["title"])
-                setOriginalDescription(habitValue[habitIdValue]["description"])
-                setOriginalBadHabit(habitValue[habitIdValue]["isBadHabit"])
+        if (props.create === false) {
+            store.get("habitIdEdit").then((habitIdValue) => { 
+                setHabitId(habitIdValue) 
+                store.get("habits").then((habitValue) => {
+                    setHabits(habitValue)
+                    setOriginalTitle(habitValue[habitIdValue]["title"])
+                    setOriginalDescription(habitValue[habitIdValue]["description"])
+                    setOriginalBadHabit(habitValue[habitIdValue]["isBadHabit"])
+                    setOriginalStartTime(habitValue[habitIdValue]["startTime"])
+                    setOriginalEndTime(habitValue[habitIdValue]["endTime"])
+                })
             })
-        })
+        }
         
     }) 
 
     async function confirm () {
         // set event
-        const data:any = [newTitleRef.current?.value, newDescriptionRef.current?.value, orderRef.current?.value, badHabitRef.current?.checked]
+        const badHabit:any = badHabitRef.current?.checked
+        const order:any = orderRef.current?.value 
+        const newDescription:any = newDescriptionRef.current?.value
+        const newTitle:any = newTitleRef.current?.value
+        const startTime:any = startTimeRef.current?.value
+        const endTime:any = endTimeRef.current?.value
         // arrays
         const array:any = await store.get("habits")
-        const habit:any = array[habitId];
+        var habit:any = []
+        if (props.create === false) habit = array[habitId];
+        else habit = {}
+
         // set habit/description
-        habit["title"] = data[0];
-        habit["description"] = data[1];
+        habit["title"] = newTitle;
+        habit["description"] = newDescription;
+        
+        // set start time and end time
+        habit["startTime"] = startTime
+        habit["endTime"] = endTime
+
         // changed to bad habit
-        if ((habit["isBadHabit"] === false && data[3] === true) || (habit["isBadHabit"] === true && data[3] === false)) {
+        if ((habit["isBadHabit"] === false && badHabit === true) || (habit["isBadHabit"] === true && badHabit === false) || props.create === true) {
             habit["monday"] = 0
             habit["tuesday"] = 0
             habit["wednesday"] = 0
@@ -54,12 +75,15 @@ const EditingHabitModal: React.FC = () => {
             habit["sunday"] = 0
             habit["hoursSpent"] = 0
             habit["sessions"] = 0
-            habit["isBadHabit"] = data[3]
+            habit["isBadHabit"] = badHabit
         }
         // order ref
-        if (data[2] >= 1 && data[2] <= habits.length && data[2]-1 !== habitId) {
-            var replace = array.splice(habitId, 1)[0]
-            array.splice(data[2]-1, 0, habit)
+        if (order >= 1 && order <= habits.length && props.create === false) {
+            if (props.create === false) array.splice(habitId, 1)
+            array.splice(order-1, 0, habit)
+        }
+        else if (props.create === true) {
+            array.splice(order-1, 0, habit)
         }
         // set 
         setHabits(array)
@@ -75,6 +99,15 @@ const EditingHabitModal: React.FC = () => {
         history.replace("/home")
     }
     
+    function CondDeleteButton (props:any) {
+        if (props.create === false) {
+            return (
+                <IonButton id="Delete" onClick={deleteHabit}>Delete Habit</IonButton>
+            )
+        } else {
+            return (<></>)
+        }
+    }
 
     return (
         <IonPage>
@@ -91,24 +124,43 @@ const EditingHabitModal: React.FC = () => {
                 </IonToolbar>
             </IonHeader>
 
+
             <IonContent className="ion-padding">
-                <IonItem>
-                    <IonLabel position="stacked">Enter new title</IonLabel>
+                <IonTitle id="Title">3 Phases of the Day</IonTitle>
+                <IonText>
+                    <p id="Description">
+                        You can leverage your brain's hormone levels to easily make good habits that are difficult, easier! There are 3 phases of the day where you can place the most optimal habits. <br /> <br />
+                        <span style={{fontWeight: "1000"}}>Phase 1:</span> This lasts 0-8 hours after waking up. This is the best time to put your most <span style={{fontWeight: "1000"}}>difficult habits</span> in here.  <br /> <br /> 
+                        <span style={{fontWeight: "1000"}}>Phase 2:</span> This lasts 9-15 hours after waking up. This is the best time to put your habits that doesn't require as much limbic friction (e.i not much effort/motivation to get started on the habit). It is also helpful to wind down during this time of the day. Exposing yourself to less light or relaxing will be beneficial <br /> <br /> 
+                        <span style={{fontWeight: "1000"}}>Phase 3:</span> This lasts 16-24 hours after waking up. This is basically where you go to sleep, and it is absolutely <span style={{fontWeight: "1000"}}>crucial</span> that you get good amounts of sleep! The reason for this is because all the neuroplasticity, which is important for solidifying habits on your brain, happens when you enter deep sleep.<br /> <br /> <br /> 
+                        <span style={{fontWeight: "1000"}}>Note</span> that after you have built your habit reflexively, you should be able to move it around the day with ease! This is just for building your habits. This is not meant to be a permanent placement system of all of your habits. A habit that was once very hard (thus put in Phase 1) but then becomes reflexive over time should be placed in Phase 2!
+                    </p>
+                </IonText>
+                <IonCard className="card">
+                    <IonCardTitle>Enter new title:</IonCardTitle>
                     <IonInput ref={newTitleRef} type="text" value={originalTitle}></IonInput>
-                </IonItem>
-                <IonItem>
-                    <IonLabel position="stacked">Enter new description</IonLabel>
+                </IonCard>
+                <IonCard className="card">
+                    <IonCardTitle>Enter new description:</IonCardTitle>
                     <IonInput ref={newDescriptionRef} type="text" value={originalDescription}></IonInput>
-                </IonItem>
-                <IonItem>
-                    <IonLabel>Change order:</IonLabel>
+                </IonCard>
+                <IonCard className="card">
+                    <IonCardTitle>Change order:</IonCardTitle>
                     <IonInput ref={orderRef} type="number" min={1} max={habits.length} value={habitId+1}></IonInput>
-                </IonItem>
-                <IonItem>
-                    <IonLabel>Is bad habit</IonLabel> 
-                    <IonToggle ref={badHabitRef} checked={originalBadHabit}></IonToggle>
-                </IonItem>
-                <IonButton id="Delete" onClick={deleteHabit}>Delete Habit</IonButton>
+                </IonCard>
+                <IonCard className="card">
+                    <IonCardTitle>Is it a bad habit:</IonCardTitle> 
+                    <IonToggle id="Toggle" ref={badHabitRef} checked={originalBadHabit}></IonToggle>
+                </IonCard>
+                <IonCard className="card">
+                    <IonCardTitle>Enter your start time:</IonCardTitle> 
+                    <IonInput ref={startTimeRef} value={originalStartTime} type="time" />
+                </IonCard>
+                <IonCard className="card">
+                    <IonCardTitle>Enter your end time:</IonCardTitle> 
+                    <IonInput ref={endTimeRef} value={originalEndTime} type="time" />
+                </IonCard>
+                <CondDeleteButton create={props.create}/>
                 <br />
             </IonContent>
         </IonPage>

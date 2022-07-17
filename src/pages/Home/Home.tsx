@@ -1,13 +1,12 @@
-import { IonToolbar, IonHeader, IonModal, IonButtons, IonItem, IonLabel, IonInput, IonText, IonContent, IonButton, IonPage, IonTitle, useIonViewWillEnter, IonToggle, useIonToast, IonIcon, IonFabButton} from '@ionic/react';
+import { IonText, IonContent, IonButton, IonPage, IonTitle, useIonViewWillEnter, useIonToast} from '@ionic/react';
 import { useRef, useState } from 'react';
 import './Home.css';
 import RandomQuote from '../../helper/RandomQuote';
 import { Storage } from '@ionic/storage'
 import HabitCard from '../../helper/HabitCard';
-import { OverlayEventDetail } from '@ionic/core/components';
-import { getDate, getDifferenceDay, getWeekDifference, dayToString} from '../../helper/DateHelper';
+import { getDate, getWeekDifference, dayToString} from '../../helper/DateHelper';
 import { useHistory } from 'react-router';
-import { LocalNotifications } from '@capacitor/local-notifications';
+import { LocalNotifications} from '@capacitor/local-notifications';
 import TwentyOneDaySys from './TwentyOneDaySys/TwentyOneDay';
 
 const Home: React.FC = () => {
@@ -29,10 +28,6 @@ const Home: React.FC = () => {
   // variables that update habit cards
   const [habits, setHabits] = useState([])
 
-  // modal functions
-  function confirm() {
-    modal.current?.dismiss([inputTitle.current?.value, inputDescription.current?.value, badHabitToggle.current?.checked], 'confirm')
-  }
 
   async function viewEntered () {
     await LocalNotifications.requestPermissions()
@@ -73,36 +68,6 @@ const Home: React.FC = () => {
     // set habits in store and locally
     await store.set("habits", original_habits)
     setHabits(original_habits)
-  }
-
-  async function onWillDismiss(ev: CustomEvent<OverlayEventDetail>) {
-    if (ev.detail.role === "confirm") {
-      const habitsAppend:{[key:string]: any} = {
-        "title": ev.detail.data[0],
-        "description": ev.detail.data[1],
-        "monday": 0,
-        "tuesday": 0,
-        "wednesday": 0,
-        "thursday": 0,
-        "friday": 0,
-        "saturday": 0,
-        "sunday": 0,
-        "hoursSpent": 0,
-        "sessions": 0,
-        "isBadHabit": ev.detail.data[2]
-      }
-      console.log("set last session date in onWillDismiss")
-      var array = await store.get("habits")
-      if (array === null) {
-        array = [habitsAppend]
-        await store.set("lastDateClear", getDate())
-      } else {
-        array = [...array, habitsAppend]
-      }
-      await store.set("habits", array)
-
-      setHabits(array)
-    }
   }
 
   async function handleStart () {
@@ -159,6 +124,8 @@ const Home: React.FC = () => {
               friday={object["friday"]}
               saturday={object["saturday"]}
               sunday={object["sunday"]}
+              startTime={object["startTime"] as string}
+              endTime={object["endTime"] as string}
               MarkAsCompleteCallback={markAsComplete}
               isBadHabit={object["isBadHabit"]}
               didToday={object[dayToString(new Date().getDay())]}
@@ -166,7 +133,7 @@ const Home: React.FC = () => {
           )
         })}
 
-        <IonButton id="open-modal" expand='block' color="light">
+        <IonButton id="open-modal" expand='block' color="light" onClick={() => {history.replace("/CreateHabit")}}>
           Add habit
         </IonButton>
 
@@ -178,36 +145,6 @@ const Home: React.FC = () => {
           Why use this app?
         </IonButton>
 
-
-        {/* Modal Code for add habit */}
-        <IonModal ref={modal} trigger="open-modal" onWillDismiss={(ev) => onWillDismiss(ev)}>
-          <IonHeader>
-            <IonToolbar>
-              <IonButtons slot="start">
-                <IonButton onClick={() => modal.current?.dismiss()}>Cancel</IonButton>
-              </IonButtons>
-              <IonButtons slot="end">
-                <IonButton strong={true} onClick={() => confirm()}>
-                  Confirm
-                </IonButton>
-              </IonButtons>
-            </IonToolbar>
-          </IonHeader>
-          <IonContent className="ion-padding">
-            <IonItem>
-              <IonLabel position="stacked">Enter Title</IonLabel>
-              <IonInput ref={inputTitle} type="text" />
-            </IonItem>
-            <IonItem>
-              <IonLabel position="stacked">Enter description</IonLabel>
-              <IonInput ref={inputDescription} type="text" />
-            </IonItem>
-            <IonItem>
-              <IonLabel>Is it a bad habit?</IonLabel>
-              <IonToggle ref={badHabitToggle}></IonToggle>
-            </IonItem>
-          </IonContent>
-        </IonModal>
         <div id="footer" />
       </IonContent>
     </IonPage>

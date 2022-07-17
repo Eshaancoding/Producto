@@ -2,7 +2,9 @@ import { IonSelect, IonSelectOption, IonList, IonItem, IonLabel, IonInput, IonTe
 import { useState } from 'react';
 import { useHistory } from 'react-router';
 import { Storage } from '@ionic/storage'
+import { determineIfBetweenTime } from '../../helper/DateHelper';
 import CloseButton from '../../helper/CloseButton';
+import "../ProductoStyle.css"
 
 
 const TaskSelection: React.FC = () => {
@@ -35,14 +37,14 @@ const TaskSelection: React.FC = () => {
         <IonTitle id="Title">Task Selection</IonTitle>
         <IonText>
           <p className="Description">
-            Pick a habit that you want to form (Create a habit in the homepage if there's no dropdown)
+            Pick a habit that you want to form (Create a habit in the homepage and make sure it's between start time and end time if there's no dropdown)
           </p>
         </IonText>
         <br />
         <IonItem class="prompt">
           <IonSelect interface='popover' placeholder='Select habit' onIonChange={(e) => handleResponses(e.detail.value)}>
             {habitsList.map(function(object, index) {
-              if (!object["isBadHabit"]) {
+              if (!object["isBadHabit"] && determineIfBetweenTime(object["startTime"], object["endTime"])) {
                 return (
                   <IonSelectOption key={index} value={object["title"]}>{object["title"]}</IonSelectOption>
                 )

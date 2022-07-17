@@ -1,4 +1,4 @@
-import {IonToggle, IonItem, IonLabel, IonInput, IonText, IonContent, IonButton, IonPage, IonTitle} from '@ionic/react';
+import {IonToggle, IonItem, IonLabel, IonInput, IonText, IonContent, IonButton, IonPage, IonTitle, IonCardTitle, IonCard} from '@ionic/react';
 import './PomodoroSetup.css';
 
 import { useHistory } from 'react-router';
@@ -47,17 +47,15 @@ const PomodoroSetup: React.FC = () => {
 
                 <br />
 
-                <IonItem class="prompt">
-                    <IonLabel>Work Length (minutes):</IonLabel>
+                <IonCard class="prompt">
+                    <IonCardTitle>Work Length (minutes): </IonCardTitle>
                     <IonInput id="SessionLength" type='number' placeholder="50" onIonChange={(e) => handleResponses(e.detail.value, 0) }/>
-                </IonItem>
+                </IonCard>
 
-                <br />
-
-                <IonItem class="prompt">
-                    <IonLabel>Break Length (minutes):</IonLabel>
+                <IonCard class="prompt">
+                    <IonCardTitle>Break Length (minutes): </IonCardTitle>
                     <IonInput id="BreakLength" type='number' placeholder="10" onIonChange={(e) => handleResponses(e.detail.value, 1)}/>
-                </IonItem>
+                </IonCard>
 
                 <IonButton id="Continue" onClick={handleClick} color={color}>
                     Continue
