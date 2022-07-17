@@ -69,11 +69,15 @@ function HabitReflection (props:any) {
                 {habitsFiltered.map((value, index) => {
                     return (
                         <IonCard class="card" key={index}>
-                            <IonCardTitle>Habit: {value["title"]}</IonCardTitle>
+                            <IonCardTitle>{value["isBadHabit"] ? <>Bad Habit</> : <>Habit</>}: {value["title"]}</IonCardTitle>
                             <br />
-                            <IonLabel><span className="highlight">How often do you do the habit?</span></IonLabel>
+                            <IonLabel><span className="highlight">
+                                {value["isBadHabit"] ? <>How often do you avoid the habit?</> : <>How often do you do the habit?</>}
+                            </span></IonLabel>
                             <IonInput type="text" placeholder={placeholderFill(index, 0)} onIonChange={(e) => handleChange(e.detail.value, index, 0)}/>
-                            <IonLabel><span className="highlight">Were you productive during those sessions?</span></IonLabel>
+                            <IonLabel><span className="highlight">
+                                {value["isBadHabit"] ? <>Do you think that you did a good job avoiding the bad habit using the advice on how to break habits?</> : <>Were you productive during those sessions?</>} 
+                            </span></IonLabel>
                             <IonInput type="text" placeholder={placeholderFill(index, 1)} onIonChange={(e) => handleChange(e.detail.value, index, 1)}/>
                         </IonCard>
                     )

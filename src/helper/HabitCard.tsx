@@ -87,7 +87,7 @@ function HabitCard (props:any) {
       <IonCardHeader>
         <IonCardTitle>{props.habitName} <TimeDisplay startTime={props.startTime} endTime={props.endTime} /> </IonCardTitle>
         <IonCardSubtitle>
-          {props.habitDescription} <br />
+          {props.habitDescription !== "" && <> {props.habitDescription} <br /> </>} 
           Reflection every <span className='highlight'> {props.intervalRefl} </span> days.<br /> 
           {(props.HabitOften !== "" && props.SessionsProductive !== "") && <> <br /> Last habit reflection:<br /> 
           <span style={{color: "white"}}>{props.HabitOften} <br /> {props. SessionsProductive}</span> </>}

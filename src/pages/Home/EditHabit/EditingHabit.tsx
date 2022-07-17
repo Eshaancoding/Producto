@@ -69,9 +69,11 @@ function EditingHabitModal (props:any) {
 
         // set reflection variables
         habit["intervalRefl"] = parseInt(intervalRefl)
-        habit["lastRefl"] = getDate()
-        habit["HabitOften"] = ""
-        habit["SessionsProductive"] = ""
+        if (props.create === true) {
+            habit["lastRefl"] = getDate()
+            habit["HabitOften"] = ""
+            habit["SessionsProductive"] = ""
+        }
 
         // changed to bad habit
         if ((habit["isBadHabit"] === false && badHabit === true) || (habit["isBadHabit"] === true && badHabit === false) || props.create === true) {
