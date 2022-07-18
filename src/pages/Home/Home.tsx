@@ -28,6 +28,7 @@ const Home: React.FC = () => {
     await LocalNotifications.requestPermissions()
     await store.set("startTime", null)
     await store.set("steps", [])
+    await store.set("NumberSessionsDone", 0)
     const habit = await store.get("habits")
     if (habit !== null) {
       const currentDate = getDate()

@@ -44,7 +44,7 @@ const TimeDisplay = (props:any) => {
         seconds_text = "00";
     }
     return (
-        <p id="TimeDisplay">Time Spent: {minutes_text}:{seconds_text}</p>
+        <p id="TimeDisplay">Time Spent: {minutes_text}:{seconds_text} <br /> Sessions Done: {props.NumberSesDone} </p>
     )
 }
 
@@ -53,6 +53,7 @@ const BreakSession: React.FC = () => {
     const [minutes, setMinutes] = useState(0); 
     const [seconds, setSeconds] = useState(0);
     const [habitId, setHabitId] = useState(-1)
+    const [ NumberSesDone, setNumberSesDone ] = useState(0)
     const history = useHistory()
     const store = new Storage()
     store.create()
@@ -72,6 +73,7 @@ const BreakSession: React.FC = () => {
 
         store.get("pomoBreak").then((value) => {setOriginalMinutes(value)})
         store.get("habitId").then((value) => {setHabitId(value)})
+        store.get("NumberSessionsDone").then((value) => {setNumberSesDone(value)})
     }
     useIonViewWillEnter(onIonEnter)
 
@@ -93,7 +95,7 @@ const BreakSession: React.FC = () => {
                 <IonTitle id="Title">Break Session</IonTitle>
                 <IonButton id="CloseButton" onClick={handleCloseButton}> End Session </IonButton>
                 <IonText>
-                    <TimeDisplay minutes={minutes} seconds={seconds} />
+                    <TimeDisplay minutes={minutes} seconds={seconds} NumberSesDone={NumberSesDone} />
                     <br />
                     <h2>What you should do during your break:</h2>
                 </IonText>

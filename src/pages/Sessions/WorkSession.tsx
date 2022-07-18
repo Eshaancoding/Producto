@@ -44,7 +44,7 @@ const TimeDisplay = (props: any) => {
     seconds_text = "00";
   }
   return (
-    <p id="TimeDisplay">Time Spent: {minutes_text}:{seconds_text}</p>
+    <p id="TimeDisplay">Time Spent: {minutes_text}:{seconds_text} <br /> Sessions Done: {props.NumberSesDone} </p>
   )
 }
 
@@ -54,6 +54,7 @@ const WorkSession: React.FC = () => {
   const [ originalMinutes, setOriginalMinutes ] = useState(0)
   const [ minutes, setMinutes ] = useState(0)
   const [ seconds, setSeconds ] = useState(0)
+  const [ NumberSesDone, setNumberSesDone] = useState(0)
   const store = new Storage()
   store.create()
 
@@ -65,6 +66,10 @@ const WorkSession: React.FC = () => {
     // get habit id 
     const habitId = await store.get("habitId")
     setHabitId(habitId)
+    
+    // set number sessions done
+    const sessionsDone = await store.get("NumberSessionsDone")
+    setNumberSesDone(sessionsDone)
   }
   useIonViewWillEnter(viewEnter)
 
@@ -74,13 +79,13 @@ const WorkSession: React.FC = () => {
     original_habits[habitId]['hoursSpent'] += (originalMinutes) / 60
     original_habits[habitId][dayToString(day)] += (originalMinutes) / 60
     await store.set("habits", original_habits)
+    await store.set("NumberSessionsDone", NumberSesDone + 1)
     history.replace("/break")
   }
 
   async function handleCloseButton() {
     // get today's date
     const day: number = new Date().getDay()
-    const date = getDate()
     var original_habits: any = await store.get("habits")
 
     // change habits
@@ -102,8 +107,7 @@ const WorkSession: React.FC = () => {
           End Session
         </IonButton>
         <IonText>
-          <TimeDisplay minutes={minutes} seconds={seconds} />
-          <br />
+          <TimeDisplay minutes={minutes} seconds={seconds} NumberSesDone={NumberSesDone} /> <br />
           <h2>Breaking Habits</h2>
         </IonText>
         <List items={[
