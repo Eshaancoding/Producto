@@ -68,7 +68,7 @@ export const getWeekDifference = function (currentDate, previousDate) {
     return Math.floor(getDifferenceDay(monCurrentDate, monPreviousDate)/ 7)
 }
 
-export const determineIfBetweenTime = function (startTime, endTime) {
+export const determineIfBetweenTime = function (startTime, endTime, marginMinutes=10) {
     if (startTime == null || endTime == null) return false
     // parse params
     const startTimeHrs = parseInt(startTime.split(":")[0])    
@@ -80,7 +80,7 @@ export const determineIfBetweenTime = function (startTime, endTime) {
     const time = new Date()
     const currentHrs = time.getHours()
     const currentMin = time.getMinutes()
-    if (startTimeMin <= currentMin && endTimeMin >= currentMin && 
+    if (startTimeMin-marginMinutes <= currentMin && endTimeMin+marginMinutes >= currentMin && 
         startTimeHrs <= currentHrs && endTimeHrs >= currentHrs) 
     {
         return true
