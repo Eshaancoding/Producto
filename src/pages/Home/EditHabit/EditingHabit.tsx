@@ -60,7 +60,7 @@ function EditingHabitModal (props:any) {
         const startTime:any = startTimeRef.current?.value
         const endTime:any = endTimeRef.current?.value
         const intervalRefl:any = reflectionInterval.current?.value
-        const twentyOneDay:any = TwentyDayToggle.current?.value
+        const twentyOneDay:any = TwentyDayToggle.current?.checked
         // arrays
         var array:any = await store.get("habits")
         var habit:any = []
@@ -85,6 +85,11 @@ function EditingHabitModal (props:any) {
         }
 
         // changed to bad habit
+        if (habit["isBadHabit"] === false && badHabit === true) {
+            habit["TwentyOneDaySys"] = false
+            habit["startTime"] = ""
+            habit["endTime"] = ""
+        }
         if ((habit["isBadHabit"] === false && badHabit === true) || (habit["isBadHabit"] === true && badHabit === false) || props.create === true) {
             habit["monday"] = 0
             habit["tuesday"] = 0
@@ -98,9 +103,6 @@ function EditingHabitModal (props:any) {
             habit["lastRefl"] = getDate()
             habit["HabitOften"] = ""
             habit["SessionsProductive"] = ""
-            habit["TwentyOneDaySys"] = false
-            habit["startTime"] = ""
-            habit["endTime"] = ""
             habit["isBadHabit"] = badHabit
         }
         // transform array

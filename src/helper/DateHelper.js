@@ -71,17 +71,25 @@ export const getWeekDifference = function (currentDate, previousDate) {
 export const determineIfBetweenTime = function (startTime, endTime, marginMinutes=10) {
     if (startTime == null || endTime == null) return false
     // parse params
-    const startTimeHrs = parseInt(startTime.split(":")[0])    
-    const startTimeMin = parseInt(startTime.split(":")[1])    
-    const endTimeHrs = parseInt(endTime.split(":")[0])    
-    const endTimeMin = parseInt(endTime.split(":")[1])    
-   
+    var startTimeHrs = parseInt(startTime.split(":")[0])    
+    var startTimeMin = parseInt(startTime.split(":")[1])    
+    var endTimeHrs = parseInt(endTime.split(":")[0])    
+    var endTimeMin = parseInt(endTime.split(":")[1])    
+    
+    // compute 
+    var startDate = new Date()
+    startDate.setHours(startTimeHrs)
+    startDate.setMinutes(startTimeMin-marginMinutes)
+    var endDate = new Date()
+    endDate.setHours(endTimeHrs)
+    endDate.setMinutes(endTimeMin+marginMinutes)
+
     // get current time
     const time = new Date()
     const currentHrs = time.getHours()
     const currentMin = time.getMinutes()
-    if (startTimeMin-marginMinutes <= currentMin && endTimeMin+marginMinutes >= currentMin && 
-        startTimeHrs <= currentHrs && endTimeHrs >= currentHrs) 
+    if (startDate.getMinutes() <= currentMin && endDate.getMinutes() >= currentMin && 
+        startDate.getHours() <= currentHrs && endDate.getHours() >= currentHrs) 
     {
         return true
     } else {
