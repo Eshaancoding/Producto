@@ -1,4 +1,5 @@
 import ZenMessage from "../../helper/ZenMessage";
+import { LocalNotifications } from "@capacitor/local-notifications";
 import { Storage } from "@ionic/storage";
 import { useIonViewWillEnter } from "@ionic/react";
 import { useState } from "react";
@@ -8,8 +9,20 @@ const BreakBadHabit: React.FC = () => {
     const store = new Storage()
     store.create()
 
-    // get bad habit 
-    async function getBadHabit() {
+    async function IonEnter() {
+        // set notifications
+        await LocalNotifications.schedule({
+            notifications: [{
+                title: "Work Session", 
+                body: "It's time to work!", 
+                id: 2,
+                extra: {
+                data: "Work Session Notification"
+                }
+            }]
+        })
+
+        // get bad habit
         const habits: any = await store.get("habits")
         var habitString: string = ""
         habits.map(function (object: any, index: number) {
@@ -21,7 +34,7 @@ const BreakBadHabit: React.FC = () => {
         setBadHabit(habitString)
     }
 
-    useIonViewWillEnter(getBadHabit)
+    useIonViewWillEnter(IonEnter)
 
     return (
         <ZenMessage

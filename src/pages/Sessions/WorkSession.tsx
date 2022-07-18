@@ -58,19 +58,6 @@ const WorkSession: React.FC = () => {
   store.create()
 
   async function viewEnter () {
-    // set notifications
-    await LocalNotifications.schedule({
-      notifications: [{
-        title: "Work Session", 
-        body: "It's time to work!", 
-        id: 1,
-        extra: {
-          data: "Work Session Notification"
-        }
-      }
-    ]
-    })
-
     // set Original minutes
     const pomoWork = await store.get("pomoWork")
     setOriginalMinutes(pomoWork)
@@ -87,7 +74,7 @@ const WorkSession: React.FC = () => {
     original_habits[habitId]['hoursSpent'] += (originalMinutes) / 60
     original_habits[habitId][dayToString(day)] += (originalMinutes) / 60
     await store.set("habits", original_habits)
-    history.replace("/BreakBadHabit")
+    history.replace("/break")
   }
 
   async function handleCloseButton() {

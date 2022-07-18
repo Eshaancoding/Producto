@@ -1,4 +1,5 @@
 import {IonList, IonItem, IonText, IonContent, IonPage, IonTitle, useIonViewWillEnter, IonButton} from '@ionic/react';
+import { LocalNotifications } from '@capacitor/local-notifications';
 import { useState} from 'react';
 import "../ProductoStyle.css"
 import "./WorkSession.css"
@@ -57,6 +58,18 @@ const BreakSession: React.FC = () => {
     store.create()
 
     async function onIonEnter () {
+        // set notifications
+        await LocalNotifications.schedule({
+            notifications: [{
+                title: "Break Session", 
+                body: "It's time to take a break!", 
+                id: 1,
+                extra: {
+                data: "Break Session Notification"
+                }
+            }]
+        })
+
         store.get("pomoBreak").then((value) => {setOriginalMinutes(value)})
         store.get("habitId").then((value) => {setHabitId(value)})
     }
@@ -64,8 +77,6 @@ const BreakSession: React.FC = () => {
 
     async function handleCloseButton() {
         // get today's date
-        const day: number = new Date().getDay()
-        const date = getDate()
         var original_habits: any = await store.get("habits")
 
         // change habits
@@ -78,7 +89,7 @@ const BreakSession: React.FC = () => {
     return (
         <IonPage>
             <IonContent fullscreen>
-                <CountBar minutes={originalMinutes} seconds={0} useStartTime logMinutes={setMinutes} logSeconds={setSeconds} finish={() => history.replace("/work")} />
+                <CountBar minutes={originalMinutes} seconds={0} useStartTime logMinutes={setMinutes} logSeconds={setSeconds} finish={() => history.replace("/BreakBadHabit")} />
                 <IonTitle id="Title">Break Session</IonTitle>
                 <IonButton id="CloseButton" onClick={handleCloseButton}> End Session </IonButton>
                 <IonText>

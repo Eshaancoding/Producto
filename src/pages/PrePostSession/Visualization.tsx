@@ -10,7 +10,7 @@ function Visualization (props:any) {
     function handleContinue () {
         if (color === "primary") {
             if (!props.isBreak) history.replace("/SpaceTimeBridging")
-            else history.replace("/break")
+            else history.replace("/work")
         }
     }
     

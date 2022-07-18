@@ -63,6 +63,7 @@ function EditingHabitModal (props:any) {
         const twentyOneDay:any = TwentyDayToggle.current?.checked
         // arrays
         var array:any = await store.get("habits")
+        if (array == null) array = ([] as any)
         var habit:any = []
         if (props.create === false) habit = array[habitId];
         else habit = {}

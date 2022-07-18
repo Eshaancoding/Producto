@@ -86,15 +86,9 @@ export const determineIfBetweenTime = function (startTime, endTime, marginMinute
 
     // get current time
     const time = new Date()
-    const currentHrs = time.getHours()
-    const currentMin = time.getMinutes()
-    if (startDate.getMinutes() <= currentMin && endDate.getMinutes() >= currentMin && 
-        startDate.getHours() <= currentHrs && endDate.getHours() >= currentHrs) 
-    {
-        return true
-    } else {
-        return false
-    }
+    
+    return (time >= startDate && time <= endDate)  
+    
 }
 
 export const sortTimeFunction = function (a, b) {
