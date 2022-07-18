@@ -45,6 +45,7 @@ function HabitCard (props:any) {
     function indv (time:string) {
       if (time == null) return "null"
       var split:any = time.split(":")
+      if (split.length < 2) return "null" 
       var hours:number = parseInt(split[0])
       var minutes:number = parseInt(split[1])
       var AM_PM = "AM"
@@ -69,9 +70,12 @@ function HabitCard (props:any) {
     if (props.startTime == null || props.endTime == null) {
       return (<></>) 
     } else {
+      const indvStart = indv(props.startTime)
+      const indvEnd = indv(props.endTime)  
+      if (indvStart === "null" || indvEnd === "null") return (<></>)
       return (
         <>
-          ({indv(props.startTime)} to {indv(props.endTime)})
+          ({indvStart} to {indvEnd})
         </>
       )
     }

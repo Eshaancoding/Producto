@@ -14,6 +14,7 @@ function EditingHabitModal (props:any) {
     const startTimeRef = useRef<HTMLIonInputElement>(null);
     const endTimeRef = useRef<HTMLIonInputElement>(null);
     const reflectionInterval = useRef<HTMLIonInputElement>(null);
+    const TwentyDayToggle = useRef<HTMLIonToggleElement>(null);
 
     const [originalTitle, setOriginalTitle]= useState("Enter Title here")
     const [originalDescription, setOriginalDescription] = useState("Enter Description Here")
@@ -21,6 +22,9 @@ function EditingHabitModal (props:any) {
     const [originalEndTime, setOriginalEndTime] = useState()
     const [originalStartTime, setOriginalStartTime] = useState()
     const [originalIntervalRefl, setOriginalIntervalRefl] = useState(1)
+    const [originalTwentyOneDay, setOriginalTwentyOneDay] = useState(true)
+
+    const [updatedBadHabit, setUpdatedBadHabit] = useState(false)
 
     const [habits, setHabits] = useState([])
     const store = new Storage()
@@ -39,6 +43,9 @@ function EditingHabitModal (props:any) {
                     setOriginalStartTime(habitValue[habitIdValue]["startTime"])
                     setOriginalEndTime(habitValue[habitIdValue]["endTime"])
                     setOriginalIntervalRefl(habitValue[habitIdValue]["intervalRefl"])
+                    setOriginalTwentyOneDay(habitValue[habitIdValue]["TwentyOneDaySys"])
+
+                    setUpdatedBadHabit(habitValue[habitIdValue]["isBadHabit"])
                 })
             })
         }
@@ -53,6 +60,7 @@ function EditingHabitModal (props:any) {
         const startTime:any = startTimeRef.current?.value
         const endTime:any = endTimeRef.current?.value
         const intervalRefl:any = reflectionInterval.current?.value
+        const twentyOneDay:any = TwentyDayToggle.current?.value
         // arrays
         var array:any = await store.get("habits")
         var habit:any = []
@@ -69,6 +77,7 @@ function EditingHabitModal (props:any) {
 
         // set reflection variables
         habit["intervalRefl"] = parseInt(intervalRefl)
+        habit["TwentyOneDaySys"] = twentyOneDay
         if (props.create === true) {
             habit["lastRefl"] = getDate()
             habit["HabitOften"] = ""
@@ -86,6 +95,12 @@ function EditingHabitModal (props:any) {
             habit["sunday"] = 0
             habit["hoursSpent"] = 0
             habit["sessions"] = 0
+            habit["lastRefl"] = getDate()
+            habit["HabitOften"] = ""
+            habit["SessionsProductive"] = ""
+            habit["TwentyOneDaySys"] = false
+            habit["startTime"] = ""
+            habit["endTime"] = ""
             habit["isBadHabit"] = badHabit
         }
         // transform array
@@ -168,14 +183,20 @@ function EditingHabitModal (props:any) {
                     <IonInput ref={newDescriptionRef} type="text" value={originalDescription}></IonInput>
                 </IonCard>
                 <IonCard className="card">
-                    <IonCardTitle>Is it a bad habit:</IonCardTitle> 
-                    <IonToggle id="Toggle" ref={badHabitRef} checked={originalBadHabit}></IonToggle>
-                </IonCard>
-                <IonCard className="card">
                     <IonCardTitle>The number of days between each habit reflection:</IonCardTitle> 
                     <IonInput ref={reflectionInterval} type="number" value={originalIntervalRefl}></IonInput>
                 </IonCard>
-                <Time /> 
+                <IonCard className="card">
+                    <IonCardTitle>Is it a bad habit:</IonCardTitle> 
+                    <IonToggle id="Toggle" ref={badHabitRef} checked={updatedBadHabit} onIonChange={(e) => {setUpdatedBadHabit(e.target.checked)}}></IonToggle>
+                </IonCard>
+                {!updatedBadHabit && <>
+                    <IonCard className="card">
+                        <IonCardTitle>Put habit into the 21 Day System:</IonCardTitle> 
+                        <IonToggle id="Toggle" ref={TwentyDayToggle} checked={originalTwentyOneDay}></IonToggle>
+                    </IonCard>
+                    <Time /> 
+                </>}
                 <CondDeleteButton create={props.create}/>
                 <br />
             </IonContent>

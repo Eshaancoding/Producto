@@ -11,7 +11,7 @@ import BreakBadHabit from './pages/PrePostSession/BreakBadHabit';
 import Visualization from './pages/PrePostSession/Visualization';
 import SpaceTimeBridging from './pages/PrePostSession/SpaceTimeBridging/SpaceTimeBridging';
 import { STBStepOne, STBStepTwo, STBStepThree, STBStepFour, STBStepFive } from './pages/PrePostSession/SpaceTimeBridging/STBSteps';
-import HabitReflection from './pages/Home/HabitReflectiont';
+import HabitReflection from './pages/Home/HabitReflection';
 import EditingHabitModal from './pages/Home/EditHabit/EditingHabit';
 
 /* Core CSS required for Ionic components to work properly */

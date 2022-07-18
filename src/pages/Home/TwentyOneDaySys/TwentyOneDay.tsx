@@ -65,7 +65,20 @@ function TwentyOneDaySys (props:any) {
                 )
             }
         }
+    }
 
+    function ListHabits (props:any) {
+        return (
+            <>
+                {props.habits.map(function(object:any, index:number) {
+                    if (object["TwentyOneDaySys"]) {
+                        return (
+                            <IonChip key={index}>Habit: {object["title"]}</IonChip>
+                        )
+                    }
+                })}
+            </>
+        )
     }
 
     return (
@@ -76,6 +89,7 @@ function TwentyOneDaySys (props:any) {
             After 21 days, assess whether you could do the habits <span style={{color: "white"}}>reflexively</span> (e.i you don't have to think about it while doing). If you have, then you have successfully able to create a habit! If not, then do the same procedure again!
             </IonCardSubtitle>
             <IonCardContent id="Content">
+                <ListHabits habits={props.habits} /> <br />
                 <HabitChip habits={props.habits} /> <br />
                 <DayChip />
             </IonCardContent>
