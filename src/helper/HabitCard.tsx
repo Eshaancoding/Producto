@@ -91,10 +91,15 @@ function HabitCard (props:any) {
       <IonCardHeader>
         <IonCardTitle>{props.habitName} <TimeDisplay startTime={props.startTime} endTime={props.endTime} /> </IonCardTitle>
         <IonCardSubtitle>
-          {props.habitDescription !== "" && <> {props.habitDescription} <br /> </>} 
-          Reflection every <span className='highlight'> {props.intervalRefl} </span> days.<br /> 
-          {(props.HabitOften !== "" && props.SessionsProductive !== "") && <> <br /> Last habit reflection:<br /> 
-          <span style={{color: "white"}}>{props.HabitOften} <br /> {props. SessionsProductive}</span> </>}
+          {/* Description */}
+          {props.habitDescription !== "" && props.habitDescription != undefined && <> Description: {props.habitDescription} <br /> </>} 
+          {/* Interval */}
+          {props.intervalRefl != undefined && <>Reflection every <span className='highlight'> {props.intervalRefl} </span> days.</>}  
+          {props.lastRefl != undefined && <> Last reflection date: <span className='highlight'> {props.lastRefl.toDateString()}</span>.<br /> </>}
+          {/* Reflection */}
+          {(props.HabitOften !== "" && props.SessionsProductive !== "" && props.HabitOften != undefined && props.SessionsProductive != undefined) && 
+          <> <br /> Last habit reflection:<br /> 
+          <span className='highlight'>{props.HabitOften} <br /> {props.SessionsProductive}</span> </>}
         </IonCardSubtitle>
         <IonFab vertical='top' horizontal='end'>
           <IonFabButton id="edit" onClick={editHabit}>

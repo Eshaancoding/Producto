@@ -144,6 +144,7 @@ const Home: React.FC = () => {
               saturday={object["saturday"]}
               sunday={object["sunday"]}
               intervalRefl={object["intervalRefl"]}
+              lastRefl={object["lastRefl"]}
               HabitOften={object["HabitOften"]} 
               SessionsProductive={object["SessionsProductive"]}
               startTime={object["startTime"] as string}
