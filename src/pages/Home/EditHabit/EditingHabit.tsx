@@ -1,4 +1,4 @@
-import { IonPage, IonContent, IonHeader, IonButton, IonItem, IonLabel, IonInput, useIonViewWillEnter, IonToggle, IonToolbar, IonButtons, IonText, IonTitle, IonCard, IonCardTitle} from "@ionic/react";
+import { IonPage, IonContent, IonHeader, IonButton, IonItem, IonLabel, IonInput, useIonViewWillEnter, IonToggle, IonToolbar, IonButtons, IonText, IonTitle, IonCard, IonCardTitle, useIonToast} from "@ionic/react";
 import { useEffect, useRef, useState } from "react";
 import { Storage } from "@ionic/storage";
 import { useHistory } from "react-router";
@@ -16,15 +16,15 @@ function EditingHabitModal (props:any) {
     const reflectionInterval = useRef<HTMLIonInputElement>(null);
     const TwentyDayToggle = useRef<HTMLIonToggleElement>(null);
 
-    const [originalTitle, setOriginalTitle]= useState("Enter Title here")
-    const [originalDescription, setOriginalDescription] = useState("Enter Description Here")
-    const [originalBadHabit, setOriginalBadHabit] = useState(false)
+    const [originalTitle, setOriginalTitle]= useState()
+    const [originalDescription, setOriginalDescription] = useState()
     const [originalEndTime, setOriginalEndTime] = useState()
     const [originalStartTime, setOriginalStartTime] = useState()
-    const [originalIntervalRefl, setOriginalIntervalRefl] = useState(1)
+    const [originalIntervalRefl, setOriginalIntervalRefl] = useState()
     const [originalTwentyOneDay, setOriginalTwentyOneDay] = useState(true)
 
     const [updatedBadHabit, setUpdatedBadHabit] = useState(false)
+    const [toast, dismissToast] = useIonToast()
 
     const [habits, setHabits] = useState([])
     const store = new Storage()
@@ -39,7 +39,6 @@ function EditingHabitModal (props:any) {
                     setHabits(habitValue)
                     setOriginalTitle(habitValue[habitIdValue]["title"])
                     setOriginalDescription(habitValue[habitIdValue]["description"])
-                    setOriginalBadHabit(habitValue[habitIdValue]["isBadHabit"])
                     setOriginalStartTime(habitValue[habitIdValue]["startTime"])
                     setOriginalEndTime(habitValue[habitIdValue]["endTime"])
                     setOriginalIntervalRefl(habitValue[habitIdValue]["intervalRefl"])
@@ -49,8 +48,15 @@ function EditingHabitModal (props:any) {
                 })
             })
         }
-        
     }) 
+
+    function showToast (msg:string) {
+        toast({
+            buttons: [{text: "hide", handler: () => dismissToast() }],
+            message: msg,
+            cssClass: "toast"
+        })
+    }
 
     async function confirm () {
         // set event
@@ -61,6 +67,56 @@ function EditingHabitModal (props:any) {
         const endTime:any = endTimeRef.current?.value
         const intervalRefl:any = reflectionInterval.current?.value
         const twentyOneDay:any = TwentyDayToggle.current?.checked
+
+        // check if we have any missing fields
+        if (newTitle == undefined) {
+            showToast("Please enter a title!")
+            return
+        }
+        if (newDescription == undefined) {
+            showToast("Please enter a description!")
+            return
+        }
+        if (intervalRefl == undefined) {
+            showToast("Please enter an interval!")
+            return
+        }         
+        if (intervalRefl < 1) {
+            showToast("Interval Value must be greater than 0!")
+            return
+        }
+        if (intervalRefl % 1 > 0) {
+            showToast("Interval Value must a whole number, not a decimal!")
+            return
+        } 
+        if (startTime == undefined && badHabit === false) {
+            showToast("Please enter a start time!")
+            return
+        } 
+        if (endTime == undefined && badHabit === false) {
+            showToast("Please enter an end time!")
+            return
+        }
+        
+        // check if end time is after start time
+        if (badHabit === false) {
+            var startTimeHrs = parseInt(startTime.split(":")[0])    
+            var startTimeMin = parseInt(startTime.split(":")[1])    
+            var endTimeHrs = parseInt(endTime.split(":")[0])    
+            var endTimeMin = parseInt(endTime.split(":")[1])    
+
+            var startDate = new Date()
+            startDate.setHours(startTimeHrs)
+            startDate.setMinutes(startTimeMin)
+            var endDate = new Date()
+            endDate.setHours(endTimeHrs)
+            endDate.setMinutes(endTimeMin)
+
+            if (startDate >= endDate) {
+                showToast("End time must be after than start time!")
+                return
+            }
+        }
         // arrays
         var array:any = await store.get("habits")
         if (array == null) array = ([] as any)
@@ -179,15 +235,15 @@ function EditingHabitModal (props:any) {
                 </IonText>
                 <IonCard className="card">
                     <IonCardTitle>Enter new title:</IonCardTitle>
-                    <IonInput ref={newTitleRef} type="text" value={originalTitle}></IonInput>
+                    <IonInput ref={newTitleRef} type="text" placeholder="Enter Title Here" value={originalTitle}></IonInput>
                 </IonCard>
                 <IonCard className="card">
                     <IonCardTitle>Enter new description:</IonCardTitle>
-                    <IonInput ref={newDescriptionRef} type="text" value={originalDescription}></IonInput>
+                    <IonInput ref={newDescriptionRef} type="text" placeholder="Enter Description Here" value={originalDescription}></IonInput>
                 </IonCard>
                 <IonCard className="card">
                     <IonCardTitle>The number of days between each habit reflection:</IonCardTitle> 
-                    <IonInput ref={reflectionInterval} type="number" value={originalIntervalRefl}></IonInput>
+                    <IonInput ref={reflectionInterval} type="number" min={1} placeholder="Enter Days Here" value={originalIntervalRefl}></IonInput>
                 </IonCard>
                 <IonCard className="card">
                     <IonCardTitle>Is it a bad habit:</IonCardTitle> 
