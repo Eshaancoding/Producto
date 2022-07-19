@@ -56,6 +56,7 @@ const BreakBadHabit: React.FC = () => {
             minutes={0}
             seconds={30}
             href="/VisualizationBreak"
+            removeAndrew={true}
         />
     )
 }
