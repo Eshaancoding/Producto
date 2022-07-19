@@ -102,7 +102,7 @@ const Home: React.FC = () => {
       history.replace("/session")
     } else {
       habitToast({
-        buttons: [{ text: 'hide', handler: () => dismissToast() }],
+        buttons: [{ text: 'Hide', handler: () => dismissToast() }],
         message: "You must have at least one bad habit and one good habit!",
         cssClass: "toast"
       })

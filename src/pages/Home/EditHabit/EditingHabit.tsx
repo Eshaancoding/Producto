@@ -52,7 +52,7 @@ function EditingHabitModal (props:any) {
 
     function showToast (msg:string) {
         toast({
-            buttons: [{text: "hide", handler: () => dismissToast() }],
+            buttons: [{text: "Hide", handler: () => dismissToast() }],
             message: msg,
             cssClass: "toast"
         })
