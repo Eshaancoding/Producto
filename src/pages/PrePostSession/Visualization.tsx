@@ -1,4 +1,4 @@
-import { IonText, IonButton, IonContent, IonPage, IonTitle } from "@ionic/react"; 
+import { IonText, IonButton, IonContent, IonPage} from "@ionic/react"; 
 import { useState } from "react";
 import CountBar from "../../helper/CounterBar";
 import { useHistory } from "react-router";
@@ -18,7 +18,7 @@ function Visualization (props:any) {
         <IonPage> 
             <IonContent>
                 <CountBar minutes={1} seconds={0} useStartTime finish={() => {setColor("primary")}}/> 
-                <IonTitle id="Title">Visualization</IonTitle>    
+                <IonText><p id="Title">Visualization</p></IonText>    
                 <IonText>
                     <p id="Description">
                         You should visualize <strong>two</strong> things. <br /> <br />

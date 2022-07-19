@@ -1,4 +1,4 @@
-import { IonProgressBar, IonList, IonItem, IonText, IonContent, IonPage, IonTitle, IonButton, useIonViewWillEnter, useIonViewWillLeave } from '@ionic/react';
+import { IonProgressBar, IonList, IonItem, IonText, IonContent, IonPage, IonButton, useIonViewWillEnter, useIonViewWillLeave } from '@ionic/react';
 import { useState, useEffect, useContext } from 'react';
 import "./WorkSession.css"
 import { getDate, getDifferenceDay, dayToString } from '../../helper/DateHelper';
@@ -102,12 +102,12 @@ const WorkSession: React.FC = () => {
     <IonPage>
       <IonContent fullscreen>
         <CountBar minutes={originalMinutes} seconds={0} useStartTime logMinutes={setMinutes} logSeconds={setSeconds} finish={handleDone} />
-        <IonTitle id="Title">Work Session</IonTitle>
-        <IonButton id="CloseButton" onClick={handleCloseButton}>
-          End Session
-        </IonButton>
+        <IonText><p id="Title">Work Session</p></IonText>
         <IonText>
           <TimeDisplay minutes={minutes} seconds={seconds} NumberSesDone={NumberSesDone} /> <br />
+          <IonButton id="CloseButton" onClick={handleCloseButton}>
+            End Session
+          </IonButton>
           <h2>Breaking Habits</h2>
         </IonText>
         <List items={[

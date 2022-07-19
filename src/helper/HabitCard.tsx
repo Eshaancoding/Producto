@@ -5,6 +5,7 @@ import { useHistory } from 'react-router';
 import { Storage } from '@ionic/storage';
 import { useState } from 'react';
 import { hoursToString } from './DateHelper.js'
+import { isPlatform } from '@ionic/react';
 
 function HabitCard (props:any) {
   const history = useHistory()
@@ -24,7 +25,8 @@ function HabitCard (props:any) {
       if (innerText === "Sun") dateName = "Sunday"
       habitToast({ 
         cssClass: "toast",
-        buttons: [{text: 'hide', handler: () => dismissToast() }],
+        buttons: [{text: 'Hide', handler: () => dismissToast() }],
+          
         message: "You spent " + hoursToString(value, true) + " on " + dateName,
       })
     }
@@ -33,7 +35,6 @@ function HabitCard (props:any) {
       return (
         <IonChip color="success" onClick={displayToast}> {innerText} </IonChip>
       )
-      
     } else {
       return (
         <IonChip onClick={displayToast}> {innerText} </IonChip>
@@ -88,7 +89,7 @@ function HabitCard (props:any) {
 
   return (
     <IonCard id="Card" className={(props.isBadHabit ? "badHabit " : "") + (props.didToday ? "didToday" : "")}>
-      <IonCardHeader>
+      <IonCardContent>
         <IonCardTitle>{props.habitName} <TimeDisplay startTime={props.startTime} endTime={props.endTime} /> </IonCardTitle>
         <IonCardSubtitle>
           {/* Description */}
@@ -101,17 +102,13 @@ function HabitCard (props:any) {
           <> <br /> Last habit reflection:<br /> 
           <span className='highlight'>{props.HabitOften} <br /> {props.SessionsProductive}</span> </>}
         </IonCardSubtitle>
-        <IonFab vertical='top' horizontal='end'>
-          <IonFabButton id="edit" onClick={editHabit}>
-            <IonIcon icon={cogOutline}></IonIcon>  
-          </IonFabButton>  
-          <IonFabButton id="check" onClick={() => {props.MarkAsCompleteCallback(props.habitIndex)}}>
-            <IonIcon icon={checkmarkOutline}></IonIcon>  
-          </IonFabButton>  
-        </IonFab>
-      </IonCardHeader>
-
-      <IonCardContent>
+        <IonFabButton id="edit" onClick={editHabit}>
+          <IonIcon icon={cogOutline}></IonIcon>  
+        </IonFabButton>  
+        <IonFabButton id="check" onClick={() => {props.MarkAsCompleteCallback(props.habitIndex)}}>
+          <IonIcon icon={checkmarkOutline}></IonIcon>  
+        </IonFabButton>  
+        <br />
         {chip(props.monday, "Mon")}
         {chip(props.tuesday, "Tue")}
         {chip(props.wednesday, "Wed")}
@@ -119,13 +116,13 @@ function HabitCard (props:any) {
         {chip(props.friday, "Fri")}
         {chip(props.saturday, "Sat")}
         {chip(props.sunday, "Sun")}
-      </IonCardContent>
-
-      <IonCardContent id="badgeContent">
+        <br /><br />
         {!props.isBadHabit ? 
           <IonBadge class="badge hoursSpent"> {hoursToString(props.totalHours)} </IonBadge>
         : <IonBadge class="badge">Bad Habit</IonBadge>}
         <IonBadge class="badge sessions"> {props.totalSessions} {props.isBadHabit ? "times avoided" : "sessions"} </IonBadge>
+
+        {isPlatform("ios") && <><br /> <br /><br /></>}
       </IonCardContent>
     </IonCard>
   ) 

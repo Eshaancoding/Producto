@@ -1,4 +1,4 @@
-import {IonList, IonItem, IonText, IonContent, IonPage, IonTitle, useIonViewWillEnter, IonButton} from '@ionic/react';
+import {IonList, IonItem, IonText, IonContent, IonPage, useIonViewWillEnter, IonButton} from '@ionic/react';
 import { LocalNotifications } from '@capacitor/local-notifications';
 import { useState} from 'react';
 import "../ProductoStyle.css"
@@ -92,10 +92,10 @@ const BreakSession: React.FC = () => {
         <IonPage>
             <IonContent fullscreen>
                 <CountBar minutes={originalMinutes} seconds={0} useStartTime logMinutes={setMinutes} logSeconds={setSeconds} finish={() => history.replace("/BreakBadHabit")} />
-                <IonTitle id="Title">Break Session</IonTitle>
-                <IonButton id="CloseButton" onClick={handleCloseButton}> End Session </IonButton>
+                <IonText><p id="Title">Break Session</p></IonText>
                 <IonText>
                     <TimeDisplay minutes={minutes} seconds={seconds} NumberSesDone={NumberSesDone} />
+                    <IonButton id="CloseButton" onClick={handleCloseButton}> End Session </IonButton>
                     <br />
                     <h2>What you should do during your break:</h2>
                 </IonText>

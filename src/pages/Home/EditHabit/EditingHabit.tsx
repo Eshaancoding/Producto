@@ -1,4 +1,4 @@
-import { IonPage, IonContent, IonHeader, IonButton, IonItem, IonLabel, IonInput, useIonViewWillEnter, IonToggle, IonToolbar, IonButtons, IonText, IonTitle, IonCard, IonCardTitle, useIonToast} from "@ionic/react";
+import { IonPage, IonContent, IonHeader, IonButton, IonItem, IonLabel, IonInput, useIonViewWillEnter, IonToggle, IonToolbar, IonButtons, IonText, IonCard, IonCardTitle, useIonToast} from "@ionic/react";
 import { useEffect, useRef, useState } from "react";
 import { Storage } from "@ionic/storage";
 import { useHistory } from "react-router";
@@ -223,7 +223,7 @@ function EditingHabitModal (props:any) {
 
 
             <IonContent className="ion-padding">
-                <IonTitle id="Title">3 Phases of the Day</IonTitle>
+                <IonText> <p id="Title">3 Phases of the Day</p></IonText>
                 <IonText>
                     <p id="Description">
                         You can leverage your brain's hormone levels to easily make good habits that are difficult, easier! There are 3 phases of the day where you can place the most optimal habits. <br /> <br />

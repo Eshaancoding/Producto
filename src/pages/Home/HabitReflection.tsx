@@ -1,4 +1,4 @@
-import { IonPage, IonContent, useIonViewWillEnter, IonButton, IonCard, IonCardTitle, IonItem, IonLabel, IonInput, IonTitle} from "@ionic/react";
+import { IonPage, IonContent, useIonViewWillEnter, IonButton, IonCard, IonCardTitle, IonItem, IonLabel, IonInput, IonText} from "@ionic/react";
 import { Storage } from "@ionic/storage";
 import { useState } from "react";
 import { useHistory } from "react-router";
@@ -65,7 +65,7 @@ function HabitReflection (props:any) {
     return (
         <IonPage>
             <IonContent>
-                <IonTitle id="Title">Habit Reflection</IonTitle>
+                <IonText> <p id="Description">Habit Reflection </p></IonText>
                 {habitsFiltered.map((value, index) => {
                     return (
                         <IonCard class="card" key={index}>

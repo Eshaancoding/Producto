@@ -2,7 +2,6 @@ import { Redirect, Route } from 'react-router-dom';
 import { IonApp, IonRouterOutlet, setupIonicReact} from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
 import Home from './pages/Home/Home';
-import UsefulPage from './pages/Home/UsefulPage';
 import PomodoroSetup from './pages/PrePostSession/PomodoroSetup';
 import TaskSelection from './pages/PrePostSession/TaskSelection'; 
 import WorkSession from './pages/Sessions/WorkSession';
@@ -40,7 +39,6 @@ const App: React.FC = () => (
     <IonReactRouter>
       <IonRouterOutlet>
         <Route exact path="/home" component={Home} />
-        <Route exact path="/why" component={UsefulPage}/>
         <Route exact path="/session" component={PomodoroSetup} />
 
         <Route exact path="/work" component={WorkSession} />

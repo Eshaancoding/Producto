@@ -13,8 +13,8 @@ h2 {
 }
 
 #CloseButton {
-    position: absolute;
-    top: 30px; 
-    right: 20px;
     --background: red;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
 }

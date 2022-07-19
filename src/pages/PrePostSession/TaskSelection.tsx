@@ -1,4 +1,4 @@
-import { IonSelect, IonSelectOption, IonList, IonItem, IonLabel, IonInput, IonText, IonContent, IonButton, IonPage, IonTitle, useIonViewWillEnter } from '@ionic/react';
+import { IonSelect, IonSelectOption, IonList, IonItem, IonLabel, IonInput, IonText, IonContent, IonButton, IonPage, useIonViewWillEnter } from '@ionic/react';
 import { useState } from 'react';
 import { useHistory } from 'react-router';
 import { Storage } from '@ionic/storage'
@@ -34,7 +34,7 @@ const TaskSelection: React.FC = () => {
     <IonPage>
       <IonContent>
         <CloseButton />
-        <IonTitle id="Title">Task Selection</IonTitle>
+        <IonText> <p id="Title">Task Selection</p></IonText>
         <IonText>
           <p className="Description">
             Pick a habit that you want to form (Create a habit in the homepage and make sure it's between start time and end time if there's no dropdown)

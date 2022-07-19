@@ -1,4 +1,4 @@
-import { IonText, IonContent, IonButton, IonPage, IonTitle, useIonViewWillEnter, useIonToast} from '@ionic/react';
+import { IonText, IonContent, IonButton, IonPage, useIonViewWillEnter, useIonToast} from '@ionic/react';
 import { useRef, useState } from 'react';
 import './Home.css';
 import RandomQuote from '../../helper/RandomQuote';
@@ -114,13 +114,15 @@ const Home: React.FC = () => {
   return (
     <IonPage>
       <IonContent fullscreen>
-        <IonTitle size="large" id="Title">
-          Producto 
-        </IonTitle>
+        <IonText>
+          <p id="Title">Producto</p>
+        </IonText>
 
         <IonText>
           <RandomQuote />
         </IonText>
+
+        
 
         <br />
 
@@ -163,10 +165,6 @@ const Home: React.FC = () => {
 
         <IonButton id="SessionButton" routerDirection="back" onClick={handleStart}>
           Start Session
-        </IonButton>
-
-        <IonButton id="WhyUseButton" routerDirection="back" onClick={() => {history.replace("/why")}}>
-          Why use this app?
         </IonButton>
 
         <div id="footer" />
