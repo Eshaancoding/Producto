@@ -150,6 +150,7 @@ const Home: React.FC = () => {
               lastRefl={object["lastRefl"]}
               HabitOften={object["HabitOften"]} 
               SessionsProductive={object["SessionsProductive"]}
+              ReflectionFeeling={object["ReflectionFeeling"]}
               startTime={object["startTime"] as string}
               endTime={object["endTime"] as string}
               MarkAsCompleteCallback={markAsComplete}

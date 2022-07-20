@@ -98,9 +98,9 @@ function HabitCard (props:any) {
           {props.intervalRefl != undefined && <>Reflection every <span className='highlight'> {props.intervalRefl} </span> days.</>}  
           {props.lastRefl != undefined && <> Last reflection date: <span className='highlight'> {props.lastRefl.toDateString()}</span>.<br /> </>}
           {/* Reflection */}
-          {(props.HabitOften !== "" && props.SessionsProductive !== "" && props.HabitOften != undefined && props.SessionsProductive != undefined) && 
+          {(props.HabitOften !== "" && props.SessionsProductive !== "" && props.ReflectionFeeling !== "" && props.HabitOften != undefined && props.SessionsProductive != undefined && props.SessionsProductive != undefined) && 
           <> <br /> Last habit reflection:<br /> 
-          <span className='highlight'>{props.HabitOften} <br /> {props.SessionsProductive}</span> </>}
+          <span className='highlight'>{props.HabitOften} <br /> {props.SessionsProductive} <br /> {props.ReflectionFeeling}</span> </>}
         </IonCardSubtitle>
         <IonFabButton id="edit" onClick={editHabit}>
           <IonIcon icon={cogOutline}></IonIcon>  
