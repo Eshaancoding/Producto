@@ -139,6 +139,7 @@ function EditingHabitModal (props:any) {
             habit["lastRefl"] = getDate()
             habit["HabitOften"] = ""
             habit["SessionsProductive"] = ""
+            habit["ReflectionFeeling"] = ""
         }
 
         // changed to bad habit
@@ -160,6 +161,7 @@ function EditingHabitModal (props:any) {
             habit["lastRefl"] = getDate()
             habit["HabitOften"] = ""
             habit["SessionsProductive"] = ""
+            habit["ReflectionFeeling"] = ""
             habit["isBadHabit"] = badHabit
         }
         // transform array

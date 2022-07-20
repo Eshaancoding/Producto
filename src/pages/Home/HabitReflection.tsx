@@ -18,7 +18,7 @@ function HabitReflection (props:any) {
         setHabitsFiltered(habitsFil)
         var arr:any = []
         for (var i = 0; i < habitsFil.length; i++) {
-            arr.push([habitsFil[i]["HabitOften"], habitsFil[i]["SessionsProductive"]])
+            arr.push([habitsFil[i]["HabitOften"], habitsFil[i]["SessionsProductive"], habitsFil[i]["ReflectionFeeling"] ])
         }
         setResponses(arr)
     })
@@ -37,11 +37,10 @@ function HabitReflection (props:any) {
     async function handleSubmit () {
         if (color === "primary") {
             const origHabits:any = await store.get("habits")
-            console.log(habitsFiltered)
-            console.log(origHabits)
             for (var i = 0; i < habitsFiltered.length; i++) {
                 origHabits[habitsFiltered[i]["habitId"]]["HabitOften"] = responses[i][0]
                 origHabits[habitsFiltered[i]["habitId"]]["SessionsProductive"] = responses[i][1]
+                origHabits[habitsFiltered[i]["habitId"]]["ReflectionFeeling"] = responses[i][2]
                 origHabits[habitsFiltered[i]["habitId"]]["lastRefl"] = getDate()
             } 
             await store.set("habitsNeedReflection", [])
@@ -52,6 +51,7 @@ function HabitReflection (props:any) {
 
     function placeholderFill (habitIndex:number, questionIndex:number):string {
         try {
+            if (responses == undefined) return "Enter Answer Here"
             const resp:string = responses[habitIndex][questionIndex] 
             if (resp === "") return "Enter Answer Here"
             else return "Last Reflection Answer: " + resp
@@ -75,10 +75,16 @@ function HabitReflection (props:any) {
                                 {value["isBadHabit"] ? <>How often do you avoid the habit?</> : <>How often do you do the habit?</>}
                             </span></IonLabel>
                             <IonInput type="text" placeholder={placeholderFill(index, 0)} onIonChange={(e) => handleChange(e.detail.value, index, 0)}/>
+
                             <IonLabel><span className="highlight">
                                 {value["isBadHabit"] ? <>Do you think that you did a good job avoiding the bad habit using the advice on how to break habits?</> : <>Were you productive during those sessions?</>} 
                             </span></IonLabel>
                             <IonInput type="text" placeholder={placeholderFill(index, 1)} onIonChange={(e) => handleChange(e.detail.value, index, 1)}/>
+
+                            <IonLabel><span className="highlight">
+                                {<>How do you feel about the habit (needs more work, needs less work, unable to do it, too hard, etc.)</>}
+                            </span></IonLabel>
+                            <IonInput type="text" placeholder={placeholderFill(index, 2)} onIonChange={(e) => handleChange(e.detail.value, index, 2)}/>
                         </IonCard>
                     )
                 })}
