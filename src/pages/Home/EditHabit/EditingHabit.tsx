@@ -260,6 +260,7 @@ function EditingHabitModal (props:any) {
                 </>}
                 <CondDeleteButton create={props.create}/>
                 <br />
+                <div id="footer" />
             </IonContent>
         </IonPage>
     )

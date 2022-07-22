@@ -45,6 +45,7 @@ const BreakBadHabit: React.FC = () => {
                     <strong>2. </strong> Capture the sequence of events during the bad habit <br /> 
                     <strong>3. </strong> Do a <strong>easy and good</strong> habit immediately afterwards (ex: drinking water or meditating) <br />
                     Your bad habits are: <strong>{badHabit}</strong> <br />
+                    <strong>4. </strong> Visualize the negative consequences if you continue to do each bad habit for a year or more. 
                 </>
             }
             description={<>
@@ -52,6 +53,7 @@ const BreakBadHabit: React.FC = () => {
                 <br />
                 For example, if I do a bad habit like Youtube or playing games, I immediately rush to do computer programming (a good habit that I love, and therefore is easy to execute since I <strong>don't need any motivation</strong> to do it)
                 <br /> <br />
+                Fear is also a great motivator. So visualizing fear and the negative consequences can create more motivation to break the bad habit.
             </>}
             minutes={0}
             seconds={30}
