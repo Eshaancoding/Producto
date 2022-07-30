@@ -1,4 +1,4 @@
-import { IonText, IonButton, IonContent, IonPage} from "@ionic/react"; 
+import { IonText, IonButton, IonContent, IonPage, IonCard, IonCardTitle, IonLabel, IonInput} from "@ionic/react"; 
 import { useState } from "react";
 import CountBar from "../../helper/CounterBar";
 import { useHistory } from "react-router";
@@ -6,6 +6,18 @@ import { useHistory } from "react-router";
 function Visualization (props:any) {
     const [color, setColor] = useState("secondary") 
     const history = useHistory()
+    const [response, setResponses] = useState(["", ""])
+
+    function handleChange (str:any, index:number) {
+        var copy = [...response] 
+        copy[index] = (str as string)
+        setResponses(copy)
+        if (copy.every((value:any) => value !== "")) {
+            setColor("primary")
+        } else {
+            setColor("secondary")
+        }
+    }
 
     function handleContinue () {
         if (color === "primary") {
@@ -17,16 +29,24 @@ function Visualization (props:any) {
     return (
         <IonPage> 
             <IonContent>
-                <CountBar minutes={1} seconds={0} useStartTime finish={() => {setColor("primary")}}/> 
                 <IonText><p id="Title">Visualization</p></IonText>    
                 <IonText>
                     <p id="Description">
-                        You should visualize <strong>two</strong> things. <br /> <br />
-                        <strong>1.</strong> Visualize your <strong>failure</strong>. Imagine the things that will happen if you wouldn't do the habit that you want. For example, visualize the how you are not able to buy the dream car that you want because you haven't had good financial habits such as saving money. <br /> <br />
-                        <strong>2.</strong> Visualize the specific sequence of steps to <strong>get started</strong> and <strong>how you feel after doing</strong> the habit. Think about what you need to do! For example, if you were studying for a math test, you would visualize getting a pencil out, getting your textbook from your backpack and then place it on the table. Then you would visualize going to the chapter that the test is on, and visualize sitting down and focusing your eyes on the textbook. Also think about how you feel after you have done the habit! Visualize how accomplished and glad you will be after the habit<br /> <br />
-                        Note that the <strong>going into</strong> the habit and what you <strong>feel after</strong> the habit should be considered the <strong>entirity</strong> of the habit itself!
+                        First choose the end goal. What do you want to feel at the end? Visualizing achieving this end goal, or the moment that you will feel right after you have successfully completed the habit. Will you feel happy? Will you feel glad that you are finally taking steps to improve yourself? Also start visualizing if you continue to do the habit in the <strong>long run</strong>. In other words, start <strong>painting</strong> your picture on what your <strong>success</strong> looks like. <br /> <br />
+                        But don't only visualize your success, but also <strong>visualize your failures.</strong> Visualize the challenges that are likely to arise and deciding <strong>what you are going to do</strong> when you encounter them. This also means answering the simple questions:
                     </p>
                 </IonText>
+                <IonCard class="card">
+                    <IonLabel><span className="highlight">
+                        Why are you doing this?
+                    </span></IonLabel>
+                    <IonInput type="text" placeholder="Enter response here." onIonChange={(e) => handleChange(e.detail.value, 0)}/>
+
+                    <IonLabel><span className="highlight">
+                        What is driving you toward your achievements?
+                    </span></IonLabel>
+                    <IonInput type="text" placeholder="Enter response here." onIonChange={(e) => handleChange(e.detail.value, 1)}/>
+                </IonCard>
                 <IonButton id="Continue" color={color} onClick={handleContinue}>Continue</IonButton>
             </IonContent>
         </IonPage>
