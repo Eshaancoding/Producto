@@ -10,6 +10,7 @@ import "../ProductoStyle.css"
 const TaskSelection: React.FC = () => {
   let history = useHistory();
   const [color, setColor] = useState("secondary")
+  const [response, setResponse] = useState("")
 
   // Habits list
   const store = new Storage()
@@ -21,12 +22,27 @@ const TaskSelection: React.FC = () => {
 
   async function handleResponses(e: any={}) {
     await store.set("habitId", habitsList.findIndex((value) => value["title"] === e))
-    setColor("primary")
+    if (response.trim() !== "") {
+      setColor("primary")
+    } else {
+      setColor("secondary") 
+    }
+  }
+
+  async function handleTextResponse (str: any) {
+    const val:any = await store.get("habitId")
+    setResponse(val)
+    if (val != null && str.trim() !== "") {
+      console.log(val)
+      setColor("primary")
+    } else {
+      setColor("secondary")
+    }
   }
 
   function handleContinue () {
     if (color === "primary") {
-      history.replace("/Visualization")
+      history.replace("/AccountabilityMirror")
     }
   }
 
@@ -55,7 +71,7 @@ const TaskSelection: React.FC = () => {
         <br />
         <IonCard className='card'>
           <IonLabel><span className="highlight"> Then, decide <strong>how</strong> you are going to improve slightly better than before (ex: more pushups, more study time, etc.). Push past your normal stopping point! <br /> Remember that we are only 40% of our capabilities! We could do so much more and all we have to do is remover the governor!</span></IonLabel>
-          <IonInput type="text" />
+          <IonInput type="text" placeholder="Enter response here" onIonChange={(e) => {handleTextResponse(e.detail.value)}} />
         </IonCard>
         <IonButton id="Continue" color={color} onClick={handleContinue}>Continue</IonButton>
       </IonContent>

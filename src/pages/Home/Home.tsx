@@ -26,6 +26,7 @@ const Home: React.FC = () => {
 
   async function viewEntered () {
     await LocalNotifications.requestPermissions()
+    await store.set("habitId", null)
     await store.set("startTime", null)
     await store.set("steps", [])
     await store.set("NumberSessionsDone", 0)
