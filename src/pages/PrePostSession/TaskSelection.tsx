@@ -1,4 +1,4 @@
-import { IonSelect, IonSelectOption, IonList, IonItem, IonLabel, IonInput, IonText, IonContent, IonButton, IonPage, useIonViewWillEnter } from '@ionic/react';
+import { IonSelect, IonSelectOption, IonCard, IonItem, IonLabel, IonInput, IonText, IonContent, IonButton, IonPage, useIonViewWillEnter } from '@ionic/react';
 import { useState } from 'react';
 import { useHistory } from 'react-router';
 import { Storage } from '@ionic/storage'
@@ -53,6 +53,10 @@ const TaskSelection: React.FC = () => {
           </IonSelect> 
         </IonItem>
         <br />
+        <IonCard className='card'>
+          <IonLabel><span className="highlight"> Then, decide <strong>how</strong> you are going to improve slightly better than before (ex: more pushups, more study time, etc.). Push past your normal stopping point! <br /> Remember that we are only 40% of our capabilities! We could do so much more and all we have to do is remover the governor!</span></IonLabel>
+          <IonInput type="text" />
+        </IonCard>
         <IonButton id="Continue" color={color} onClick={handleContinue}>Continue</IonButton>
       </IonContent>
     </IonPage>

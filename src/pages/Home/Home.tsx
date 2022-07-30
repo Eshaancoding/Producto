@@ -109,8 +109,6 @@ const Home: React.FC = () => {
     }
   }
   
-  
-  
   return (
     <IonPage>
       <IonContent fullscreen>
@@ -119,7 +117,7 @@ const Home: React.FC = () => {
         </IonText>
 
         <IonText>
-          <RandomQuote />
+          <p id="Description">Do something that <strong>sucks every single day!</strong></p>
         </IonText>
 
         

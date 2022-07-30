@@ -72,7 +72,7 @@ function HabitReflection (props:any) {
                             <IonCardTitle>{value["isBadHabit"] ? <>Bad Habit</> : <>Habit</>}: {value["title"]}</IonCardTitle>
                             <br />
                             <IonLabel><span className="highlight">
-                                {value["isBadHabit"] ? <>How often do you avoid the habit?</> : <>How often do you do the habit?</>}
+                                {value["isBadHabit"] ? <>How often do you avoid the habit?</> : <>What steps can you make to push yourself while doing the habit (ex: more pushups, more studytime, etc.)</>}
                             </span></IonLabel>
                             <IonInput type="text" placeholder={placeholderFill(index, 0)} onIonChange={(e) => handleChange(e.detail.value, index, 0)}/>
 
