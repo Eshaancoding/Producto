@@ -29,7 +29,6 @@ function ZenMessage (props:any) {
                 <IonText> <p id="Header"> {props.header} </p> </IonText> 
                 <IonText> <p id="Description"> {props.description} </p> </IonText>
                 <IonButton id="Continue" color={color} onClick={ContinueClick}>Continue</IonButton>
-                {!props.removeAndrew && <p id="Credits">Huge Thanks to Andrew Huberman and <a href="https://hubermanlab.com">The Huberman Lab Podcast</a> for all the tips! Most of the ideas in this app are from Andrew Huberman and his team. </p> }
                 <div id="footer" />
             </IonContent>
         </IonPage>

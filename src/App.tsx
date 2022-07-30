@@ -8,10 +8,9 @@ import WorkSession from './pages/Sessions/WorkSession';
 import BreakSession from './pages/Sessions/BreakSession';
 import BreakBadHabit from './pages/PrePostSession/BreakBadHabit';
 import Visualization from './pages/PrePostSession/Visualization';
-import SpaceTimeBridging from './pages/PrePostSession/SpaceTimeBridging/SpaceTimeBridging';
-import { STBStepOne, STBStepTwo, STBStepThree, STBStepFour, STBStepFive } from './pages/PrePostSession/SpaceTimeBridging/STBSteps';
 import HabitReflection from './pages/Home/HabitReflection';
 import EditingHabitModal from './pages/Home/EditHabit/EditingHabit';
+import AccountabilityMirror from './pages/PrePostSession/AccountabilityMirror';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -45,6 +44,7 @@ const App: React.FC = () => (
         <Route exact path="/break" component={BreakSession} /> 
 
         <Route exact path="/taskSelect" component={TaskSelection} />
+        <Route exact path="/AccountabilityMirror" component={AccountabilityMirror} /> 
         <Route exact path="/Visualization"> 
           <Visualization isBreak={false} />
         </Route>
@@ -53,13 +53,6 @@ const App: React.FC = () => (
           <Visualization isBreak={true} />
         </Route>
         
-        <Route exact path="/SpaceTimeBridging" component={SpaceTimeBridging}/>
-        <Route exact path="/STBStepOne" component={STBStepOne} />
-        <Route exact path="/STBStepTwo" component={STBStepTwo} />
-        <Route exact path="/STBStepThree" component={STBStepThree} />
-        <Route exact path="/STBStepFour" component={STBStepFour} />
-        <Route exact path="/STBStepFive" component={STBStepFive} />
-
         <Route exact path="/BreakBadHabit" component={BreakBadHabit} />
         <Route exact path="/HabitReflection" component={HabitReflection} />
 
