@@ -225,14 +225,12 @@ function EditingHabitModal (props:any) {
 
 
             <IonContent className="ion-padding">
-                <IonText> <p id="Title">3 Phases of the Day</p></IonText>
+                <IonText> <p id="Title">Making a schedule</p></IonText>
                 <IonText>
                     <p id="Description">
-                        You can leverage your brain's hormone levels to easily make good habits that are difficult, easier! There are 3 phases of the day where you can place the most optimal habits. <br /> <br />
-                        <span style={{fontWeight: "1000"}}>Phase 1:</span> This lasts 0-8 hours after waking up. This is the best time to put your most <span style={{fontWeight: "1000"}}>difficult habits</span> in here.  <br /> <br /> 
-                        <span style={{fontWeight: "1000"}}>Phase 2:</span> This lasts 9-15 hours after waking up. This is the best time to put your habits that doesn't require as much limbic friction (e.i not much effort/motivation to get started on the habit). It is also helpful to wind down during this time of the day. Exposing yourself to less light or relaxing will be beneficial <br /> <br /> 
-                        <span style={{fontWeight: "1000"}}>Phase 3:</span> This lasts 16-24 hours after waking up. This is basically where you go to sleep, and it is absolutely <span style={{fontWeight: "1000"}}>crucial</span> that you get good amounts of sleep! The reason for this is because all the neuroplasticity, which is important for solidifying habits on your brain, happens when you enter deep sleep.<br /> <br /> <br /> 
-                        <span style={{fontWeight: "1000"}}>Note</span> that after you have built your habit reflexively, you should be able to move it around the day with ease! This is just for building your habits. This is not meant to be a permanent placement system of all of your habits. A habit that was once very hard (thus put in Phase 1) but then becomes reflexive over time should be placed in Phase 2!
+                        Do the <strong>3-week challenge!</strong>. During <strong>Week 1</strong>, take note only every action that you take using timestamps. Be super <strong>detailed</strong>! You should be able to answer exactly how much work you are actually doing and how much breaks we are taking. <br />
+                        Then, one <strong>Week 2</strong>, create a new, <strong>optimized</strong> schedule! Lock everything into 15-30 minute blocks (this is where the habit tracker comes in). You could obviously have one task take up multiple time blocks. <br /> While doing the task, <strong>don't multitask!</strong> Try to focus on one thing and that thing only. Make sure to add in adequate <strong>sleep and rest</strong> as well. When you <strong>rest</strong>, actually rest! Don't do any electronics and chill back. Experiment with <strong>multiple schedules</strong>, and make sure to take notes on week 2 on how different schedules plays out. <br /> <br />
+                        By <strong>Week 3</strong>, you have a fully optimized schedule! <br />
                     </p>
                 </IonText>
                 <IonCard className="card">
