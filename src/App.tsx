@@ -30,6 +30,7 @@ import '@ionic/react/css/display.css';
 
 /* Theme variables */
 import './theme/variables.css';
+import CookieJar from './pages/PrePostSession/CookieJar';
 
 setupIonicReact();
 
@@ -44,6 +45,7 @@ const App: React.FC = () => (
         <Route exact path="/break" component={BreakSession} /> 
 
         <Route exact path="/taskSelect" component={TaskSelection} />
+        <Route exact path="/CookieJar" component={CookieJar}
         <Route exact path="/AccountabilityMirror" component={AccountabilityMirror} /> 
         <Route exact path="/Visualization"> 
           <Visualization isBreak={false} />
