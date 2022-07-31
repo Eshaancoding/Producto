@@ -95,7 +95,7 @@ const WorkSession: React.FC = () => {
     // set habits in store
     await store.set("habits", original_habits)
     // redirect to home (ending page after completed habit) 
-    history.replace("/home")
+    history.replace("/Failure")
   }
 
   return (

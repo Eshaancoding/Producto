@@ -7,7 +7,6 @@ import HabitCard from '../../helper/HabitCard';
 import { getDate, getWeekDifference, dayToString, getDifferenceDay} from '../../helper/DateHelper';
 import { useHistory } from 'react-router';
 import { LocalNotifications} from '@capacitor/local-notifications';
-import TwentyOneDaySys from './TwentyOneDaySys/TwentyOneDay';
 
 const Home: React.FC = () => {
   // History
@@ -121,11 +120,8 @@ const Home: React.FC = () => {
           <p id="Description">Do something that <strong>sucks every single day!</strong></p>
         </IonText>
 
-        
-
         <br />
 
-        <TwentyOneDaySys habits={habits} />
 
         <br /> 
 

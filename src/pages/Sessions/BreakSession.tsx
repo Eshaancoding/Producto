@@ -86,12 +86,12 @@ const BreakSession: React.FC = () => {
         // set habits in store
         await store.set("habits", original_habits)
         // redirect to home (ending page after completed habit) 
-        history.replace("/home")
+        history.replace("/Failure")
     }
     return (
         <IonPage>
             <IonContent fullscreen>
-                <CountBar minutes={originalMinutes} seconds={0} useStartTime logMinutes={setMinutes} logSeconds={setSeconds} finish={() => history.replace("/BreakBadHabit")} />
+                <CountBar minutes={originalMinutes} seconds={0} useStartTime logMinutes={setMinutes} logSeconds={setSeconds} finish={() => history.replace("/VisualizationBreak")} />
                 <IonText><p id="Title">Break Session</p></IonText>
                 <IonText>
                     <TimeDisplay minutes={minutes} seconds={seconds} NumberSesDone={NumberSesDone} />
