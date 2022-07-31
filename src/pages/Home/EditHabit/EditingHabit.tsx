@@ -14,14 +14,12 @@ function EditingHabitModal (props:any) {
     const startTimeRef = useRef<HTMLIonInputElement>(null);
     const endTimeRef = useRef<HTMLIonInputElement>(null);
     const reflectionInterval = useRef<HTMLIonInputElement>(null);
-    const TwentyDayToggle = useRef<HTMLIonToggleElement>(null);
 
     const [originalTitle, setOriginalTitle]= useState()
     const [originalDescription, setOriginalDescription] = useState()
     const [originalEndTime, setOriginalEndTime] = useState()
     const [originalStartTime, setOriginalStartTime] = useState()
     const [originalIntervalRefl, setOriginalIntervalRefl] = useState()
-    const [originalTwentyOneDay, setOriginalTwentyOneDay] = useState(true)
 
     const [updatedBadHabit, setUpdatedBadHabit] = useState(false)
     const [toast, dismissToast] = useIonToast()
@@ -42,7 +40,6 @@ function EditingHabitModal (props:any) {
                     setOriginalStartTime(habitValue[habitIdValue]["startTime"])
                     setOriginalEndTime(habitValue[habitIdValue]["endTime"])
                     setOriginalIntervalRefl(habitValue[habitIdValue]["intervalRefl"])
-                    setOriginalTwentyOneDay(habitValue[habitIdValue]["TwentyOneDaySys"])
 
                     setUpdatedBadHabit(habitValue[habitIdValue]["isBadHabit"])
                 })
@@ -66,7 +63,6 @@ function EditingHabitModal (props:any) {
         const startTime:any = startTimeRef.current?.value
         const endTime:any = endTimeRef.current?.value
         const intervalRefl:any = reflectionInterval.current?.value
-        const twentyOneDay:any = TwentyDayToggle.current?.checked
 
         // check if we have any missing fields
         if (newTitle == undefined) {
@@ -134,7 +130,6 @@ function EditingHabitModal (props:any) {
 
         // set reflection variables
         habit["intervalRefl"] = parseInt(intervalRefl)
-        habit["TwentyOneDaySys"] = twentyOneDay
         if (props.create === true) {
             habit["lastRefl"] = getDate()
             habit["HabitOften"] = ""
@@ -144,7 +139,6 @@ function EditingHabitModal (props:any) {
 
         // changed to bad habit
         if (habit["isBadHabit"] === false && badHabit === true) {
-            habit["TwentyOneDaySys"] = false
             habit["startTime"] = ""
             habit["endTime"] = ""
         }
@@ -250,10 +244,6 @@ function EditingHabitModal (props:any) {
                     <IonToggle id="Toggle" ref={badHabitRef} checked={updatedBadHabit} onIonChange={(e) => {setUpdatedBadHabit(e.target.checked)}}></IonToggle>
                 </IonCard>
                 {!updatedBadHabit && <>
-                    <IonCard className="card">
-                        <IonCardTitle>Put habit into the 21 Day System:</IonCardTitle> 
-                        <IonToggle id="Toggle" ref={TwentyDayToggle} checked={originalTwentyOneDay}></IonToggle>
-                    </IonCard>
                     <Time /> 
                 </>}
                 <CondDeleteButton create={props.create}/>

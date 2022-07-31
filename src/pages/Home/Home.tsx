@@ -89,6 +89,14 @@ const Home: React.FC = () => {
 
   async function handleStart () {
     const habits = await store.get("habits")
+    if (habits == null || habits == undefined) {
+      habitToast({
+        buttons: [{ text: 'Hide', handler: () => dismissToast() }],
+        message: "You must have at least one bad habit and one good habit!",
+        cssClass: "toast"
+      })
+      return
+    }
     var bad_habit:number = 0 
     var good_habit:number = 0
     for (var i = 0; i < habits.length; i++) {
@@ -113,11 +121,13 @@ const Home: React.FC = () => {
     <IonPage>
       <IonContent fullscreen>
         <IonText>
-          <p id="Title">Producto</p>
+          <p id="Title" style={{fontSize: '65px'}}>Producto</p>
         </IonText>
 
         <IonText>
-          <p id="Description">Do something that <strong>sucks every single day!</strong></p>
+          <p id="Description" style={{fontSize: '25px', lineHeight: '35px'}}>Do something that is <strong>unconfortable to you every single day!</strong> <br /> 
+          That's how you get <strong>stronger</strong>!
+          </p>
         </IonText>
 
         <br />
