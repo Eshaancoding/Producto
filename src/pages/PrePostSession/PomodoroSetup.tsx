@@ -53,7 +53,7 @@ const PomodoroSetup: React.FC = () => {
                 </IonCard>
 
                 <IonCard class="prompt">
-                    <IonCardTitle>Break Length (minutes): </IonCardTitle>
+                    <IonCardTitle>Motivation Session Length (minutes): </IonCardTitle>
                     <IonInput id="BreakLength" type='number' placeholder="10" onIonChange={(e) => handleResponses(e.detail.value, 1)}/>
                 </IonCard>
 

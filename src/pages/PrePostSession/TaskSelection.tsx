@@ -33,7 +33,6 @@ const TaskSelection: React.FC = () => {
     const val:any = await store.get("habitId")
     setResponse(val)
     if (val != null && str.trim() !== "") {
-      console.log(val)
       setColor("primary")
     } else {
       setColor("secondary")
@@ -42,7 +41,7 @@ const TaskSelection: React.FC = () => {
 
   function handleContinue () {
     if (color === "primary") {
-      history.replace("/AccountabilityMirror")
+      history.replace("/ListLook")
     }
   }
 

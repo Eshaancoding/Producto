@@ -80,7 +80,7 @@ const WorkSession: React.FC = () => {
     original_habits[habitId][dayToString(day)] += (originalMinutes) / 60
     await store.set("habits", original_habits)
     await store.set("NumberSessionsDone", NumberSesDone + 1)
-    history.replace("/break")
+    history.replace("/ListLook")
   }
 
   async function handleCloseButton() {
@@ -155,7 +155,24 @@ const WorkSession: React.FC = () => {
           "In doing this, you are positively assocating completing the entire sequence, and engage reward prediction error in the proper way that dopamine surge can lend itself toward motivation.",
           "Ex: Hard time getting in that 30-60 minutes of exercise. Positively anticipate the onset and the offset of that session (taking my shoes, heading out of the door to the gym). Feel even happy that you are starting the habit in the first place! Learning into the effort, going out and doing the habit (the actual habit itself, you can use procedural memory if you'd like), and then feel how great you're going to feel after you have done the habit (feeling relaxed, happy, productive, happy you have done the habit, etc.)."
         ]} />
-
+        <h2>What you should do during your break:</h2>
+        <List items={[
+          "Although it is tempting, try not to engage in any activities that spikes high amounts of dopamine.", 
+          "This includes playing video games, going on Youtube or Instagram, or even listening to music!", 
+          "The reason for this is because this high spike of dopamine will lead to a lower overall circulation of dopamine in your body, leading you to become less motivated. ",
+          "Since you are not engaging in any activities that spike high amounts of dopamine, you will have a better overall circulation of dopamine in your body, and you will be more motivated for your next work session.",
+          "So instead, try to meditate or just stare up at your ceiling. Yes, it is very boring, but that's the point!",
+          "This information is from the episode 'Controlling Your Dopamine For Motivation, Focus & Satisfaction' from the Huberman Lab Podcast by Andrew Huberman! Check it out if you're interested for more information. A lot of these tips are from the Huberman Lab Podcast.",
+        ]} />
+        <IonText> 
+          <h2>Quote from Marcus Aurelius:</h2>
+        </IonText>
+        <List items={[
+          "Concentrate every minute on doing what's in front of you with precise and genuine seriousness, tenderly, willingly, with justice. And on freeing yourself from all other distractions.", 
+          "Yes, you can, if you do everything as if it were the last thing you were doing in your life, and stop being aimless, stop letting your emotions override what your mind tells you.",
+          "Stop being hypocritical, self-centered, and irritable.",
+          "You see how few things you have to do to live a satisfying and reverent life? If you can manage this, that's all even the gods can ask of you."
+        ]} />
         <div id="footer" />
       </IonContent>
     </IonPage>

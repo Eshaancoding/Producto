@@ -5,13 +5,11 @@ import Home from './pages/Home/Home';
 import PomodoroSetup from './pages/PrePostSession/PomodoroSetup';
 import TaskSelection from './pages/PrePostSession/TaskSelection'; 
 import WorkSession from './pages/Sessions/WorkSession';
-import BreakSession from './pages/Sessions/BreakSession';
-import Visualization from './pages/PrePostSession/Visualization';
+import MotivationSession from './pages/Sessions/MotivationSession';
 import HabitReflection from './pages/Home/HabitReflection';
 import EditingHabitModal from './pages/Home/EditHabit/EditingHabit';
-import AccountabilityMirror from './pages/PrePostSession/AccountabilityMirror';
-import CookieJar from './pages/PrePostSession/CookieJar';
 import Failure from './pages/PrePostSession/Failure';
+import ListLook from './pages/PrePostSession/ListLook';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -41,21 +39,14 @@ const App: React.FC = () => (
         <Route exact path="/home" component={Home} />
         <Route exact path="/session" component={PomodoroSetup} />
 
-        <Route exact path="/work" component={WorkSession} />
-        <Route exact path="/break" component={BreakSession} /> 
+        <Route exact path="/WorkSession" component={WorkSession} />
+        <Route exact path="/MotivationSession" component={MotivationSession} /> 
 
         <Route exact path="/taskSelect" component={TaskSelection} />
-        <Route exact path="/CookieJar" component={CookieJar} />
         <Route exact path="/Failure" component={Failure} />
-        <Route exact path="/AccountabilityMirror" component={AccountabilityMirror} /> 
-        <Route exact path="/Visualization"> 
-          <Visualization isBreak={false} />
-        </Route>
 
-        <Route exact path="/VisualizationBreak">
-          <Visualization isBreak={true} />
-        </Route>
-        
+        <Route exact path="/ListLook" component={ListLook} />
+
         <Route exact path="/HabitReflection" component={HabitReflection} />
 
         <Route exact path="/editHabit">
