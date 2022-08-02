@@ -1,4 +1,4 @@
-import { IonList, IonCard, IonLabel, IonInput, IonItem, IonText, IonContent, IonPage, useIonViewWillEnter, IonButton, useIonViewWillLeave } from '@ionic/react';
+import { IonList, IonCard, IonLabel, IonInput, IonItem, IonText, IonTextarea, IonContent, IonPage, useIonViewWillEnter, IonButton, } from '@ionic/react';
 import { LocalNotifications } from '@capacitor/local-notifications';
 import { useState } from 'react';
 import "../ProductoStyle.css"
@@ -129,7 +129,7 @@ const MotivationSession: React.FC = () => {
                 ]} />
                 <IonCard className='card' style={{ margin: 20 }}>
                     <IonLabel><span className="highlight">Enter your notes about this challenge here:</span></IonLabel>
-                    <IonInput type="text" placeholder="Enter response here" value={responses[0]} onIonChange={(e) => { setResponse(e.detail.value as string, 0) }} />
+                    <IonTextarea autoGrow placeholder="Enter response here" value={responses[0]} onIonChange={(e) => { setResponse(e.detail.value as string, 0) }} />
                 </IonCard>
                 <IonText>
                     <h2>Do the things that make you uncomfortable</h2>
@@ -142,7 +142,7 @@ const MotivationSession: React.FC = () => {
                 ]} />
                 <IonCard className='card' style={{ margin: 20 }}>
                     <IonLabel><span className="highlight">Enter your notes about this challenge here:</span></IonLabel>
-                    <IonInput type="text" placeholder="Enter response here" value={responses[1]} onIonChange={(e) => { setResponse(e.detail.value as string, 1) }} />
+                    <IonTextarea autoGrow placeholder="Enter response here" value={responses[1]} onIonChange={(e) => { setResponse(e.detail.value as string, 1) }} />
                 </IonCard>
                 <IonText>
                     <h2>Rather than focusing on bullshit you cannot change, imagine visualizing the things you can change. </h2>
@@ -157,7 +157,7 @@ const MotivationSession: React.FC = () => {
                 ]} />
                 <IonCard className='card' style={{ margin: 20 }}>
                     <IonLabel><span className="highlight">Enter your notes about this challenge here:</span></IonLabel>
-                    <IonInput type="text" placeholder="Enter response here" value={responses[2]} onIonChange={(e) => { setResponse(e.detail.value as string, 2) }} />
+                    <IonTextarea autoGrow placeholder="Enter response here" value={responses[2]} onIonChange={(e) => { setResponse(e.detail.value as string, 2) }} />
                 </IonCard>
                 <IonText>
                     <h2>Write all your achievements in your journal, as well as life obstacles you've overcome. </h2>
@@ -172,7 +172,7 @@ const MotivationSession: React.FC = () => {
                 ]} />
                 <IonCard className='card' style={{ margin: 20 }}>
                     <IonLabel><span className="highlight">Enter your notes about this challenge here:</span></IonLabel>
-                    <IonInput type="text" placeholder="Enter response here" value={responses[3]} onIonChange={(e) => { setResponse(e.detail.value as string, 3) }} />
+                    <IonTextarea autoGrow placeholder="Enter response here" value={responses[3]} onIonChange={(e) => { setResponse(e.detail.value as string, 3) }} />
                 </IonCard>
                 <IonText>
                     <h2>Push past your normal stopping point.</h2>
@@ -186,7 +186,7 @@ const MotivationSession: React.FC = () => {
                 ]} />
                 <IonCard className='card' style={{ margin: 20 }}>
                     <IonLabel><span className="highlight">Enter your notes about this challenge here:</span></IonLabel>
-                    <IonInput type="text" placeholder="Enter response here" value={responses[4]} onIonChange={(e) => { setResponse(e.detail.value as string, 4) }} />
+                    <IonTextarea autoGrow placeholder="Enter response here" value={responses[4]} onIonChange={(e) => { setResponse(e.detail.value as string, 4) }} />
                 </IonCard>
                 <IonText>
                     <p style={{ textAlign: 'center' }} >Challenges from the book <a target="_blank" rel="noopener noreferrer" href="https://www.amazon.com/Cant-Hurt-Me-Master-Your/dp/1544512287">Can't Hurt Me</a> by David Goggins.</p>
