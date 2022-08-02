@@ -4,7 +4,7 @@ import "./WorkSession.css"
 import { getDate, getDifferenceDay, dayToString } from '../../helper/DateHelper';
 import CountBar from '../../helper/CounterBar';
 
-import { LocalNotifications} from '@capacitor/local-notifications'
+import { LocalNotifications } from '@capacitor/local-notifications'
 import { useHistory } from 'react-router';
 import { Storage } from '@ionic/storage';
 
@@ -50,15 +50,27 @@ const TimeDisplay = (props: any) => {
 
 const WorkSession: React.FC = () => {
   const history = useHistory()
-  const [ habitId, setHabitId] = useState(0)
-  const [ originalMinutes, setOriginalMinutes ] = useState(0)
-  const [ minutes, setMinutes ] = useState(0)
-  const [ seconds, setSeconds ] = useState(0)
-  const [ NumberSesDone, setNumberSesDone] = useState(0)
+  const [habitId, setHabitId] = useState(0)
+  const [originalMinutes, setOriginalMinutes] = useState(0)
+  const [minutes, setMinutes] = useState(0)
+  const [seconds, setSeconds] = useState(0)
+  const [NumberSesDone, setNumberSesDone] = useState(0)
   const store = new Storage()
   store.create()
 
-  async function viewEnter () {
+  async function viewEnter() {
+    // Set notification
+    await LocalNotifications.schedule({
+      notifications: [{
+        title: "Work Session",
+        body: "It's time to work!",
+        id: 2,
+        extra: {
+          data: "Work Session Notification"
+        }
+      }]
+    })
+
     // set Original minutes
     const pomoWork = await store.get("pomoWork")
     setOriginalMinutes(pomoWork)
@@ -66,14 +78,14 @@ const WorkSession: React.FC = () => {
     // get habit id 
     const habitId = await store.get("habitId")
     setHabitId(habitId)
-    
+
     // set number sessions done
     const sessionsDone = await store.get("NumberSessionsDone")
     setNumberSesDone(sessionsDone)
   }
   useIonViewWillEnter(viewEnter)
 
-  async function handleDone () {
+  async function handleDone() {
     const day: number = new Date().getDay()
     const original_habits = await store.get("habits")
     original_habits[habitId]['hoursSpent'] += (originalMinutes) / 60
@@ -157,18 +169,18 @@ const WorkSession: React.FC = () => {
         ]} />
         <h2>What you should do during your break:</h2>
         <List items={[
-          "Although it is tempting, try not to engage in any activities that spikes high amounts of dopamine.", 
-          "This includes playing video games, going on Youtube or Instagram, or even listening to music!", 
+          "Although it is tempting, try not to engage in any activities that spikes high amounts of dopamine.",
+          "This includes playing video games, going on Youtube or Instagram, or even listening to music!",
           "The reason for this is because this high spike of dopamine will lead to a lower overall circulation of dopamine in your body, leading you to become less motivated. ",
           "Since you are not engaging in any activities that spike high amounts of dopamine, you will have a better overall circulation of dopamine in your body, and you will be more motivated for your next work session.",
           "So instead, try to meditate or just stare up at your ceiling. Yes, it is very boring, but that's the point!",
           "This information is from the episode 'Controlling Your Dopamine For Motivation, Focus & Satisfaction' from the Huberman Lab Podcast by Andrew Huberman! Check it out if you're interested for more information. A lot of these tips are from the Huberman Lab Podcast.",
         ]} />
-        <IonText> 
+        <IonText>
           <h2>Quote from Marcus Aurelius:</h2>
         </IonText>
         <List items={[
-          "Concentrate every minute on doing what's in front of you with precise and genuine seriousness, tenderly, willingly, with justice. And on freeing yourself from all other distractions.", 
+          "Concentrate every minute on doing what's in front of you with precise and genuine seriousness, tenderly, willingly, with justice. And on freeing yourself from all other distractions.",
           "Yes, you can, if you do everything as if it were the last thing you were doing in your life, and stop being aimless, stop letting your emotions override what your mind tells you.",
           "Stop being hypocritical, self-centered, and irritable.",
           "You see how few things you have to do to live a satisfying and reverent life? If you can manage this, that's all even the gods can ask of you."

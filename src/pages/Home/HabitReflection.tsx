@@ -1,4 +1,4 @@
-import { IonPage, IonContent, useIonViewWillEnter, IonButton, IonCard, IonCardTitle, IonItem, IonLabel, IonInput, IonText} from "@ionic/react";
+import { IonPage, IonContent, useIonViewWillEnter, IonButton, IonCard, IonCardTitle, IonLabel, IonInput, IonText} from "@ionic/react";
 import { Storage } from "@ionic/storage";
 import { useState } from "react";
 import { useHistory } from "react-router";
@@ -22,6 +22,8 @@ function HabitReflection (props:any) {
         }
         setResponses(arr)
     })
+
+    
 
     function handleChange (value:any, habitIndex:number, questionIndex:number) {
         var copyResponse:any = responses
@@ -65,7 +67,7 @@ function HabitReflection (props:any) {
     return (
         <IonPage>
             <IonContent>
-                <IonText> <p id="Description">Habit Reflection </p></IonText>
+                <IonText> <p id="Title">Habit Reflection </p></IonText>
                 {habitsFiltered.map((value, index) => {
                     return (
                         <IonCard class="card" key={index}>

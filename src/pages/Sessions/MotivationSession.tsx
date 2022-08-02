@@ -1,6 +1,6 @@
-import {IonList, IonItem, IonText, IonContent, IonPage, useIonViewWillEnter, IonButton} from '@ionic/react';
+import { IonList, IonCard, IonLabel, IonInput, IonItem, IonText, IonContent, IonPage, useIonViewWillEnter, IonButton, useIonViewWillLeave } from '@ionic/react';
 import { LocalNotifications } from '@capacitor/local-notifications';
-import { useState} from 'react';
+import { useState } from 'react';
 import "../ProductoStyle.css"
 import "./WorkSession.css"
 
@@ -8,20 +8,20 @@ import CountBar from '../../helper/CounterBar';
 import { useHistory } from 'react-router';
 import { Storage } from '@ionic/storage';
 
-const BulletPoint = (props:any) => {
+const BulletPoint = (props: any) => {
     return (
         <IonItem>
             <IonText>
-                <p className="BodyText">{props.text}</p> 
+                <p className="BodyText">{props.text}</p>
             </IonText>
         </IonItem>
     )
 }
 
-const List = (props:any) => {
+const List = (props: any) => {
     return (
         <IonList id="list" lines='inset' inset={true}>
-            {props.items.map((item:any, idx:number) => {
+            {props.items.map((item: any, idx: number) => {
                 return (
                     <BulletPoint key={idx} text={item} />
                 )
@@ -30,7 +30,7 @@ const List = (props:any) => {
     )
 }
 
-const TimeDisplay = (props:any) => {
+const TimeDisplay = (props: any) => {
     var minutes = props.minutes;
     var seconds = props.seconds;
     var minutes_text = minutes.toString();
@@ -49,37 +49,52 @@ const TimeDisplay = (props:any) => {
 
 const MotivationSession: React.FC = () => {
     const [originalMinutes, setOriginalMinutes] = useState(0)
-    const [minutes, setMinutes] = useState(0); 
+    const [minutes, setMinutes] = useState(0);
     const [seconds, setSeconds] = useState(0);
     const [habitId, setHabitId] = useState(-1)
-    const [ NumberSesDone, setNumberSesDone ] = useState(0)
+    const [NumberSesDone, setNumberSesDone] = useState(0)
+    const [responses, setResponses] = useState(["", "", "", "", ""])
     const history = useHistory()
     const store = new Storage()
     store.create()
 
-    async function onIonEnter () {
+    async function setResponse(text: string, index: number) {
+        var newResponse = [...responses]
+        newResponse[index] = text
+        setResponses(newResponse)
+        await store.set("ChallengesResponse", newResponse)
+    }
+
+    async function onIonEnter() {
         // set notifications
         await LocalNotifications.schedule({
             notifications: [{
-                title: "Motivation Session", 
-                body: "It's time to take for a motivation session!", 
+                title: "Motivation Session",
+                body: "It's time to take for a motivation session!",
                 id: 1,
                 extra: {
-                data: "Motivation Session Notification"
+                    data: "Motivation Session Notification"
                 }
             }]
         })
 
-        store.get("pomoBreak").then((value) => {setOriginalMinutes(value)})
-        store.get("habitId").then((value) => {setHabitId(value)})
-        store.get("NumberSessionsDone").then((value) => {setNumberSesDone(value)})
+        store.get("ChallengesResponse").then((value) => {
+            if (value != (undefined || null)) {
+                setResponses(value)
+            }
+        })
+
+        store.get("pomoBreak").then((value) => { setOriginalMinutes(value) })
+        store.get("habitId").then((value) => { setHabitId(value) })
+        store.get("NumberSessionsDone").then((value) => { setNumberSesDone(value) })
     }
     useIonViewWillEnter(onIonEnter)
 
     async function handleCloseButton() {
         // get today's date
         var original_habits: any = await store.get("habits")
-
+        // get response
+        await store.set("ChallengesResponse", responses)
         // change habits
         original_habits[habitId]["sessions"] += 1
         // set habits in store
@@ -87,10 +102,15 @@ const MotivationSession: React.FC = () => {
         // redirect to home (ending page after completed habit) 
         history.replace("/Failure")
     }
+
+    async function CountBarEnd() {
+        history.replace("/WorkSession")
+    }
+
     return (
         <IonPage>
             <IonContent fullscreen>
-                <CountBar minutes={originalMinutes} seconds={0} useStartTime logMinutes={setMinutes} logSeconds={setSeconds} finish={() => history.replace("/WorkSession")} />
+                <CountBar minutes={originalMinutes} seconds={0} useStartTime logMinutes={setMinutes} logSeconds={setSeconds} finish={CountBarEnd} />
                 <IonText><p id="Title">Motivation Session</p></IonText>
                 <IonText>
                     <TimeDisplay minutes={minutes} seconds={seconds} NumberSesDone={NumberSesDone} />
@@ -107,7 +127,11 @@ const MotivationSession: React.FC = () => {
                     "That means you have to do some research and break it all down. For example, if you are trying to lose forty pounds, your first Post-It may be to lose two pounds in the first week. Once that goal is achieved, remove the note and post the next goal of two to five pounds until your ultimate goal is realized.",
                     "Whatever your goal, you’ll need to hold yourself accountable for the small steps it will take to get there. Self-improvement takes dedication and self-discipline. The dirty mirror you see every day is going to reveal the truth. Stop ignoring it. Use it to your advantage."
                 ]} />
-                <IonText> 
+                <IonCard className='card' style={{ margin: 20 }}>
+                    <IonLabel><span className="highlight">Enter your notes about this challenge here:</span></IonLabel>
+                    <IonInput type="text" placeholder="Enter response here" value={responses[0]} onIonChange={(e) => { setResponse(e.detail.value as string, 0) }} />
+                </IonCard>
+                <IonText>
                     <h2>Do the things that make you uncomfortable</h2>
                 </IonText>
                 <List items={[
@@ -116,7 +140,11 @@ const MotivationSession: React.FC = () => {
                     "Even if it’s as simple as making your bed, doing the dishes, ironing your clothes, or getting up before dawn and running two miles each day. Once that becomes comfortable, take it to five, then ten miles. If you already do all those things, find something you aren’t doing. We all have areas in our lives we either ignore or can improve upon. Find yours.",
                     "We often choose to focus on our strengths rather than our weaknesses. Use this time to make your weaknesses your strengths. Doing things—even small things—that make you uncomfortable will help make you strong. The more often you get uncomfortable the stronger you’ll become, and soon you’ll develop a more productive, can-do dialogue with yourself in stressful situations."
                 ]} />
-                <IonText> 
+                <IonCard className='card' style={{ margin: 20 }}>
+                    <IonLabel><span className="highlight">Enter your notes about this challenge here:</span></IonLabel>
+                    <IonInput type="text" placeholder="Enter response here" value={responses[1]} onIonChange={(e) => { setResponse(e.detail.value as string, 1) }} />
+                </IonCard>
+                <IonText>
                     <h2>Rather than focusing on bullshit you cannot change, imagine visualizing the things you can change. </h2>
                 </IonText>
                 <List items={[
@@ -127,7 +155,11 @@ const MotivationSession: React.FC = () => {
                     "Remember, visualization will never compensate for work undone. You cannot visualize lies. All the strategies I employ to answer the simple questions and win the mind game are only effective because I put in work. It’s a lot more than mind over matter. It takes relentless self-discipline to schedule suffering into your day, every day, but if you do, you’ll find that at the other end of that suffering is a whole other life just waiting for you.",
                     "This challenge doesn’t have to be physical, and victory doesn’t always mean you came in first place. It can mean you’ve finally overcome a lifelong fear or any other obstacle that made you surrender in the past."
                 ]} />
-                <IonText> 
+                <IonCard className='card' style={{ margin: 20 }}>
+                    <IonLabel><span className="highlight">Enter your notes about this challenge here:</span></IonLabel>
+                    <IonInput type="text" placeholder="Enter response here" value={responses[2]} onIonChange={(e) => { setResponse(e.detail.value as string, 2) }} />
+                </IonCard>
+                <IonText>
                     <h2>Write all your achievements in your journal, as well as life obstacles you've overcome. </h2>
                 </IonText>
                 <List items={[
@@ -138,7 +170,11 @@ const MotivationSession: React.FC = () => {
                     "Because if you perform this challenge correctly and truly challenge yourself, you’ll come to a point in any exercise where pain, boredom, or self-doubt kicks in, and you’ll need to push back to get through it. The Cookie Jar is your shortcut to taking control of your own thought process. Use it that way!",
                     "The point here isn’t to make yourself feel like a hero for the fuck of it. It’s not a hooray-for-me session. It’s to remember what a badass you are so you can use that energy to succeed again in the heat of battle!"
                 ]} />
-                <IonText> 
+                <IonCard className='card' style={{ margin: 20 }}>
+                    <IonLabel><span className="highlight">Enter your notes about this challenge here:</span></IonLabel>
+                    <IonInput type="text" placeholder="Enter response here" value={responses[3]} onIonChange={(e) => { setResponse(e.detail.value as string, 3) }} />
+                </IonCard>
+                <IonText>
                     <h2>Push past your normal stopping point.</h2>
                 </IonText>
                 <List items={[
@@ -148,13 +184,17 @@ const MotivationSession: React.FC = () => {
                     "There is so much pain and suffering involved in physical challenges that it’s the best training to take command of your inner dialogue, and the newfound mental strength and confidence you gain by continuing to push yourself physically will carry over to other aspects in your life. You will realize that if you were underperforming in your physical challenges, there is a good chance you are underperforming at school and work too.",
                     "The bottom line is that life is one big mind game. The only person you are playing against is yourself. Stick with this process and soon what you thought was impossible will be something you do every fucking day of your life."
                 ]} />
+                <IonCard className='card' style={{ margin: 20 }}>
+                    <IonLabel><span className="highlight">Enter your notes about this challenge here:</span></IonLabel>
+                    <IonInput type="text" placeholder="Enter response here" value={responses[4]} onIonChange={(e) => { setResponse(e.detail.value as string, 4) }} />
+                </IonCard>
                 <IonText>
-                    <p style={{textAlign: 'center'}} >Challenges from the book <a target="_blank" rel="noopener noreferrer" href="https://www.amazon.com/Cant-Hurt-Me-Master-Your/dp/1544512287">Can't Hurt Me</a> by David Goggins.</p>
+                    <p style={{ textAlign: 'center' }} >Challenges from the book <a target="_blank" rel="noopener noreferrer" href="https://www.amazon.com/Cant-Hurt-Me-Master-Your/dp/1544512287">Can't Hurt Me</a> by David Goggins.</p>
                 </IonText>
                 <div id="footer" />
             </IonContent>
         </IonPage>
-    )  
+    )
 }
 
 export default MotivationSession;
