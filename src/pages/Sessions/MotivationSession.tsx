@@ -53,7 +53,8 @@ const MotivationSession: React.FC = () => {
     const [seconds, setSeconds] = useState(0);
     const [habitId, setHabitId] = useState(-1)
     const [NumberSesDone, setNumberSesDone] = useState(0)
-    const [responses, setResponses] = useState(["", "", "", "", ""])
+    const [responses, setResponses] = useState(["", "", "", "", "", ""])
+    const [color, setColor] = useState("secondary")
     const history = useHistory()
     const store = new Storage()
     store.create()
@@ -67,17 +68,6 @@ const MotivationSession: React.FC = () => {
 
     async function onIonEnter() {
         // set notifications
-        await LocalNotifications.schedule({
-            notifications: [{
-                title: "Motivation Session",
-                body: "It's time to take for a motivation session!",
-                id: 1,
-                extra: {
-                    data: "Motivation Session Notification"
-                }
-            }]
-        })
-
         store.get("ChallengesResponse").then((value) => {
             if (value != (undefined || null)) {
                 setResponses(value)
@@ -100,11 +90,27 @@ const MotivationSession: React.FC = () => {
         // set habits in store
         await store.set("habits", original_habits)
         // redirect to home (ending page after completed habit) 
-        history.replace("/Failure")
+        history.replace("/home")
     }
 
     async function CountBarEnd() {
-        history.replace("/WorkSession")
+        if (color === "secondary") {
+            await LocalNotifications.schedule({
+                notifications: [{
+                    title: "Work Session", 
+                    body: "It's time to work! Click the continue button to continue.",
+                    id: 2,
+                    extra: {
+                        data: "Work Session Notification"
+                    }
+                }]
+            })
+        }
+        setColor("primary")
+    }
+
+    async function ContinueButton () {
+        if (color === "primary") history.replace("/WorkSession")
     }
 
     return (
@@ -116,6 +122,8 @@ const MotivationSession: React.FC = () => {
                     <TimeDisplay minutes={minutes} seconds={seconds} NumberSesDone={NumberSesDone} />
                     <IonButton id="CloseButton" onClick={handleCloseButton}> End Session </IonButton>
                     <br />
+                    <br />
+                    <IonButton id="CloseButton" color={color} onClick={ContinueButton}>Continue</IonButton>
                     <br />
                     <br />
                     <h2>Tacked Post-It notes on the Accountability Mirror</h2>
@@ -187,6 +195,18 @@ const MotivationSession: React.FC = () => {
                 <IonCard className='card' style={{ margin: 20 }}>
                     <IonLabel><span className="highlight">Enter your notes about this challenge here:</span></IonLabel>
                     <IonTextarea autoGrow placeholder="Enter response here" value={responses[4]} onIonChange={(e) => { setResponse(e.detail.value as string, 4) }} />
+                </IonCard>
+                <List items={[
+                    "Think about your most recent and your most heart-wrenching failures. Break out that journal one last time. Log off the digital version and write them out longhand. I want you to feel this process because you are about to file your own, belated After Action Reports.", 
+                    "First off, write out all the good things, everything that went well, from your failures. Be detailed and generous with yourself. A lot of good things will have happened. It’s rarely all bad.",
+                    "Then note how you handled your failure. Did it affect your life and your relationships? How so? How did you think throughout the preparation for and during the execution stage of your failure? You have to know how you were thinking at each step because it’s all about mindset, and that’s where most people fall short.",
+                    "Now go back through and make a list of things you can fix. This isn’t time to be soft or generous. Be brutally honest, write them all out. Study them. Then look at your calendar and schedule another attempt as soon as possible. If the failure happened in childhood, and you can’t recreate the Little League all-star game you choked in, I still want you to write that report because you’ll likely be able to use that information to achieve any goal going forward.",
+                    "As you prepare, keep that AAR handy, consult your Accountability Mirror, and make all necessary adjustments. When it comes time to execute, keep everything we’ve learned about the power of a calloused mind, the Cookie Jar, and The 40% Rule in the forefront of your mind.",
+                    "Control your mindset. Dominate your thought process. This life is all a fucking mind game. Realize that. Own it! And if you fail again, so the fuck be it. Take the pain. Repeat these steps and keep fighting. That’s what it’s all about."
+                ]} />
+                <IonCard className='card' style={{ margin: 20 }}>
+                    <IonLabel><span className="highlight">Enter your notes about this challenge here:</span></IonLabel>
+                    <IonTextarea autoGrow placeholder="Enter response here" value={responses[5]} onIonChange={(e) => { setResponse(e.detail.value as string, 5) }} />
                 </IonCard>
                 <IonText>
                     <p style={{ textAlign: 'center' }} >Challenges from the book <a target="_blank" rel="noopener noreferrer" href="https://www.amazon.com/Cant-Hurt-Me-Master-Your/dp/1544512287">Can't Hurt Me</a> by David Goggins.</p>

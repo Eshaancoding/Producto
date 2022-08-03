@@ -1,6 +1,22 @@
 import ZenMessage from "../../helper/ZenMessage";
+import { useIonViewWillEnter } from "@ionic/react";
+import { LocalNotifications } from "@capacitor/local-notifications";
 
 const ListLook: React.FC = () => {
+    
+    useIonViewWillEnter(async () => {
+        await LocalNotifications.schedule({
+            notifications: [{
+                title: "Motivation Session", 
+                body: "It's time for a motivation session!",
+                id: 1,
+                extra: {
+                    data: "Motivation Session Notification"
+                }
+            }]
+        })
+    })
+
     return (
         <ZenMessage 
             title={<>What to do during the Motivation Session!</>}    

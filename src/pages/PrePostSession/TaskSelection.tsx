@@ -41,7 +41,7 @@ const TaskSelection: React.FC = () => {
 
   function handleContinue () {
     if (color === "primary") {
-      history.replace("/ListLook")
+      history.replace("/MotivationSession")
     }
   }
 

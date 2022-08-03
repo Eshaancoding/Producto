@@ -8,7 +8,6 @@ import WorkSession from './pages/Sessions/WorkSession';
 import MotivationSession from './pages/Sessions/MotivationSession';
 import HabitReflection from './pages/Home/HabitReflection';
 import EditingHabitModal from './pages/Home/EditHabit/EditingHabit';
-import Failure from './pages/PrePostSession/Failure';
 import ListLook from './pages/PrePostSession/ListLook';
 
 /* Core CSS required for Ionic components to work properly */
@@ -43,7 +42,6 @@ const App: React.FC = () => (
         <Route exact path="/MotivationSession" component={MotivationSession} /> 
 
         <Route exact path="/taskSelect" component={TaskSelection} />
-        <Route exact path="/Failure" component={Failure} />
 
         <Route exact path="/ListLook" component={ListLook} />
 
