@@ -221,11 +221,13 @@ function EditingHabitModal (props:any) {
             <IonContent className="ion-padding">
                 <IonText> <p id="Title">Making a schedule</p></IonText>
                 <IonText>
-                    <p id="Description">
-                        Do the <strong>3-week challenge!</strong>. During <strong>Week 1</strong>, take note only every action that you take using timestamps. Be super <strong>detailed</strong>! You should be able to answer exactly how much work you are actually doing and how much breaks we are taking. <br />
-                        Then, one <strong>Week 2</strong>, create a new, <strong>optimized</strong> schedule! Lock everything into 15-30 minute blocks (this is where the habit tracker comes in). You could obviously have one task take up multiple time blocks. <br /> While doing the task, <strong>don't multitask!</strong> Try to focus on one thing and that thing only. Make sure to add in adequate <strong>sleep and rest</strong> as well. When you <strong>rest</strong>, actually rest! Don't do any electronics and chill back. Experiment with <strong>multiple schedules</strong>, and make sure to take notes on week 2 on how different schedules plays out. <br /> <br />
+                    <p id="Description" style={{textAlign: 'center'}}>
+                        Do the <strong>3-week challenge!</strong>. During <strong>Week 1</strong>, take note only every action that you take using timestamps. Be super <strong>detailed</strong>! You should be able to answer exactly how much work you are actually doing and how much breaks we are taking. <br /> <br />
+                        Then, one <strong>Week 2</strong>, create a new, <strong>optimized</strong> schedule! Lock everything into 15-30 minute blocks (this is where the habit tracker comes in). You could obviously have one task take up multiple time blocks. Make sure that the habit that you are adding can be done using a <strong>session!</strong> <br /> <br />
+                        While doing the task, <strong>don't multitask!</strong> Try to focus on one thing and that thing only. Make sure to add in adequate <strong>sleep and rest</strong> as well. When you <strong>rest</strong>, actually rest! Don't do any electronics and chill back. Experiment with <strong>multiple schedules</strong>, and make sure to take notes on week 2 on how different schedules plays out. <br /> <br />
                         By <strong>Week 3</strong>, you have a fully optimized schedule! <br />
                     </p>
+                    <br />
                 </IonText>
                 <IonCard className="card">
                     <IonCardTitle>Enter new title:</IonCardTitle>

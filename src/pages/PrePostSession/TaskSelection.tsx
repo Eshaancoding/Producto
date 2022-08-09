@@ -22,7 +22,7 @@ const TaskSelection: React.FC = () => {
 
   async function handleResponses(e: any={}) {
     await store.set("habitId", habitsList.findIndex((value) => value["title"] === e))
-    if (response.trim() !== "") {
+    if (response != null && response.trim() !== "") {
       setColor("primary")
     } else {
       setColor("secondary") 
@@ -30,9 +30,10 @@ const TaskSelection: React.FC = () => {
   }
 
   async function handleTextResponse (str: any) {
+    await store.set("pomoWork", parseInt(str))
     const val:any = await store.get("habitId")
     setResponse(val)
-    if (val != null && str.trim() !== "") {
+    if (val != null && str !== "") {
       setColor("primary")
     } else {
       setColor("secondary")
@@ -41,7 +42,7 @@ const TaskSelection: React.FC = () => {
 
   function handleContinue () {
     if (color === "primary") {
-      history.replace("/MotivationSession")
+      history.replace("/PushPast")
     }
   }
 
@@ -67,11 +68,13 @@ const TaskSelection: React.FC = () => {
             })} 
           </IonSelect> 
         </IonItem>
-        <br />
-        <IonCard className='card'>
-          <IonLabel><span className="highlight"> Then, decide <strong>how</strong> you are going to improve slightly better than before (ex: more pushups, more study time, etc.). Push past your normal stopping point! <br /> Remember that we are only 40% of our capabilities! We could do so much more and all we have to do is remover the governor!</span></IonLabel>
-          <IonInput type="text" placeholder="Enter response here" onIonChange={(e) => {handleTextResponse(e.detail.value)}} />
+
+        <IonCard class="card" style={{margin: 20}}>
+          <IonLabel className='label'> <span className='highlight'> Enter your Work Session Duration (minutes): </span></IonLabel>
+          <IonInput type="number" placeholder="25" onIonChange={(e) => handleTextResponse(e.detail.value)} />
         </IonCard>
+
+        <br />
         <IonButton id="Continue" color={color} onClick={handleContinue}>Continue</IonButton>
       </IonContent>
     </IonPage>

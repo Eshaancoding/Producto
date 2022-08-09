@@ -1,7 +1,6 @@
 #Title {
     position: relative;
     padding: 0px;
-    margin: 0px;
     height: auto;
     text-align: center;
     font-size: 50px;
@@ -35,8 +34,8 @@ ion-chip.ios {
     width: 100%;
     padding-left: 30px;
     padding-right: 30px;    
-    text-align: center;
     line-height: 22px;
+    text-align: center;
 }
 
 .prompt {
@@ -66,6 +65,10 @@ ion-chip.ios {
 #AddText {
     text-align: center;
     width: 100%;
+}
+
+.label {
+    width: 50%;
 }
 
 .card {

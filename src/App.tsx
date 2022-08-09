@@ -2,13 +2,16 @@ import { Redirect, Route } from 'react-router-dom';
 import { IonApp, IonRouterOutlet, setupIonicReact} from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
 import Home from './pages/Home/Home';
-import PomodoroSetup from './pages/PrePostSession/PomodoroSetup';
 import TaskSelection from './pages/PrePostSession/TaskSelection'; 
 import WorkSession from './pages/Sessions/WorkSession';
 import MotivationSession from './pages/Sessions/MotivationSession';
 import HabitReflection from './pages/Home/HabitReflection';
 import EditingHabitModal from './pages/Home/EditHabit/EditingHabit';
-import ListLook from './pages/PrePostSession/ListLook';
+import PushPast from './pages/PrePostSession/PushPast';
+import Visualization from './pages/PrePostSession/Visualization';
+import CookieJar from './pages/PrePostSession/CookieJar';
+import AccountabilityMirror from './pages/PrePostSession/AccountabilityMirror';
+import Failure from './pages/PrePostSession/Failure';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -36,14 +39,15 @@ const App: React.FC = () => (
     <IonReactRouter>
       <IonRouterOutlet>
         <Route exact path="/home" component={Home} />
-        <Route exact path="/session" component={PomodoroSetup} />
-
         <Route exact path="/WorkSession" component={WorkSession} />
         <Route exact path="/MotivationSession" component={MotivationSession} /> 
 
         <Route exact path="/taskSelect" component={TaskSelection} />
-
-        <Route exact path="/ListLook" component={ListLook} />
+        <Route exact path="/PushPast" component={PushPast} />
+        <Route exact path="/Visualization" component={Visualization} />
+        <Route exact path="/CookieJar" component={CookieJar} />
+        <Route exact path="/AccountabilityMirror" component={AccountabilityMirror} />
+        <Route exact path="/Failure" component={Failure} />
 
         <Route exact path="/HabitReflection" component={HabitReflection} />
 

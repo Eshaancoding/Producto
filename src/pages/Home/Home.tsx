@@ -107,7 +107,7 @@ const Home: React.FC = () => {
       }
     }
     if (bad_habit > 0 && good_habit > 0) {
-      history.replace("/session")
+      history.replace("/taskSelect")
     } else {
       habitToast({
         buttons: [{ text: 'Hide', handler: () => dismissToast() }],
@@ -125,7 +125,7 @@ const Home: React.FC = () => {
         </IonText>
 
         <IonText>
-          <p id="Description" style={{fontSize: '25px', lineHeight: '35px'}}>Do something that is <strong>unconfortable to you every single day!</strong> <br /> 
+          <p id="Description" style={{textAlign: 'center', fontSize: '25px', lineHeight: '35px'}}>Do something that is <strong>uncomfortable to you every single day!</strong> <br /> 
           That's how you get <strong>stronger</strong>!
           </p>
         </IonText>
