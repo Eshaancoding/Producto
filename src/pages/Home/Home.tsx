@@ -4,7 +4,7 @@ import './Home.css';
 import RandomQuote from '../../helper/RandomQuote';
 import { Storage } from '@ionic/storage'
 import HabitCard from '../../helper/HabitCard';
-import { getDate, getWeekDifference, dayToString, getDifferenceDay} from '../../helper/DateHelper';
+import { getDate, getWeekDifference, dayToString, getDifferenceDay, determineIfBetweenTime} from '../../helper/DateHelper';
 import { useHistory } from 'react-router';
 import { LocalNotifications} from '@capacitor/local-notifications';
 
@@ -89,32 +89,42 @@ const Home: React.FC = () => {
 
   async function handleStart () {
     const habits = await store.get("habits")
-    if (habits == null || habits == undefined) {
+    // Check if habits is not null
+    if (habits == null || habits == undefined || habits.length === 0) {
       habitToast({
         buttons: [{ text: 'Hide', handler: () => dismissToast() }],
-        message: "You must have at least one bad habit and one good habit!",
+        message: "You must create at least one habit to start the session!",
         cssClass: "toast"
       })
       return
     }
-    var bad_habit:number = 0 
-    var good_habit:number = 0
-    for (var i = 0; i < habits.length; i++) {
-      if (habits[i]["isBadHabit"] === true) {
-        bad_habit += 1 
-      } else {
-        good_habit += 1
+    // Check if the habits have actually habits and not reminders 
+    var i = 0
+    var y = 0
+    for (var x = 0; x < habits.length; x++) {
+      if (!habits[x]["isReminder"]) {
+        y += 1
+        if (determineIfBetweenTime(habits[x]["startTime"], habits[x]["endTime"])) i += 1
       }
     }
-    if (bad_habit > 0 && good_habit > 0) {
-      history.replace("/taskSelect")
-    } else {
+    if (y == 0) {
       habitToast({
         buttons: [{ text: 'Hide', handler: () => dismissToast() }],
-        message: "You must have at least one bad habit and one good habit!",
+        message: "You must create at least one habit to start the session!",
         cssClass: "toast"
       })
+      return
     }
+    if (i == 0) {
+      habitToast({
+        buttons: [{ text: 'Hide', handler: () => dismissToast() }],
+        message: "Based on the current time, none of your habits are within start time and end time!",
+        cssClass: "toast"
+      })
+      return
+    }
+    
+    history.replace("/taskSelect")
   }
   
   return (
@@ -131,8 +141,6 @@ const Home: React.FC = () => {
         </IonText>
 
         <br />
-
-
         <br /> 
 
         {habits
@@ -159,15 +167,21 @@ const Home: React.FC = () => {
               startTime={object["startTime"] as string}
               endTime={object["endTime"] as string}
               MarkAsCompleteCallback={markAsComplete}
-              isBadHabit={object["isBadHabit"]}
               didToday={object[dayToString(new Date().getDay())]}
+              isReminder={object["isReminder"] == undefined ? false : object["isReminder"]}
             />
           )
         })}
 
-        <IonButton id="open-modal" expand='block' color="light" onClick={() => {history.replace("/CreateHabit")}}>
-          Add habit
-        </IonButton>
+        <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'center'}}>
+          <IonButton id="open-modal" style={{width: '50%', marginRight: 0, paddingRight: 4}} expand='block' color="light" onClick={() => {history.replace("/CreateHabit")}}>
+            Add habit
+          </IonButton>
+
+          <IonButton id="open-modal" style={{width: '50%', marginLeft: 0, paddingLeft: 4}} expand='block' color="light" onClick={() => {history.replace("/CreateReminder")}}>
+            Add Reminder
+          </IonButton>
+        </div>
 
         <IonButton id="SessionButton" routerDirection="back" onClick={handleStart}>
           Start Session

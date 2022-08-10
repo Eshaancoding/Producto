@@ -2,7 +2,7 @@ import { IonPage, IonContent, IonHeader, IonButton, IonItem, IonLabel, IonInput,
 import { useEffect, useRef, useState } from "react";
 import { Storage } from "@ionic/storage";
 import { useHistory } from "react-router";
-import "./EditingHabit.css"
+import "./Habit.css"
 import { getDate, sortTimeFunction } from "../../../helper/DateHelper";
 
 function EditingHabitModal (props:any) {
@@ -10,7 +10,6 @@ function EditingHabitModal (props:any) {
 
     const newTitleRef = useRef<HTMLIonInputElement>(null);
     const newDescriptionRef = useRef<HTMLIonInputElement>(null);
-    const badHabitRef = useRef<HTMLIonToggleElement>(null);
     const startTimeRef = useRef<HTMLIonInputElement>(null);
     const endTimeRef = useRef<HTMLIonInputElement>(null);
     const reflectionInterval = useRef<HTMLIonInputElement>(null);
@@ -21,7 +20,6 @@ function EditingHabitModal (props:any) {
     const [originalStartTime, setOriginalStartTime] = useState()
     const [originalIntervalRefl, setOriginalIntervalRefl] = useState()
 
-    const [updatedBadHabit, setUpdatedBadHabit] = useState(false)
     const [toast, dismissToast] = useIonToast()
 
     const [habits, setHabits] = useState([])
@@ -40,8 +38,6 @@ function EditingHabitModal (props:any) {
                     setOriginalStartTime(habitValue[habitIdValue]["startTime"])
                     setOriginalEndTime(habitValue[habitIdValue]["endTime"])
                     setOriginalIntervalRefl(habitValue[habitIdValue]["intervalRefl"])
-
-                    setUpdatedBadHabit(habitValue[habitIdValue]["isBadHabit"])
                 })
             })
         }
@@ -57,7 +53,6 @@ function EditingHabitModal (props:any) {
 
     async function confirm () {
         // set event
-        const badHabit:any = badHabitRef.current?.checked
         const newDescription:any = newDescriptionRef.current?.value
         const newTitle:any = newTitleRef.current?.value
         const startTime:any = startTimeRef.current?.value
@@ -85,33 +80,31 @@ function EditingHabitModal (props:any) {
             showToast("Interval Value must a whole number, not a decimal!")
             return
         } 
-        if (startTime == undefined && badHabit === false) {
+        if (startTime == undefined) {
             showToast("Please enter a start time!")
             return
         } 
-        if (endTime == undefined && badHabit === false) {
+        if (endTime == undefined) {
             showToast("Please enter an end time!")
             return
         }
         
         // check if end time is after start time
-        if (badHabit === false) {
-            var startTimeHrs = parseInt(startTime.split(":")[0])    
-            var startTimeMin = parseInt(startTime.split(":")[1])    
-            var endTimeHrs = parseInt(endTime.split(":")[0])    
-            var endTimeMin = parseInt(endTime.split(":")[1])    
+        var startTimeHrs = parseInt(startTime.split(":")[0])    
+        var startTimeMin = parseInt(startTime.split(":")[1])    
+        var endTimeHrs = parseInt(endTime.split(":")[0])    
+        var endTimeMin = parseInt(endTime.split(":")[1])    
 
-            var startDate = new Date()
-            startDate.setHours(startTimeHrs)
-            startDate.setMinutes(startTimeMin)
-            var endDate = new Date()
-            endDate.setHours(endTimeHrs)
-            endDate.setMinutes(endTimeMin)
+        var startDate = new Date()
+        startDate.setHours(startTimeHrs)
+        startDate.setMinutes(startTimeMin)
+        var endDate = new Date()
+        endDate.setHours(endTimeHrs)
+        endDate.setMinutes(endTimeMin)
 
-            if (startDate >= endDate) {
-                showToast("End time must be after than start time!")
-                return
-            }
+        if (startDate >= endDate) {
+            showToast("End time must be after than start time!")
+            return
         }
         // arrays
         var array:any = await store.get("habits")
@@ -127,6 +120,7 @@ function EditingHabitModal (props:any) {
         // set start time and end time
         habit["startTime"] = startTime
         habit["endTime"] = endTime
+        habit["isReminder"] = false
 
         // set reflection variables
         habit["intervalRefl"] = parseInt(intervalRefl)
@@ -138,11 +132,7 @@ function EditingHabitModal (props:any) {
         }
 
         // changed to bad habit
-        if (habit["isBadHabit"] === false && badHabit === true) {
-            habit["startTime"] = ""
-            habit["endTime"] = ""
-        }
-        if ((habit["isBadHabit"] === false && badHabit === true) || (habit["isBadHabit"] === true && badHabit === false) || props.create === true) {
+        if (props.create) {
             habit["monday"] = 0
             habit["tuesday"] = 0
             habit["wednesday"] = 0
@@ -156,7 +146,6 @@ function EditingHabitModal (props:any) {
             habit["HabitOften"] = ""
             habit["SessionsProductive"] = ""
             habit["ReflectionFeeling"] = ""
-            habit["isBadHabit"] = badHabit
         }
         // transform array
         if (props.create === false) array[habitId] = habit
@@ -219,7 +208,7 @@ function EditingHabitModal (props:any) {
 
 
             <IonContent className="ion-padding">
-                <IonText> <p id="Title">Making a schedule</p></IonText>
+                <IonText> <p id="Title">Create Habit</p></IonText>
                 <IonText>
                     <p id="Description" style={{textAlign: 'center'}}>
                         Do the <strong>3-week challenge!</strong>. During <strong>Week 1</strong>, take note only every action that you take using timestamps. Be super <strong>detailed</strong>! You should be able to answer exactly how much work you are actually doing and how much breaks we are taking. <br /> <br />
@@ -241,13 +230,7 @@ function EditingHabitModal (props:any) {
                     <IonCardTitle>The number of days between each habit reflection:</IonCardTitle> 
                     <IonInput ref={reflectionInterval} type="number" min={1} placeholder="Enter Days Here" value={originalIntervalRefl}></IonInput>
                 </IonCard>
-                <IonCard className="card">
-                    <IonCardTitle>Is it a bad habit:</IonCardTitle> 
-                    <IonToggle id="Toggle" ref={badHabitRef} checked={updatedBadHabit} onIonChange={(e) => {setUpdatedBadHabit(e.target.checked)}}></IonToggle>
-                </IonCard>
-                {!updatedBadHabit && <>
-                    <Time /> 
-                </>}
+                <Time /> 
                 <CondDeleteButton create={props.create}/>
                 <br />
                 <div id="footer" />

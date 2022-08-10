@@ -1,12 +1,12 @@
 import { Redirect, Route } from 'react-router-dom';
-import { IonApp, IonRouterOutlet, setupIonicReact} from '@ionic/react';
+import { CreateAnimation, IonApp, IonRouterOutlet, setupIonicReact} from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
 import Home from './pages/Home/Home';
 import TaskSelection from './pages/PrePostSession/TaskSelection'; 
 import WorkSession from './pages/Sessions/WorkSession';
 import MotivationSession from './pages/Sessions/MotivationSession';
 import HabitReflection from './pages/Home/HabitReflection';
-import EditingHabitModal from './pages/Home/EditHabit/EditingHabit';
+import EditingHabitModal from './pages/Home/Editing/Habit';
 import PushPast from './pages/PrePostSession/PushPast';
 import Visualization from './pages/PrePostSession/Visualization';
 import CookieJar from './pages/PrePostSession/CookieJar';
@@ -31,6 +31,7 @@ import '@ionic/react/css/display.css';
 
 /* Theme variables */
 import './theme/variables.css';
+import CreateReminder from './pages/Home/Editing/Reminder';
 
 setupIonicReact();
 
@@ -57,6 +58,12 @@ const App: React.FC = () => (
         <Route exact path="/createHabit">
           <EditingHabitModal create={true} />
         </Route>  
+        <Route exact path="/createReminder">
+          <CreateReminder create={true} />
+        </Route>
+        <Route exact path="/editReminder">
+          <CreateReminder create={false} />
+        </Route>
         <Redirect exact path="/" to="/home" />
       </IonRouterOutlet>
     </IonReactRouter>

@@ -60,7 +60,7 @@ const TaskSelection: React.FC = () => {
         <IonItem class="prompt">
           <IonSelect interface='popover' placeholder='Select habit' onIonChange={(e) => handleResponses(e.detail.value)}>
             {habitsList.map(function(object, index) {
-              if (!object["isBadHabit"] && determineIfBetweenTime(object["startTime"], object["endTime"])) {
+              if (!object["isBadHabit"] && !object["isReminder"] && determineIfBetweenTime(object["startTime"], object["endTime"])) {
                 return (
                   <IonSelectOption key={index} value={object["title"]}>{object["title"]}</IonSelectOption>
                 )
