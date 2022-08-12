@@ -42,7 +42,8 @@ const TaskSelection: React.FC = () => {
 
   function handleContinue () {
     if (color === "primary") {
-      history.replace("/PushPast")
+      if (Math.floor(Math.random() * 101) < 40) history.replace("/Remember")
+      else history.replace("/PushPast")
     }
   }
 
@@ -70,7 +71,7 @@ const TaskSelection: React.FC = () => {
         </IonItem>
 
         <IonCard class="card" style={{margin: 20}}>
-          <IonLabel className='label'> <span className='highlight'> Enter your Work Session Duration (minutes): </span></IonLabel>
+          <IonLabel className='label'> <span className='highlight' style={{lineHeight: 1.5}}> Enter your Work Session Duration (minutes): <br /> <strong>Reminder:</strong> If you are more susceptible to distractions, then you should have a low work session duration (ex: 25 minutes)! If not, you should choose high work session duration (ex: 50 minutes). </span></IonLabel>
           <IonInput type="number" placeholder="25" onIonChange={(e) => handleTextResponse(e.detail.value)} />
         </IonCard>
 

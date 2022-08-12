@@ -12,6 +12,7 @@ import Visualization from './pages/PrePostSession/Visualization';
 import CookieJar from './pages/PrePostSession/CookieJar';
 import AccountabilityMirror from './pages/PrePostSession/AccountabilityMirror';
 import Failure from './pages/PrePostSession/Failure';
+import Remember from './pages/PrePostSession/Remember';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -51,6 +52,7 @@ const App: React.FC = () => (
         <Route exact path="/Failure" component={Failure} />
 
         <Route exact path="/HabitReflection" component={HabitReflection} />
+        <Route exact path="/Remember" component={Remember} />
 
         <Route exact path="/editHabit">
           <EditingHabitModal create={false} />

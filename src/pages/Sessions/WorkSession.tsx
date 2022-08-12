@@ -54,12 +54,12 @@ const WorkSession: React.FC = () => {
   const [minutes, setMinutes] = useState(0)
   const [seconds, setSeconds] = useState(0)
   const [NumberSesDone, setNumberSesDone] = useState(0)
-  const [one, setOne] = useState("Not answered yet")
-  const [two, setTwo] = useState("Not answered yet")
-  const [three, setThree] = useState("Not answered yet")
-  const [cookieResp, setCookieResp] = useState("Not answered yet")
-  const [pushPast, setPushPast] = useState("Not answered yet")
-  const [failure, setFailure] = useState("Not answered yet")
+  const [one, setOne] = useState("Not answered yet.")
+  const [two, setTwo] = useState("Not answered yet.")
+  const [three, setThree] = useState("Not answered yet.")
+  const [cookieResp, setCookieResp] = useState("Not answered yet.")
+  const [pushPast, setPushPast] = useState("Not answered yet.")
+  const [failure, setFailure] = useState("Not answered yet.")
 
   const store = new Storage()
   store.create()
@@ -88,7 +88,7 @@ const WorkSession: React.FC = () => {
     })
 
     // Work Session Notification
-    await LocalNotifications.schedule({
+    const result = await LocalNotifications.schedule({
       notifications: [{
         title: "Work Session", 
         body: "It's time to work!",
@@ -120,7 +120,8 @@ const WorkSession: React.FC = () => {
     original_habits[habitId][dayToString(day)] += (originalMinutes) / 60
     await store.set("habits", original_habits)
     await store.set("NumberSessionsDone", NumberSesDone + 1)
-    history.replace("/Visualization")
+    if (Math.floor(Math.random() * 101) < 40) history.replace("/Remember")
+    else history.replace("/Visualization")
   }
 
   async function handleCloseButton() {
@@ -135,7 +136,7 @@ const WorkSession: React.FC = () => {
     // set habits in store
     await store.set("habits", original_habits)
     // redirect to home (ending page after completed habit) 
-    history.replace("/home")
+    history.replace("/Failure")
   }
 
   return (

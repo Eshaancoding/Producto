@@ -50,7 +50,7 @@ const CookieJar: React.FC = () => {
                     "When the pain hits and tries to stop you short of your goal, dunk your fist in, pull out a cookie, and let it fuel you! If you’re more focused on intellectual growth, train yourself to study harder and longer than ever before, or read a record number of books in a given month. Your Cookie Jar can help there too.",
                 ]} />
                 <IonCard className='card' style={{ margin: 20 }}>
-                    <IonLabel><span className="highlight">Think of any type of pain that you may encounter during this session? What "cookie" are you going to grab when that pain hits?</span></IonLabel>
+                    <IonLabel><span className="highlight">Think of any type of pain that you may encounter during this session. What "cookie" are you going to grab when that pain hits?</span></IonLabel>
                     <IonTextarea autoGrow placeholder="Enter response here" onIonChange={(e) => {setResponse(e.detail.value as string, 1)}} />
                 </IonCard>
                 <List items={[
