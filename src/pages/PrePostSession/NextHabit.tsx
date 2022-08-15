@@ -1,4 +1,4 @@
-import { IonTextarea, IonCard, IonLabel, IonPage, IonTitle, IonContent, useIonViewWillEnter, IonButton} from '@ionic/react';
+import { IonTextarea, IonText, IonCard, IonLabel, IonPage, IonTitle, IonContent, useIonViewWillEnter, IonButton} from '@ionic/react';
 import { List } from '../Sessions/WorkSession';
 import { useState } from 'react';
 import { Storage } from '@ionic/storage';
@@ -6,16 +6,25 @@ import { useHistory } from 'react-router';
 import Delay from '../../helper/Delay';
 import { getDate } from '../../helper/DateHelper';
 
-const Visualization: React.FC = () => {
+const NextHabit: React.FC = () => {
     const store = new Storage()
     store.create()
     const [responses, setResponses] = useState(["", "", ""])
     const [color, setColor] = useState("secondary")
     const history = useHistory() 
     const [initialTime, setInitialTime] = useState(null as any)
+    const [nextHabit, setNextHabit] = useState("")
 
     useIonViewWillEnter(async () => {
         setInitialTime(getDate() as any)
+        const habitId = await store.get("habitId")
+        const habits = await store.get("habits")
+        for (var i = habitId+1; i < habits.length; i++) {
+            if (habits[i]["isReminder"] === false) {
+                setNextHabit(habits[i]["title"])
+                break
+            }
+        }
     })
 
     async function setResponse (str:any, index:number) {
@@ -40,7 +49,7 @@ const Visualization: React.FC = () => {
 
     function handleContinue () {
         if (color == "primary") {
-            history.replace("/CookieJar")
+            history.replace("/home")
         }
     }
 
@@ -48,8 +57,13 @@ const Visualization: React.FC = () => {
         <IonPage>
             <IonContent>
                 <IonTitle>
-                    <p id='Title'>Visualization</p>
+                    <p id='Title'>Visualize your next habit!</p>
                 </IonTitle>
+                {nextHabit !== "" && 
+                    <IonText>
+                        <p id="Header">Your Next Habit is: <strong>{nextHabit}</strong></p>
+                    </IonText>
+                }
                 <List items={[
                     "It’s time to visualize! Again, the average person thinks 2,000–3,000 thoughts per hour. Rather than focusing on bullshit you cannot change, imagine visualizing the things you can. Choose any obstacle in your way, or set a new goal, and visualize overcoming or achieving it. Before I engage in any challenging activity, I start by painting a picture of what my success looks and feels like. I’ll think about it every day and that feeling propels me forward when I’m training, competing, or taking on any task I choose. ",
                 ]} />
@@ -94,4 +108,4 @@ const Visualization: React.FC = () => {
     )
 }
 
-export default Visualization;
+export default NextHabit;

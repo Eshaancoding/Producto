@@ -33,6 +33,7 @@ import '@ionic/react/css/display.css';
 /* Theme variables */
 import './theme/variables.css';
 import CreateReminder from './pages/Home/Editing/Reminder';
+import NextHabit from './pages/PrePostSession/NextHabit';
 
 setupIonicReact();
 
@@ -53,6 +54,7 @@ const App: React.FC = () => (
 
         <Route exact path="/HabitReflection" component={HabitReflection} />
         <Route exact path="/Remember" component={Remember} />
+        <Route exact path="/NextHabit" component={NextHabit} />
 
         <Route exact path="/editHabit">
           <EditingHabitModal create={false} />

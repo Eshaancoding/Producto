@@ -11,6 +11,18 @@
     font-weight: bold;
 }
 
+#Header {
+    position: relative;
+    padding: 0px;
+    height: auto;
+    text-align: center;
+    font-size: 30px;
+    margin: 0px;
+    margin-bottom: 40px;
+    padding-left: 60px;
+    padding-right: 60px;
+}
+
 ion-text {
     margin: 0px;
     padding: 0px;

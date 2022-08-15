@@ -3,6 +3,8 @@ import { List } from '../Sessions/WorkSession';
 import { useState } from 'react';
 import { Storage } from '@ionic/storage';
 import { useHistory } from 'react-router';
+import Delay from '../../helper/Delay';
+import { getDate } from '../../helper/DateHelper';
 
 const Failure: React.FC = () => {
     const store = new Storage()
@@ -11,9 +13,11 @@ const Failure: React.FC = () => {
     const [habits, setHabits] = useState([])
     const [responses, setResponses] = useState(["", "", ""])
     const [color, setColor] = useState("secondary")
+    const [initialTime, setInitialTime] = useState(null as any)
     const history = useHistory() 
 
     useIonViewWillEnter(async () => {
+        setInitialTime(getDate())
         const habitId = await store.get("habitId")
         setHabitId(habitId)
         const habits = await store.get("habits")
@@ -45,7 +49,7 @@ const Failure: React.FC = () => {
 
     async function handleContinue () {
         if (color == "primary") {
-            history.replace("/Home")
+            history.replace("/NextHabit")
         }
     }
 
@@ -65,31 +69,42 @@ const Failure: React.FC = () => {
                     "Think about your most recent and your most heart-wrenching failures. Break out that journal one last time. Log off the digital version and write them out longhand. I want you to feel this process because you are about to file your own, belated After Action Reports.", 
                     "First off, write out all the good things, everything that went well, from your failures. Be detailed and generous with yourself. A lot of good things will have happened. It’s rarely all bad.",
                 ]} />
-                <IonCard className='card' style={{ margin: 20 }}>
-                    <IonLabel><span className="highlight">Write all the good things that happened from your failures. Be detailed and generous with yourself!</span></IonLabel>
-                    <IonTextarea autoGrow placeholder="Enter response here" value={getVal(0)} onIonChange={(e) => {setResponse(e.detail.value as string, 0)}} />
-                </IonCard>
-                <List items={[
-                    "Then note how you handled your failure. Did it affect your life and your relationships? How so? How did you think throughout the preparation for and during the execution stage of your failure? You have to know how you were thinking at each step because it’s all about mindset, and that’s where most people fall short."
-                ]} />
-                <IonCard className='card' style={{ margin: 20 }}>
-                    <IonLabel><span className="highlight">How did you handle your failure? What did you think throughout the preperation for and during the execution stage of all your failure?</span></IonLabel>
-                    <IonTextarea autoGrow value={getVal(1)} placeholder="Enter response here" onIonChange={(e) => {setResponse(e.detail.value as string, 1)}} />
-                </IonCard>
-                <List items={[
-                    "Now go back through and make a list of things you can fix. This isn’t time to be soft or generous. Be brutally honest, write them all out. Study them. Then look at your calendar and schedule another attempt as soon as possible. If the failure happened in childhood, and you can’t recreate the Little League all-star game you choked in, I still want you to write that report because you’ll likely be able to use that information to achieve any goal going forward.",
-                    "As you prepare, keep that AAR handy, consult your Accountability Mirror, and make all necessary adjustments. When it comes time to execute, keep everything we’ve learned about the power of a calloused mind, the Cookie Jar, and The 40% Rule in the forefront of your mind.",
-                    "Control your mindset. Dominate your thought process. This life is all a fucking mind game. Realize that. Own it! And if you fail again, so the fuck be it. Take the pain. Repeat these steps and keep fighting. That’s what it’s all about."
-                ]} />
-                <IonCard className='card' style={{ margin: 20 }}>
-                    <IonLabel><span className="highlight">Then make a list of things that you can fix. Be brutally honest with yourself!</span></IonLabel>
-                    <IonTextarea autoGrow value={getVal(2)} placeholder="Enter response here" onIonChange={(e) => {setResponse(e.detail.value as string, 2)}} />
-                </IonCard>
+                <Delay minutes={0} seconds={20} initialTime={initialTime}>
+                    <IonCard className='card' style={{ margin: 20 }}>
+                        <IonLabel><span className="highlight">Write all the good things that happened from your failures. Be detailed and generous with yourself!</span></IonLabel>
+                        <IonTextarea autoGrow placeholder="Enter response here" value={getVal(0)} onIonChange={(e) => {setResponse(e.detail.value as string, 0)}} />
+                    </IonCard>
+                </Delay>
+                <Delay minute={0} seconds={40} initialTime={initialTime}>
+                    <List items={[
+                        "Then note how you handled your failure. Did it affect your life and your relationships? How so? How did you think throughout the preparation for and during the execution stage of your failure? You have to know how you were thinking at each step because it’s all about mindset, and that’s where most people fall short."
+                    ]} />
+                </Delay>
+                <Delay minute={1} seconds={0} initialTime={initialTime}>
+                    <IonCard className='card' style={{ margin: 20 }}>
+                        <IonLabel><span className="highlight">How did you handle your failure? What did you think throughout the preperation for and during the execution stage of all your failure?</span></IonLabel>
+                        <IonTextarea autoGrow value={getVal(1)} placeholder="Enter response here" onIonChange={(e) => {setResponse(e.detail.value as string, 1)}} />
+                    </IonCard>
+                </Delay>
+                <Delay minute={1} seconds={20} initialTime={initialTime}>
+                    <List items={[
+                        "Now go back through and make a list of things you can fix. This isn’t time to be soft or generous. Be brutally honest, write them all out. Study them. Then look at your calendar and schedule another attempt as soon as possible. If the failure happened in childhood, and you can’t recreate the Little League all-star game you choked in, I still want you to write that report because you’ll likely be able to use that information to achieve any goal going forward.",
+                        "As you prepare, keep that AAR handy, consult your Accountability Mirror, and make all necessary adjustments. When it comes time to execute, keep everything we’ve learned about the power of a calloused mind, the Cookie Jar, and The 40% Rule in the forefront of your mind.",
+                        "Control your mindset. Dominate your thought process. This life is all a fucking mind game. Realize that. Own it! And if you fail again, so the fuck be it. Take the pain. Repeat these steps and keep fighting. That’s what it’s all about."
+                    ]} />
+                </Delay>
+                <Delay minute={1} seconds={40} initialTime={initialTime}>
+                    <IonCard className='card' style={{ margin: 20 }}>
+                        <IonLabel><span className="highlight">Then make a list of things that you can fix. Be brutally honest with yourself!</span></IonLabel>
+                        <IonTextarea autoGrow value={getVal(2)} placeholder="Enter response here" onIonChange={(e) => {setResponse(e.detail.value as string, 2)}} />
+                    </IonCard>
+                </Delay>
                 <br />
-
-                <IonButton color={color} onClick={handleContinue} id="Continue">
-                    Continue
-                </IonButton>
+                <Delay minute={2} seconds={0} initialTime={initialTime}>
+                    <IonButton color={color} onClick={handleContinue} id="Continue">
+                        Continue
+                    </IonButton>
+                </Delay>
 
                 <div id="footer" />
             </IonContent>
