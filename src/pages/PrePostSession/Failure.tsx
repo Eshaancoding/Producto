@@ -75,32 +75,32 @@ const Failure: React.FC = () => {
                         <IonTextarea autoGrow placeholder="Enter response here" value={getVal(0)} onIonChange={(e) => {setResponse(e.detail.value as string, 0)}} />
                     </IonCard>
                 </Delay>
-                <Delay minute={0} seconds={40} initialTime={initialTime}>
+                <Delay minutes={0} seconds={40} initialTime={initialTime}>
                     <List items={[
                         "Then note how you handled your failure. Did it affect your life and your relationships? How so? How did you think throughout the preparation for and during the execution stage of your failure? You have to know how you were thinking at each step because it’s all about mindset, and that’s where most people fall short."
                     ]} />
                 </Delay>
-                <Delay minute={1} seconds={0} initialTime={initialTime}>
+                <Delay minutes={1} seconds={0} initialTime={initialTime}>
                     <IonCard className='card' style={{ margin: 20 }}>
                         <IonLabel><span className="highlight">How did you handle your failure? What did you think throughout the preperation for and during the execution stage of all your failure?</span></IonLabel>
                         <IonTextarea autoGrow value={getVal(1)} placeholder="Enter response here" onIonChange={(e) => {setResponse(e.detail.value as string, 1)}} />
                     </IonCard>
                 </Delay>
-                <Delay minute={1} seconds={20} initialTime={initialTime}>
+                <Delay minutes={1} seconds={20} initialTime={initialTime}>
                     <List items={[
                         "Now go back through and make a list of things you can fix. This isn’t time to be soft or generous. Be brutally honest, write them all out. Study them. Then look at your calendar and schedule another attempt as soon as possible. If the failure happened in childhood, and you can’t recreate the Little League all-star game you choked in, I still want you to write that report because you’ll likely be able to use that information to achieve any goal going forward.",
                         "As you prepare, keep that AAR handy, consult your Accountability Mirror, and make all necessary adjustments. When it comes time to execute, keep everything we’ve learned about the power of a calloused mind, the Cookie Jar, and The 40% Rule in the forefront of your mind.",
                         "Control your mindset. Dominate your thought process. This life is all a fucking mind game. Realize that. Own it! And if you fail again, so the fuck be it. Take the pain. Repeat these steps and keep fighting. That’s what it’s all about."
                     ]} />
                 </Delay>
-                <Delay minute={1} seconds={40} initialTime={initialTime}>
+                <Delay minutes={1} seconds={40} initialTime={initialTime}>
                     <IonCard className='card' style={{ margin: 20 }}>
                         <IonLabel><span className="highlight">Then make a list of things that you can fix. Be brutally honest with yourself!</span></IonLabel>
                         <IonTextarea autoGrow value={getVal(2)} placeholder="Enter response here" onIonChange={(e) => {setResponse(e.detail.value as string, 2)}} />
                     </IonCard>
                 </Delay>
                 <br />
-                <Delay minute={2} seconds={0} initialTime={initialTime}>
+                <Delay minutes={2} seconds={0} initialTime={initialTime}>
                     <IonButton color={color} onClick={handleContinue} id="Continue">
                         Continue
                     </IonButton>
