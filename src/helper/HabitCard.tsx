@@ -93,9 +93,9 @@ function HabitCard (props:any) {
   }
 
   return (
-    <IonCard id="Card" className={(props.didToday ? "didToday" : "")}>
+    <IonCard id="HabitCard" className={(props.didToday ? "didToday" : "")}>
       <IonCardContent>
-        <IonCardTitle>{props.habitName} <TimeDisplay startTime={props.startTime} endTime={props.endTime} /> </IonCardTitle>
+        <IonCardTitle id="CardTitle" className={props.isReminder ? "reminder" : undefined}>{props.habitName} <TimeDisplay startTime={props.startTime} endTime={props.endTime} /> </IonCardTitle>
         <IonCardSubtitle>
           {/* Description */}
           {props.habitDescription !== "" && props.habitDescription != undefined && <> Description: {props.habitDescription} <br /> </>} 
@@ -107,7 +107,7 @@ function HabitCard (props:any) {
           <> <br /> Last habit reflection:<br /> 
           <span className='highlight'>{props.HabitOften} <br /> {props.SessionsProductive} <br /> {props.ReflectionFeeling}</span> </>}
         </IonCardSubtitle>
-        <IonFabButton id="edit" onClick={edit} size={props.isReminder ? "small" : undefined}>
+        <IonFabButton id="edit" className={props.isReminder ? "reminder" : undefined} onClick={edit} size={props.isReminder ? "small" : undefined}>
           <IonIcon icon={cogOutline}></IonIcon>  
         </IonFabButton>  
         
@@ -124,11 +124,12 @@ function HabitCard (props:any) {
           {chip(props.saturday, "Sat")}
           {chip(props.sunday, "Sun")}
           <br /><br />
-          <IonBadge class="badge hoursSpent"> {hoursToString(props.totalHours)} </IonBadge>
-          <IonBadge class="badge sessions"> {props.totalSessions} sessions </IonBadge>
+          <div id="BadgeDiv">
+            <IonBadge class="badge hoursSpent"> {hoursToString(props.totalHours)}</IonBadge>
+            <IonBadge class="badge sessions"> {props.totalSessions} sessions </IonBadge>
+          </div>
         </>}
 
-        {isPlatform("ios") && <><br /> <br /><br /></>}
       </IonCardContent>
     </IonCard>
   ) 

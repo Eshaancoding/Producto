@@ -10,7 +10,7 @@ import { Storage } from '@ionic/storage';
 
 const BulletPoint = (props: any) => {
   return (
-    <IonItem>
+    <IonItem id="BulletPoint">
       <IonText>
         <p className="BodyText">{props.text}</p>
       </IonText>

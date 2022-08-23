@@ -54,7 +54,7 @@ const TaskSelection: React.FC = () => {
         <IonText> <p id="Title">Task Selection</p></IonText>
         <IonText>
           <p className="Description">
-            Pick a habit that you want to form (Create a habit in the homepage and make sure it's between start time and end time if there's no dropdown)
+            Pick a habit that you want to form (Create a habit in the homepage and make sure it's between start time and end time if there's no dropdown). Habit Length {habitsList.length}
           </p>
         </IonText>
         <br />
@@ -77,6 +77,10 @@ const TaskSelection: React.FC = () => {
 
         <br />
         <IonButton id="Continue" color={color} onClick={handleContinue}>Continue</IonButton>
+        <br />
+        <br />
+        <br />
+        <br />
       </IonContent>
     </IonPage>
   )

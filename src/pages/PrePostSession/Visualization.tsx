@@ -1,10 +1,11 @@
-import { IonTextarea, IonCard, IonLabel, IonPage, IonTitle, IonContent, useIonViewWillEnter, IonButton} from '@ionic/react';
+import { IonText, IonTextarea, IonCard, IonLabel, IonPage, IonTitle, IonContent, useIonViewWillEnter, IonButton} from '@ionic/react';
 import { List } from '../Sessions/WorkSession';
 import { useState } from 'react';
 import { Storage } from '@ionic/storage';
 import { useHistory } from 'react-router';
 import Delay from '../../helper/Delay';
 import { getDate } from '../../helper/DateHelper';
+import { isPlatform } from '@ionic/react';
 
 const Visualization: React.FC = () => {
     const store = new Storage()
@@ -38,18 +39,22 @@ const Visualization: React.FC = () => {
         }
     }
 
-    function handleContinue () {
+    async function handleContinue () {
         if (color == "primary") {
-            history.replace("/CookieJar")
+            const isTips = await store.get("IsTips")
+            if (!isTips)
+                history.replace("/CookieJar")
+            else
+                history.replace("/home")
         }
     }
 
     return (
         <IonPage>
             <IonContent>
-                <IonTitle>
-                    <p id='Title'>Visualization</p>
-                </IonTitle>
+                <IonText>
+                    <p id='Title' className={isPlatform("ios") ? "ios" : undefined}>Visualization</p>
+                </IonText>
                 <List items={[
                     "It’s time to visualize! Again, the average person thinks 2,000–3,000 thoughts per hour. Rather than focusing on bullshit you cannot change, imagine visualizing the things you can. Choose any obstacle in your way, or set a new goal, and visualize overcoming or achieving it. Before I engage in any challenging activity, I start by painting a picture of what my success looks and feels like. I’ll think about it every day and that feeling propels me forward when I’m training, competing, or taking on any task I choose. ",
                 ]} />

@@ -1,4 +1,4 @@
-import { IonTextarea, IonCard, IonLabel, IonPage, IonTitle, IonContent, IonButton, useIonViewWillEnter} from '@ionic/react';
+import { IonText, IonTextarea, IonCard, IonLabel, IonPage, IonTitle, IonContent, IonButton, useIonViewWillEnter, isPlatform} from '@ionic/react';
 import { List } from '../Sessions/WorkSession';
 import { useState } from 'react';
 import { Storage } from '@ionic/storage';
@@ -29,18 +29,20 @@ const AccountabilityMirror: React.FC = () => {
         setResponses(copy)
     }
 
-    function handleContinue () {
+    async function handleContinue () {
         if (color == "primary") {
-            history.replace("/WorkSession")
+            const isTips = await store.get("IsTips")
+            if (isTips) history.replace("/home")
+            else history.replace("/WorkSession")
         }
     }
 
     return (
         <IonPage>
             <IonContent>
-                <IonTitle>
-                    <p id='Title'>Tacked Post-It notes on the Accountability Mirror</p>
-                </IonTitle>
+                <IonText>
+                    <p id='Title' className={isPlatform("ios") ? "ios" : undefined}>Tacked Post-It notes on the Accountability Mirror</p>
+                </IonText>
                 <List items={[
                     "It’s time to come eyeball to eyeball with yourself, and get raw and real. This is not a self-love tactic. You can’t fluff it. Don’t massage your ego. This is about abolishing the ego and taking the first step toward becoming the real you!",
                     "It’s okay to be unkind with yourself in these moments because we need thicker skin to improve in life. Whether it’s a career goal (quit my job, start a business), a lifestyle goal (lose weight, get more active), or an athletic one (run my first 5K, 10K, or marathon), you need to be truthful with yourself about where you are and the necessary steps it will take to achieve those goals, day by day. Each step, each necessary point of self-improvement, should be written as its own note.",

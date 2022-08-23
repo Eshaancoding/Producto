@@ -1,10 +1,11 @@
-import { IonTextarea, IonCard, IonLabel, IonPage, IonTitle, IonContent, useIonViewWillEnter, IonButton} from '@ionic/react';
+import { IonText, IonTextarea, IonCard, IonLabel, IonPage, IonTitle, IonContent, useIonViewWillEnter, IonButton} from '@ionic/react';
 import { List } from '../Sessions/WorkSession';
 import { useState } from 'react';
 import { Storage } from '@ionic/storage';
 import { useHistory } from 'react-router';
 import Delay from '../../helper/Delay';
 import { getDate } from '../../helper/DateHelper';
+import { isPlatform } from '@ionic/react';
 
 const CookieJar: React.FC = () => {
     const store = new Storage()
@@ -41,9 +42,9 @@ const CookieJar: React.FC = () => {
     return (
         <IonPage>
             <IonContent>
-                <IonTitle>
-                    <p id='Title'>Cookie Jar</p>
-                </IonTitle>
+                <IonText>
+                    <p id='Title' className={isPlatform("ios") ? "ios" : undefined}>Cookie Jar</p>
+                </IonText>
                 <List items={[
                     "Take inventory of your Cookie Jar. Crack your journal open again. Write it all out. Remember, this is not some breezy stroll through your personal trophy room. Don’t just write down your achievement hit list. Include life obstacles you’ve overcome as well, like quitting smoking or overcoming depression or a stutter.",
                     "Add in those minor tasks you failed earlier in life, but tried again a second or third time and ultimately succeeded at. Feel what it was like to overcome those struggles, those opponents, and win."

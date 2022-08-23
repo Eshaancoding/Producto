@@ -1,5 +1,5 @@
-import { IonText, IonContent, IonButton, IonPage, useIonViewWillEnter, useIonToast} from '@ionic/react';
-import { useRef, useState } from 'react';
+import { IonText, IonContent, IonButton, IonPage, useIonViewWillEnter, useIonToast, isPlatform} from '@ionic/react';
+import { useEffect, useRef, useState } from 'react';
 import './Home.css';
 import RandomQuote from '../../helper/RandomQuote';
 import { Storage } from '@ionic/storage'
@@ -20,11 +20,13 @@ const Home: React.FC = () => {
   store.create();
 
   // variables that update habit cards
-  const [habits, setHabits] = useState([])
+  const [habits, setHabits] = useState([] as any)
 
+  const [debug, setDebug] = useState("Debug empty")
 
   async function viewEntered () {
-    await LocalNotifications.requestPermissions()
+    LocalNotifications.requestPermissions().catch((e) => {setDebug(e.toString())})
+    await store.set("IsTips", false)
     await store.set("habitId", null)
     await store.set("startTime", null)
     await store.set("steps", [])
@@ -88,6 +90,7 @@ const Home: React.FC = () => {
   }
 
   async function handleStart () {
+    await store.set("IsTips", false)
     const habits = await store.get("habits")
     // Check if habits is not null
     if (habits == null || habits == undefined || habits.length === 0) {
@@ -131,12 +134,12 @@ const Home: React.FC = () => {
     <IonPage>
       <IonContent fullscreen>
         <IonText>
-          <p id="Title" style={{fontSize: '65px'}}>Producto</p>
+          <p id="Title" style={{fontSize: 60}}>Producto</p>
         </IonText>
 
         <IonText>
           <p id="Description" style={{textAlign: 'center', fontSize: '25px', lineHeight: '35px'}}>Do something that is <strong>uncomfortable to you every single day!</strong> <br /> 
-          That's how you get <strong>stronger</strong>!
+          That's how you get <strong>stronger</strong>! 
           </p>
         </IonText>
 
@@ -144,7 +147,7 @@ const Home: React.FC = () => {
         <br /> 
 
         {habits
-        .map(function (object, index) {
+        .map(function (object:any, index:any) {
           return (
             <HabitCard key={index}
               habitIndex={index}
@@ -175,7 +178,7 @@ const Home: React.FC = () => {
 
         <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'center'}}>
           <IonButton id="open-modal" style={{width: '50%', marginRight: 0, paddingRight: 4}} expand='block' color="light" onClick={() => {history.replace("/CreateHabit")}}>
-            Add habit
+            Add Habit
           </IonButton>
 
           <IonButton id="open-modal" style={{width: '50%', marginLeft: 0, paddingLeft: 4}} expand='block' color="light" onClick={() => {history.replace("/CreateReminder")}}>
@@ -183,11 +186,21 @@ const Home: React.FC = () => {
           </IonButton>
         </div>
 
+
         <IonButton id="SessionButton" routerDirection="back" onClick={handleStart}>
           Start Session
         </IonButton>
+        
+        <br />
 
-        <div id="footer" />
+        <IonButton id="StartButton" routerDirection="back" onClick={async () => {
+          await store.set("IsTips", true)
+          history.replace("/PushPast") 
+        }}>
+          Start Tips
+        </IonButton>
+
+        {!isPlatform("ios") ? <div id="footer" /> : <></>}
       </IonContent>
     </IonPage>
   );

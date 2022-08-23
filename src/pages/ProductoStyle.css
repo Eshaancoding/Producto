@@ -11,6 +11,12 @@
     font-weight: bold;
 }
 
+#Title.ios {
+    font-size: 20px;
+    padding-left: 30px;
+    padding-right: 30px;
+}
+
 #Header {
     position: relative;
     padding: 0px;
@@ -58,6 +64,11 @@ ion-chip.ios {
 #list {
     margin-left: 20px;
     margin-right: 20px;
+}
+
+#BulletPoint.ios {
+    --color: white;
+    --background: rgb(35, 35, 35);
 }
 
 #Continue {

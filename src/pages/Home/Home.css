@@ -23,18 +23,16 @@
     transform: translate(-50%, -50%);
 }
 
-#WhyUseButton {
-    position: absolute;
-    top: 40px;
-    right: 30px;
-    --background: rgb(83, 83, 83);
+#StartButton {
+    position: relative;
+    top: 10%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    margin-top: 10px;
 }
 
-#WhyUseButton.ios {
-    position: relative;
-    left: 50%;
-    transform: translateX(-50%);
-    margin-bottom: 40px;
+#SessionButton.ios {
+    margin-top: 40px;
 }
 
 svg {

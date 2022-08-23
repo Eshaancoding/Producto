@@ -1,51 +1,53 @@
-import { IonTextarea, IonCard, IonLabel, IonPage, IonTitle, IonContent, useIonViewWillEnter, IonButton} from '@ionic/react';
+import { IonText, IonTextarea, IonCard, IonLabel, IonPage, IonTitle, IonContent, useIonViewWillEnter, IonButton} from '@ionic/react';
 import { List } from '../Sessions/MotivationSession';
 import { useState } from 'react';
 import { Storage } from '@ionic/storage';
 import { useHistory } from 'react-router';
 import Delay from '../../helper/Delay';
 import { getDate } from '../../helper/DateHelper';
+import { isPlatform } from '@ionic/react';
 
 const PushPast: React.FC = () => {
     const store = new Storage()
     store.create()
-    const [habitId, setHabitId] = useState(0)
+    const [habitId, setHabitId] = useState(-1)
     const [habits, setHabits] = useState([])
     const [color, setColor] = useState("secondary")
     const [initialTime, setInitialTime] = useState(null)
+    const [resp, setResp] = useState("")
     const history = useHistory() 
     
     useIonViewWillEnter(async () => {
         const habits = await store.get("habits")
         const habitId = await store.get("habitId")         
-        setHabitId(habitId)
-        setHabits(habits)
-        if (!("pushPastDesc" in habits[habitId])) {
-            var copy = [...habits] 
-            copy[habitId]["pushPastDesc"] = ""
-            await store.set("habits", habits)
-        }
         setInitialTime(getDate() as any)
+        if (habitId != undefined) {
+            setHabitId(habitId)
+            setHabits(habits)
+            if (!("pushPastDesc" in habits[habitId])) {
+                var copy = [...habits] 
+                copy[habitId]["pushPastDesc"] = ""
+                await store.set("habits", habits)
+            }
+            else {
+                setResp(habits[habitId]["pushPastDesc"])
+            }
+        }
     })    
 
     async function setResponse (str:any) {
-        var copy:any = [...habits] 
-        copy[habitId]["pushPastDesc"] = str
-        await store.set("habits", habits) 
+        setResp(str) 
         if (str !== "") setColor("primary")
         else setColor("secondary")
     }
 
-    function getVal () {
-        if (habits.length !== 0 && ("pushPastDesc" in habits[habitId])) {
-            return habits[habitId]["pushPastDesc"]
-        } else {
-            return ""
-        }
-    }
-
-    function handleContinue () {
+    async function handleContinue () {
         if (color == "primary") {
+            if (habitId !== -1) {
+                var copy:any = [...habits] 
+                copy[habitId]["pushPastDesc"] = resp
+                await store.set("habits", habits) 
+            }
             history.replace("/Visualization")
         }
     }
@@ -53,17 +55,17 @@ const PushPast: React.FC = () => {
     return (
         <IonPage>
             <IonContent>
-                <IonTitle>
-                    <p id='Title'>Push past your normal stopping point.</p>
-                </IonTitle>
+                <IonText>
+                    <p id="Title" className={isPlatform("ios") ? "ios" : ""}>Push past your normal stopping point.</p>
+                </IonText>
                 <List items={[
                     "The main objective here is to slowly start to remove the governor from your brain. First, a quick reminder of how this process works. In 1999, when I weighed 297 pounds, my first run was a quarter mile. Fast forward to 2007, I ran 205 miles in thirty-nine hours, nonstop. I didn’t get there overnight, and I don’t expect you to either.",
                     "Your job is to push past your normal stopping point. Whether you are running on a treadmill or doing a set of push-ups, get to the point where you are so tired and in pain that your mind is begging you to stop. Then push just 5 to 10 percent further. If the most push-ups you have ever done is one hundred in a workout, do 105 or 110. If you normally run thirty miles each week, run 10 percent more next week.",
                 ]} />
                 <Delay minutes={0} seconds={20} initialTime={initialTime}>
                     <IonCard className='card' style={{ margin: 20 }}>
-                        <IonLabel><span className="highlight">Write down your baseline and decide how you can push your past normal stopping point! (saved)</span></IonLabel>
-                        <IonTextarea autoGrow placeholder="Enter response here" value={getVal()} onIonChange={(e) => {setResponse(e.detail.value as string) }} />
+                        <IonLabel><span className="highlight">Write down your baseline and decide how you can push your past normal stopping point! {habitId !== -1 ? <>(saved)</> : <></>}</span></IonLabel>
+                        <IonTextarea autoGrow placeholder="Enter response here" value={resp} onIonChange={(e) => {setResponse(e.detail.value as string)}} />
                     </IonCard>
                 </Delay>
                 <Delay minutes={0} seconds={40} initialTime={initialTime}>
