@@ -1,7 +1,6 @@
 #Title {
     position: relative;
     padding: 0px;
-    margin: 0px;
     height: auto;
     text-align: center;
     font-size: 50px;
@@ -10,6 +9,24 @@
     padding-left: 60px;
     padding-right: 60px;
     font-weight: bold;
+}
+
+#Title.ios {
+    font-size: 20px;
+    padding-left: 30px;
+    padding-right: 30px;
+}
+
+#Header {
+    position: relative;
+    padding: 0px;
+    height: auto;
+    text-align: center;
+    font-size: 30px;
+    margin: 0px;
+    margin-bottom: 40px;
+    padding-left: 60px;
+    padding-right: 60px;
 }
 
 ion-text {
@@ -35,8 +52,8 @@ ion-chip.ios {
     width: 100%;
     padding-left: 30px;
     padding-right: 30px;    
-    text-align: center;
     line-height: 22px;
+    text-align: center;
 }
 
 .prompt {
@@ -47,6 +64,11 @@ ion-chip.ios {
 #list {
     margin-left: 20px;
     margin-right: 20px;
+}
+
+#BulletPoint.ios {
+    --color: white;
+    --background: rgb(35, 35, 35);
 }
 
 #Continue {
@@ -66,6 +88,10 @@ ion-chip.ios {
 #AddText {
     text-align: center;
     width: 100%;
+}
+
+.label {
+    width: 50%;
 }
 
 .card {

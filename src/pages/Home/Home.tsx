@@ -1,13 +1,12 @@
-import { IonText, IonContent, IonButton, IonPage, useIonViewWillEnter, useIonToast} from '@ionic/react';
-import { useRef, useState } from 'react';
+import { IonText, IonContent, IonButton, IonPage, useIonViewWillEnter, useIonToast, isPlatform} from '@ionic/react';
+import { useEffect, useRef, useState } from 'react';
 import './Home.css';
 import RandomQuote from '../../helper/RandomQuote';
 import { Storage } from '@ionic/storage'
 import HabitCard from '../../helper/HabitCard';
-import { getDate, getWeekDifference, dayToString, getDifferenceDay} from '../../helper/DateHelper';
+import { getDate, getWeekDifference, dayToString, getDifferenceDay, determineIfBetweenTime} from '../../helper/DateHelper';
 import { useHistory } from 'react-router';
 import { LocalNotifications} from '@capacitor/local-notifications';
-import TwentyOneDaySys from './TwentyOneDaySys/TwentyOneDay';
 
 const Home: React.FC = () => {
   // History
@@ -21,11 +20,14 @@ const Home: React.FC = () => {
   store.create();
 
   // variables that update habit cards
-  const [habits, setHabits] = useState([])
+  const [habits, setHabits] = useState([] as any)
 
+  const [debug, setDebug] = useState("Debug empty")
 
   async function viewEntered () {
-    await LocalNotifications.requestPermissions()
+    LocalNotifications.requestPermissions().catch((e) => {setDebug(e.toString())})
+    await store.set("IsTips", false)
+    await store.set("habitId", null)
     await store.set("startTime", null)
     await store.set("steps", [])
     await store.set("NumberSessionsDone", 0)
@@ -88,50 +90,64 @@ const Home: React.FC = () => {
   }
 
   async function handleStart () {
+    await store.set("IsTips", false)
     const habits = await store.get("habits")
-    var bad_habit:number = 0 
-    var good_habit:number = 0
-    for (var i = 0; i < habits.length; i++) {
-      if (habits[i]["isBadHabit"] === true) {
-        bad_habit += 1 
-      } else {
-        good_habit += 1
-      }
-    }
-    if (bad_habit > 0 && good_habit > 0) {
-      history.replace("/session")
-    } else {
+    // Check if habits is not null
+    if (habits == null || habits == undefined || habits.length === 0) {
       habitToast({
         buttons: [{ text: 'Hide', handler: () => dismissToast() }],
-        message: "You must have at least one bad habit and one good habit!",
+        message: "You must create at least one habit to start the session!",
         cssClass: "toast"
       })
+      return
     }
+    // Check if the habits have actually habits and not reminders 
+    var i = 0
+    var y = 0
+    for (var x = 0; x < habits.length; x++) {
+      if (!habits[x]["isReminder"]) {
+        y += 1
+        if (determineIfBetweenTime(habits[x]["startTime"], habits[x]["endTime"])) i += 1
+      }
+    }
+    if (y == 0) {
+      habitToast({
+        buttons: [{ text: 'Hide', handler: () => dismissToast() }],
+        message: "You must create at least one habit to start the session!",
+        cssClass: "toast"
+      })
+      return
+    }
+    if (i == 0) {
+      habitToast({
+        buttons: [{ text: 'Hide', handler: () => dismissToast() }],
+        message: "Based on the current time, none of your habits are within start time and end time!",
+        cssClass: "toast"
+      })
+      return
+    }
+    
+    history.replace("/taskSelect")
   }
-  
-  
   
   return (
     <IonPage>
       <IonContent fullscreen>
         <IonText>
-          <p id="Title">Producto</p>
+          <p id="Title" style={{fontSize: 60}}>Producto</p>
         </IonText>
 
         <IonText>
-          <RandomQuote />
+          <p id="Description" style={{textAlign: 'center', fontSize: '25px', lineHeight: '35px'}}>Do something that is <strong>uncomfortable to you every single day!</strong> <br /> 
+          That's how you get <strong>stronger</strong>! 
+          </p>
         </IonText>
 
-        
-
         <br />
-
-        <TwentyOneDaySys habits={habits} />
-
         <br /> 
 
         {habits
-        .map(function (object, index) {
+        .map(function (object:any, index:any) {
           return (
             <HabitCard key={index}
               habitIndex={index}
@@ -154,21 +170,37 @@ const Home: React.FC = () => {
               startTime={object["startTime"] as string}
               endTime={object["endTime"] as string}
               MarkAsCompleteCallback={markAsComplete}
-              isBadHabit={object["isBadHabit"]}
               didToday={object[dayToString(new Date().getDay())]}
+              isReminder={object["isReminder"] == undefined ? false : object["isReminder"]}
             />
           )
         })}
 
-        <IonButton id="open-modal" expand='block' color="light" onClick={() => {history.replace("/CreateHabit")}}>
-          Add habit
-        </IonButton>
+        <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'center'}}>
+          <IonButton id="open-modal" style={{width: '50%', marginRight: 0, paddingRight: 4}} expand='block' color="light" onClick={() => {history.replace("/CreateHabit")}}>
+            Add Habit
+          </IonButton>
+
+          <IonButton id="open-modal" style={{width: '50%', marginLeft: 0, paddingLeft: 4}} expand='block' color="light" onClick={() => {history.replace("/CreateReminder")}}>
+            Add Reminder
+          </IonButton>
+        </div>
+
 
         <IonButton id="SessionButton" routerDirection="back" onClick={handleStart}>
           Start Session
         </IonButton>
+        
+        <br />
 
-        <div id="footer" />
+        <IonButton id="StartButton" routerDirection="back" onClick={async () => {
+          await store.set("IsTips", true)
+          history.replace("/PushPast") 
+        }}>
+          Start Tips
+        </IonButton>
+
+        {!isPlatform("ios") ? <div id="footer" /> : <></>}
       </IonContent>
     </IonPage>
   );

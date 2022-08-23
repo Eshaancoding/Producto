@@ -2,7 +2,7 @@ import { IonPage, IonContent, IonHeader, IonButton, IonItem, IonLabel, IonInput,
 import { useEffect, useRef, useState } from "react";
 import { Storage } from "@ionic/storage";
 import { useHistory } from "react-router";
-import "./EditingHabit.css"
+import "./Habit.css"
 import { getDate, sortTimeFunction } from "../../../helper/DateHelper";
 
 function EditingHabitModal (props:any) {
@@ -10,20 +10,16 @@ function EditingHabitModal (props:any) {
 
     const newTitleRef = useRef<HTMLIonInputElement>(null);
     const newDescriptionRef = useRef<HTMLIonInputElement>(null);
-    const badHabitRef = useRef<HTMLIonToggleElement>(null);
     const startTimeRef = useRef<HTMLIonInputElement>(null);
     const endTimeRef = useRef<HTMLIonInputElement>(null);
     const reflectionInterval = useRef<HTMLIonInputElement>(null);
-    const TwentyDayToggle = useRef<HTMLIonToggleElement>(null);
 
     const [originalTitle, setOriginalTitle]= useState()
     const [originalDescription, setOriginalDescription] = useState()
     const [originalEndTime, setOriginalEndTime] = useState()
     const [originalStartTime, setOriginalStartTime] = useState()
     const [originalIntervalRefl, setOriginalIntervalRefl] = useState()
-    const [originalTwentyOneDay, setOriginalTwentyOneDay] = useState(true)
 
-    const [updatedBadHabit, setUpdatedBadHabit] = useState(false)
     const [toast, dismissToast] = useIonToast()
 
     const [habits, setHabits] = useState([])
@@ -42,9 +38,6 @@ function EditingHabitModal (props:any) {
                     setOriginalStartTime(habitValue[habitIdValue]["startTime"])
                     setOriginalEndTime(habitValue[habitIdValue]["endTime"])
                     setOriginalIntervalRefl(habitValue[habitIdValue]["intervalRefl"])
-                    setOriginalTwentyOneDay(habitValue[habitIdValue]["TwentyOneDaySys"])
-
-                    setUpdatedBadHabit(habitValue[habitIdValue]["isBadHabit"])
                 })
             })
         }
@@ -60,13 +53,11 @@ function EditingHabitModal (props:any) {
 
     async function confirm () {
         // set event
-        const badHabit:any = badHabitRef.current?.checked
         const newDescription:any = newDescriptionRef.current?.value
         const newTitle:any = newTitleRef.current?.value
         const startTime:any = startTimeRef.current?.value
         const endTime:any = endTimeRef.current?.value
         const intervalRefl:any = reflectionInterval.current?.value
-        const twentyOneDay:any = TwentyDayToggle.current?.checked
 
         // check if we have any missing fields
         if (newTitle == undefined) {
@@ -89,33 +80,31 @@ function EditingHabitModal (props:any) {
             showToast("Interval Value must a whole number, not a decimal!")
             return
         } 
-        if (startTime == undefined && badHabit === false) {
+        if (startTime == undefined) {
             showToast("Please enter a start time!")
             return
         } 
-        if (endTime == undefined && badHabit === false) {
+        if (endTime == undefined) {
             showToast("Please enter an end time!")
             return
         }
         
         // check if end time is after start time
-        if (badHabit === false) {
-            var startTimeHrs = parseInt(startTime.split(":")[0])    
-            var startTimeMin = parseInt(startTime.split(":")[1])    
-            var endTimeHrs = parseInt(endTime.split(":")[0])    
-            var endTimeMin = parseInt(endTime.split(":")[1])    
+        var startTimeHrs = parseInt(startTime.split(":")[0])    
+        var startTimeMin = parseInt(startTime.split(":")[1])    
+        var endTimeHrs = parseInt(endTime.split(":")[0])    
+        var endTimeMin = parseInt(endTime.split(":")[1])    
 
-            var startDate = new Date()
-            startDate.setHours(startTimeHrs)
-            startDate.setMinutes(startTimeMin)
-            var endDate = new Date()
-            endDate.setHours(endTimeHrs)
-            endDate.setMinutes(endTimeMin)
+        var startDate = new Date()
+        startDate.setHours(startTimeHrs)
+        startDate.setMinutes(startTimeMin)
+        var endDate = new Date()
+        endDate.setHours(endTimeHrs)
+        endDate.setMinutes(endTimeMin)
 
-            if (startDate >= endDate) {
-                showToast("End time must be after than start time!")
-                return
-            }
+        if (startDate >= endDate) {
+            showToast("End time must be after than start time!")
+            return
         }
         // arrays
         var array:any = await store.get("habits")
@@ -131,10 +120,10 @@ function EditingHabitModal (props:any) {
         // set start time and end time
         habit["startTime"] = startTime
         habit["endTime"] = endTime
+        habit["isReminder"] = false
 
         // set reflection variables
         habit["intervalRefl"] = parseInt(intervalRefl)
-        habit["TwentyOneDaySys"] = twentyOneDay
         if (props.create === true) {
             habit["lastRefl"] = getDate()
             habit["HabitOften"] = ""
@@ -143,12 +132,7 @@ function EditingHabitModal (props:any) {
         }
 
         // changed to bad habit
-        if (habit["isBadHabit"] === false && badHabit === true) {
-            habit["TwentyOneDaySys"] = false
-            habit["startTime"] = ""
-            habit["endTime"] = ""
-        }
-        if ((habit["isBadHabit"] === false && badHabit === true) || (habit["isBadHabit"] === true && badHabit === false) || props.create === true) {
+        if (props.create) {
             habit["monday"] = 0
             habit["tuesday"] = 0
             habit["wednesday"] = 0
@@ -162,7 +146,6 @@ function EditingHabitModal (props:any) {
             habit["HabitOften"] = ""
             habit["SessionsProductive"] = ""
             habit["ReflectionFeeling"] = ""
-            habit["isBadHabit"] = badHabit
         }
         // transform array
         if (props.create === false) array[habitId] = habit
@@ -225,15 +208,15 @@ function EditingHabitModal (props:any) {
 
 
             <IonContent className="ion-padding">
-                <IonText> <p id="Title">3 Phases of the Day</p></IonText>
+                <IonText> <p id="Title">Create Habit</p></IonText>
                 <IonText>
-                    <p id="Description">
-                        You can leverage your brain's hormone levels to easily make good habits that are difficult, easier! There are 3 phases of the day where you can place the most optimal habits. <br /> <br />
-                        <span style={{fontWeight: "1000"}}>Phase 1:</span> This lasts 0-8 hours after waking up. This is the best time to put your most <span style={{fontWeight: "1000"}}>difficult habits</span> in here.  <br /> <br /> 
-                        <span style={{fontWeight: "1000"}}>Phase 2:</span> This lasts 9-15 hours after waking up. This is the best time to put your habits that doesn't require as much limbic friction (e.i not much effort/motivation to get started on the habit). It is also helpful to wind down during this time of the day. Exposing yourself to less light or relaxing will be beneficial <br /> <br /> 
-                        <span style={{fontWeight: "1000"}}>Phase 3:</span> This lasts 16-24 hours after waking up. This is basically where you go to sleep, and it is absolutely <span style={{fontWeight: "1000"}}>crucial</span> that you get good amounts of sleep! The reason for this is because all the neuroplasticity, which is important for solidifying habits on your brain, happens when you enter deep sleep.<br /> <br /> <br /> 
-                        <span style={{fontWeight: "1000"}}>Note</span> that after you have built your habit reflexively, you should be able to move it around the day with ease! This is just for building your habits. This is not meant to be a permanent placement system of all of your habits. A habit that was once very hard (thus put in Phase 1) but then becomes reflexive over time should be placed in Phase 2!
+                    <p id="Description" style={{textAlign: 'center'}}>
+                        Do the <strong>3-week challenge!</strong>. During <strong>Week 1</strong>, take note only every action that you take using timestamps. Be super <strong>detailed</strong>! You should be able to answer exactly how much work you are actually doing and how much breaks we are taking. <br /> <br />
+                        Then, one <strong>Week 2</strong>, create a new, <strong>optimized</strong> schedule! Lock everything into 15-30 minute blocks (this is where the habit tracker comes in). You could obviously have one task take up multiple time blocks. Make sure that the habit that you are adding can be done using a <strong>session!</strong> <br /> <br />
+                        While doing the task, <strong>don't multitask!</strong> Try to focus on one thing and that thing only. Make sure to add in adequate <strong>sleep and rest</strong> as well. When you <strong>rest</strong>, actually rest! Don't do any electronics and chill back. Experiment with <strong>multiple schedules</strong>, and make sure to take notes on week 2 on how different schedules plays out. <br /> <br />
+                        By <strong>Week 3</strong>, you have a fully optimized schedule! <br />
                     </p>
+                    <br />
                 </IonText>
                 <IonCard className="card">
                     <IonCardTitle>Enter new title:</IonCardTitle>
@@ -247,17 +230,7 @@ function EditingHabitModal (props:any) {
                     <IonCardTitle>The number of days between each habit reflection:</IonCardTitle> 
                     <IonInput ref={reflectionInterval} type="number" min={1} placeholder="Enter Days Here" value={originalIntervalRefl}></IonInput>
                 </IonCard>
-                <IonCard className="card">
-                    <IonCardTitle>Is it a bad habit:</IonCardTitle> 
-                    <IonToggle id="Toggle" ref={badHabitRef} checked={updatedBadHabit} onIonChange={(e) => {setUpdatedBadHabit(e.target.checked)}}></IonToggle>
-                </IonCard>
-                {!updatedBadHabit && <>
-                    <IonCard className="card">
-                        <IonCardTitle>Put habit into the 21 Day System:</IonCardTitle> 
-                        <IonToggle id="Toggle" ref={TwentyDayToggle} checked={originalTwentyOneDay}></IonToggle>
-                    </IonCard>
-                    <Time /> 
-                </>}
+                <Time /> 
                 <CondDeleteButton create={props.create}/>
                 <br />
                 <div id="footer" />

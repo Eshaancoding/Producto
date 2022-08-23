@@ -82,47 +82,54 @@ function HabitCard (props:any) {
     }
   }
 
-  async function editHabit () {
+  async function edit () {
     await store.set("habitIdEdit", props.habitIndex)
-    history.replace("/editHabit")
+    if (props.isReminder) {
+      history.replace("/editReminder")
+    }
+    else {
+      history.replace("/editHabit")
+    }
   }
 
   return (
-    <IonCard id="Card" className={(props.isBadHabit ? "badHabit " : "") + (props.didToday ? "didToday" : "")}>
+    <IonCard id="HabitCard" className={(props.didToday ? "didToday" : "")}>
       <IonCardContent>
-        <IonCardTitle>{props.habitName} <TimeDisplay startTime={props.startTime} endTime={props.endTime} /> </IonCardTitle>
+        <IonCardTitle id="CardTitle" className={props.isReminder ? "reminder" : undefined}>{props.habitName} <TimeDisplay startTime={props.startTime} endTime={props.endTime} /> </IonCardTitle>
         <IonCardSubtitle>
           {/* Description */}
           {props.habitDescription !== "" && props.habitDescription != undefined && <> Description: {props.habitDescription} <br /> </>} 
           {/* Interval */}
-          {props.intervalRefl != undefined && <>Reflection every <span className='highlight'> {props.intervalRefl} </span> days.</>}  
-          {props.lastRefl != undefined && <> Last reflection date: <span className='highlight'> {props.lastRefl.toDateString()}</span>.<br /> </>}
+          {props.intervalRefl != undefined && props.isReminder === false && <>Reflection every <span className='highlight'> {props.intervalRefl} </span> days.</>}  
+          {props.lastRefl != undefined && props.isReminder === false && <> Last reflection date: <span className='highlight'> {props.lastRefl.toDateString()}</span>.<br /> </>}
           {/* Reflection */}
-          {(props.HabitOften !== "" && props.SessionsProductive !== "" && props.ReflectionFeeling !== "" && props.HabitOften != undefined && props.SessionsProductive != undefined && props.SessionsProductive != undefined) && 
+          {(props.HabitOften !== "" && props.SessionsProductive !== "" && props.ReflectionFeeling !== "" && props.HabitOften != undefined && props.SessionsProductive != undefined && props.SessionsProductive != undefined && props.isReminder === false) && 
           <> <br /> Last habit reflection:<br /> 
           <span className='highlight'>{props.HabitOften} <br /> {props.SessionsProductive} <br /> {props.ReflectionFeeling}</span> </>}
         </IonCardSubtitle>
-        <IonFabButton id="edit" onClick={editHabit}>
+        <IonFabButton id="edit" className={props.isReminder ? "reminder" : undefined} onClick={edit} size={props.isReminder ? "small" : undefined}>
           <IonIcon icon={cogOutline}></IonIcon>  
         </IonFabButton>  
-        <IonFabButton id="check" onClick={() => {props.MarkAsCompleteCallback(props.habitIndex)}}>
-          <IonIcon icon={checkmarkOutline}></IonIcon>  
-        </IonFabButton>  
-        <br />
-        {chip(props.monday, "Mon")}
-        {chip(props.tuesday, "Tue")}
-        {chip(props.wednesday, "Wed")}
-        {chip(props.thursday, "Thur")}
-        {chip(props.friday, "Fri")}
-        {chip(props.saturday, "Sat")}
-        {chip(props.sunday, "Sun")}
-        <br /><br />
-        {!props.isBadHabit ? 
-          <IonBadge class="badge hoursSpent"> {hoursToString(props.totalHours)} </IonBadge>
-        : <IonBadge class="badge">Bad Habit</IonBadge>}
-        <IonBadge class="badge sessions"> {props.totalSessions} {props.isBadHabit ? "times avoided" : "sessions"} </IonBadge>
+        
+        {props.isReminder === false && <>
+          <IonFabButton id="check" onClick={() => {props.MarkAsCompleteCallback(props.habitIndex)}}>
+            <IonIcon icon={checkmarkOutline}></IonIcon>  
+          </IonFabButton>  
+          <br />
+          {chip(props.monday, "Mon")}
+          {chip(props.tuesday, "Tue")}
+          {chip(props.wednesday, "Wed")}
+          {chip(props.thursday, "Thur")}
+          {chip(props.friday, "Fri")}
+          {chip(props.saturday, "Sat")}
+          {chip(props.sunday, "Sun")}
+          <br /><br />
+          <div id="BadgeDiv">
+            <IonBadge class="badge hoursSpent"> {hoursToString(props.totalHours)}</IonBadge>
+            <IonBadge class="badge sessions"> {props.totalSessions} sessions </IonBadge>
+          </div>
+        </>}
 
-        {isPlatform("ios") && <><br /> <br /><br /></>}
       </IonCardContent>
     </IonCard>
   ) 

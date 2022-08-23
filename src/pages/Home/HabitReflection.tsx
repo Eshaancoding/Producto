@@ -1,4 +1,4 @@
-import { IonPage, IonContent, useIonViewWillEnter, IonButton, IonCard, IonCardTitle, IonItem, IonLabel, IonInput, IonText} from "@ionic/react";
+import { IonPage, IonContent, useIonViewWillEnter, IonButton, IonCard, IonCardTitle, IonLabel, IonInput, IonText} from "@ionic/react";
 import { Storage } from "@ionic/storage";
 import { useState } from "react";
 import { useHistory } from "react-router";
@@ -22,6 +22,8 @@ function HabitReflection (props:any) {
         }
         setResponses(arr)
     })
+
+    
 
     function handleChange (value:any, habitIndex:number, questionIndex:number) {
         var copyResponse:any = responses
@@ -65,14 +67,14 @@ function HabitReflection (props:any) {
     return (
         <IonPage>
             <IonContent>
-                <IonText> <p id="Description">Habit Reflection </p></IonText>
+                <IonText> <p id="Title">Habit Reflection </p></IonText>
                 {habitsFiltered.map((value, index) => {
                     return (
                         <IonCard class="card" key={index}>
                             <IonCardTitle>{value["isBadHabit"] ? <>Bad Habit</> : <>Habit</>}: {value["title"]}</IonCardTitle>
                             <br />
                             <IonLabel><span className="highlight">
-                                {value["isBadHabit"] ? <>How often do you avoid the habit?</> : <>How often do you do the habit?</>}
+                                {value["isBadHabit"] ? <>How often do you avoid the habit?</> : <>What steps can you make to push yourself while doing the habit (ex: more pushups, more studytime, etc.)</>}
                             </span></IonLabel>
                             <IonInput type="text" placeholder={placeholderFill(index, 0)} onIonChange={(e) => handleChange(e.detail.value, index, 0)}/>
 
