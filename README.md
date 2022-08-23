@@ -1,6 +1,6 @@
 # Producto
 
-This is a productivity app inspired by podcasts in the Huberman Lab series by Andrew Huberman. <br />
+A productivity app inspired by "Can't Hurt Me" by David Goggins. <br />
 Built by Eshaan Barkataki. 
 
 ## Features
@@ -20,4 +20,4 @@ Built by Eshaan Barkataki.
 ## Website (PWA Support!)
 
 App for Desktop (computers): https://producto-13a40.web.app. <br />
-Note: The CSS styling does not work on IOS Web Browsers. 
+Note: Notifications doesn't work on IOS.
