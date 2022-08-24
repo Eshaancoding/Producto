@@ -1,23 +1,24 @@
 import { IonCard, IonLabel, IonTextarea, useIonViewDidEnter} from "@ionic/react";
 import Delay from "./Delay";
 import "../pages/ProductoStyle.css"
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const Input = (props:any) => {
     const TextAreaRef = useRef<HTMLIonTextareaElement>(null)  
     const [response, setResponse] = useState("")
     const [delay, setDelay] = useState(true)
 
+    useEffect(() => {
+        if (props.value !== undefined && props.value !== null) setResponse(props.value)
+    }, [props.value])
+
     useIonViewDidEnter(() => {
-        if (props.value != undefined && props.value != null) {
-            setResponse(props.value)
-        }
         if (props.noDelay === true) setDelay(false)
     }) 
 
     function change (e:any) {
         setResponse(e.detail.value)
-        if (props.onIonChange != undefined)
+        if (props.onIonChange !== undefined)
             props.onIonChange(e)
     }
 

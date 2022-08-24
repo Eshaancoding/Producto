@@ -1,4 +1,4 @@
-import { IonText, IonTextarea, IonCard, IonLabel, IonPage, IonTitle, IonContent, IonButton, useIonViewWillEnter, isPlatform} from '@ionic/react';
+import { IonText, IonPage, IonContent, IonButton, useIonViewWillEnter, isPlatform} from '@ionic/react';
 import { List } from '../Sessions/WorkSession';
 import { useState } from 'react';
 import { Storage } from '@ionic/storage';
@@ -31,7 +31,7 @@ const AccountabilityMirror: React.FC = () => {
     }
 
     async function handleContinue () {
-        if (color == "primary") {
+        if (color === "primary") {
             const isTips = await store.get("IsTips")
             if (isTips) history.replace("/Failure")
             else history.replace("/WorkSession")

@@ -1,4 +1,4 @@
-import { IonText, IonTextarea, IonCard, IonLabel, IonPage, IonTitle, IonContent, useIonViewWillEnter, IonButton} from '@ionic/react';
+import { IonText, IonPage, IonContent, useIonViewWillEnter, IonButton} from '@ionic/react';
 import { List } from '../Sessions/WorkSession';
 import { useState } from 'react';
 import { Storage } from '@ionic/storage';
@@ -16,13 +16,16 @@ const PushPast: React.FC = () => {
     const [color, setColor] = useState("secondary")
     const [initialTime, setInitialTime] = useState(null)
     const [resp, setResp] = useState("")
+    const [isTip, setIsTip] = useState("")
     const history = useHistory() 
     
     useIonViewWillEnter(async () => {
         const habits = await store.get("habits")
         const habitId = await store.get("habitId")         
+        const isTip = await store.get("IsTips")
+        setIsTip(isTip)
         setInitialTime(getDate() as any)
-        if (habitId != undefined) {
+        if (!isTip) {
             setHabitId(habitId)
             setHabits(habits)
             if (!("pushPastDesc" in habits[habitId])) {
@@ -43,8 +46,8 @@ const PushPast: React.FC = () => {
     }
 
     async function handleContinue () {
-        if (color == "primary") {
-            if (habitId !== -1) {
+        if (color === "primary") {
+            if (!isTip) {
                 var copy:any = [...habits] 
                 copy[habitId]["pushPastDesc"] = resp
                 await store.set("habits", habits) 
