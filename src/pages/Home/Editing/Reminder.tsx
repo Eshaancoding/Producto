@@ -131,7 +131,7 @@ function CreateReminder (props:any) {
         // set 
         setHabits(array)
         store.set("habits", array)
-        history.replace("/home")
+        history.replace("/Home")
     }    
 
     async function deleteHabit () {
@@ -139,7 +139,7 @@ function CreateReminder (props:any) {
         array.splice(habitId, 1)
         await store.set("habits", array)
         setHabits(array)
-        history.replace("/home")
+        history.replace("/Home")
     }
     
     function CondDeleteButton (props:any) {
@@ -172,7 +172,7 @@ function CreateReminder (props:any) {
             <IonHeader>
                 <IonToolbar>
                     <IonButtons slot="start">
-                        <IonButton onClick={() => history.replace("/home")}>Cancel</IonButton>
+                        <IonButton onClick={() => history.replace("/Home")}>Cancel</IonButton>
                     </IonButtons>
                     <IonButtons slot="end">
                         <IonButton strong={true} onClick={() => confirm()}>
