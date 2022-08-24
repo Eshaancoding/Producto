@@ -1,11 +1,12 @@
 import { IonText, IonTextarea, IonCard, IonLabel, IonPage, IonTitle, IonContent, useIonViewWillEnter, IonButton} from '@ionic/react';
-import { List } from '../Sessions/MotivationSession';
+import { List } from '../Sessions/WorkSession';
 import { useState } from 'react';
 import { Storage } from '@ionic/storage';
 import { useHistory } from 'react-router';
 import Delay from '../../helper/Delay';
 import { getDate } from '../../helper/DateHelper';
 import { isPlatform } from '@ionic/react';
+import Input from '../../helper/Input';
 
 const PushPast: React.FC = () => {
     const store = new Storage()
@@ -62,12 +63,13 @@ const PushPast: React.FC = () => {
                     "The main objective here is to slowly start to remove the governor from your brain. First, a quick reminder of how this process works. In 1999, when I weighed 297 pounds, my first run was a quarter mile. Fast forward to 2007, I ran 205 miles in thirty-nine hours, nonstop. I didn’t get there overnight, and I don’t expect you to either.",
                     "Your job is to push past your normal stopping point. Whether you are running on a treadmill or doing a set of push-ups, get to the point where you are so tired and in pain that your mind is begging you to stop. Then push just 5 to 10 percent further. If the most push-ups you have ever done is one hundred in a workout, do 105 or 110. If you normally run thirty miles each week, run 10 percent more next week.",
                 ]} />
-                <Delay minutes={0} seconds={20} initialTime={initialTime}>
-                    <IonCard className='card' style={{ margin: 20 }}>
-                        <IonLabel><span className="highlight">Write down your baseline and decide how you can push your past normal stopping point! {habitId !== -1 ? <>(saved)</> : <></>}</span></IonLabel>
-                        <IonTextarea autoGrow placeholder="Enter response here" value={resp} onIonChange={(e) => {setResponse(e.detail.value as string)}} />
-                    </IonCard>
-                </Delay>
+                <Input 
+                    minutes={0} 
+                    seconds={20}
+                    initialTime={initialTime}
+                    title="Write down your baseline and decide how you can push your past normal stopping point!"
+                    onIonChange={(e:any) => setResponse(e.detail.value as string)} 
+                />
                 <Delay minutes={0} seconds={40} initialTime={initialTime}>
                     <List items={[
                         "This gradual ramp-up will help prevent injury and allow your body and mind to slowly adapt to your new workload. It also resets your baseline, which is important because you’re about to increase your workload another 5 to 10 percent the following week, and the week after that.",

@@ -4,7 +4,6 @@ import { IonReactRouter } from '@ionic/react-router';
 import Home from './pages/Home/Home';
 import TaskSelection from './pages/PrePostSession/TaskSelection'; 
 import WorkSession from './pages/Sessions/WorkSession';
-import MotivationSession from './pages/Sessions/MotivationSession';
 import HabitReflection from './pages/Home/HabitReflection';
 import EditingHabitModal from './pages/Home/Editing/Habit';
 import PushPast from './pages/PrePostSession/PushPast';
@@ -41,9 +40,8 @@ const App: React.FC = () => (
   <IonApp>
     <IonReactRouter>
       <IonRouterOutlet>
-        <Route exact path="/home" component={Home} />
+        <Route exact path="/Home" component={Home} />
         <Route exact path="/WorkSession" component={WorkSession} />
-        <Route exact path="/MotivationSession" component={MotivationSession} /> 
 
         <Route exact path="/taskSelect" component={TaskSelection} />
         <Route exact path="/PushPast" component={PushPast} />

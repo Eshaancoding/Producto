@@ -1,4 +1,4 @@
-import { IonText, IonTextarea, IonCard, IonLabel, IonPage, IonTitle, IonContent, useIonViewWillEnter, IonButton} from '@ionic/react';
+import { IonItem, IonText, IonTextarea, IonCard, IonLabel, IonPage, IonTitle, IonContent, useIonViewWillEnter, IonButton} from '@ionic/react';
 import { List } from '../Sessions/WorkSession';
 import { useState } from 'react';
 import { Storage } from '@ionic/storage';
@@ -6,6 +6,7 @@ import { useHistory } from 'react-router';
 import Delay from '../../helper/Delay';
 import { getDate } from '../../helper/DateHelper';
 import { isPlatform } from '@ionic/react';
+import Input from '../../helper/Input';
 
 const Visualization: React.FC = () => {
     const store = new Storage()
@@ -41,11 +42,7 @@ const Visualization: React.FC = () => {
 
     async function handleContinue () {
         if (color == "primary") {
-            const isTips = await store.get("IsTips")
-            if (!isTips)
-                history.replace("/CookieJar")
-            else
-                history.replace("/home")
+            history.replace("/CookieJar")
         }
     }
 
@@ -58,23 +55,25 @@ const Visualization: React.FC = () => {
                 <List items={[
                     "It’s time to visualize! Again, the average person thinks 2,000–3,000 thoughts per hour. Rather than focusing on bullshit you cannot change, imagine visualizing the things you can. Choose any obstacle in your way, or set a new goal, and visualize overcoming or achieving it. Before I engage in any challenging activity, I start by painting a picture of what my success looks and feels like. I’ll think about it every day and that feeling propels me forward when I’m training, competing, or taking on any task I choose. ",
                 ]} />
-                <Delay minutes={0} seconds={10} initialTime={initialTime}>
-                    <IonCard className='card' style={{ margin: 20 }}>
-                        <IonLabel><span className="highlight">What is the goal that you want to achieve? What/How does it feel like, or look like?</span></IonLabel>
-                        <IonTextarea autoGrow placeholder="Enter response here" onIonChange={(e) => {setResponse(e.detail.value as string, 0) }} />
-                    </IonCard>
-                </Delay> 
+                <Input 
+                    minutes={0}
+                    seconds={10}
+                    initialTime={initialTime}
+                    title="What is the goal that you want to achieve? What/How does it feel like, or look like?"
+                    onIonChange={(e:any) => {setResponse(e.detail.value as string, 0)}}
+                />
                 <Delay minutes={0} seconds={30} initialTime={initialTime}>
                     <List items={[
                         "But visualization isn’t simply about daydreaming of some trophy ceremony— real or metaphorical. You must also visualize the challenges that are likely to arise and determine how you will attack those problems when they do. That way you can be as prepared as possible on the journey. When I show up for a foot race now, I drive the entire course first, visualizing success but also potential challenges, which helps me control my thought process. You can’t prepare for everything but if you engage in strategic visualization ahead of time, you’ll be as prepared as you possibly can be."
                     ]} /> 
                 </Delay>
-                <Delay minutes={0} seconds={40} initialTime={initialTime}>
-                    <IonCard className='card' style={{ margin: 20 }}>
-                        <IonLabel><span className="highlight">What are your barriers that is limiting you to success? How will you attack those problems when they occur? (Remember you could use other techniques like the 40% rule, Cookie Jar, or anything else)</span></IonLabel>
-                        <IonTextarea autoGrow placeholder="Enter response here" onIonChange={(e) => {setResponse(e.detail.value as string, 1) }} />
-                    </IonCard>
-                </Delay>
+                <Input 
+                    minutes={0}
+                    seconds={40}
+                    initialTime={initialTime}
+                    title="What are your barriers that is limiting you to success? How will you attack those problems when they occur? (Remember you could use other techniques like the 40% rule, Cookie Jar, or anything else)"
+                    onIonChange={(e:any) => setResponse(e.detail.value as string, 1)}
+                />
                 <Delay minutes={1} seconds={0} initialTime={initialTime}>
                     <List items={[
                         "That also means being prepared to answer the simple questions. Why are you doing this? What is driving you toward this achievement? Where does the darkness you’re using as fuel come from? What has calloused your mind? You’ll need to have those answers at your fingertips when you hit a wall of pain and doubt. To push through, you’ll need to channel your darkness, feed off it, and lean on your calloused mind.",
@@ -83,11 +82,11 @@ const Visualization: React.FC = () => {
                     ]} />
                 </Delay>
                 <Delay minutes={1} seconds={20} initialTime={initialTime}>
-                    <IonCard className='card' style={{ margin: 20 }}>
-                        <IonLabel><span className="highlight">Why are you doing this? What is driving you toward this achievement? Where does the darkness you're using as fuel come from? What has calloused your mind?</span></IonLabel>
-                        <IonTextarea autoGrow placeholder="Enter response here" onIonChange={(e) => {setResponse(e.detail.value as string, 2)}} />
-                    </IonCard>
-
+                    <Input 
+                        noDelay
+                        title="Why are you doing this? What is driving you toward this achievement? Where does the darkness you're using as fuel come from? What has calloused your mind?"
+                        onIonChange={(e:any) => {setResponse(e.detail.value as string, 3)}}
+                    />
                     <IonButton color={color} onClick={handleContinue} id="Continue">
                         Continue
                     </IonButton>

@@ -6,6 +6,7 @@ import { useHistory } from 'react-router';
 import Delay from '../../helper/Delay';
 import { getDate } from '../../helper/DateHelper';
 import { isPlatform } from '@ionic/react';
+import Input from '../../helper/Input';
 
 const CookieJar: React.FC = () => {
     const store = new Storage()
@@ -49,12 +50,13 @@ const CookieJar: React.FC = () => {
                     "Take inventory of your Cookie Jar. Crack your journal open again. Write it all out. Remember, this is not some breezy stroll through your personal trophy room. Don’t just write down your achievement hit list. Include life obstacles you’ve overcome as well, like quitting smoking or overcoming depression or a stutter.",
                     "Add in those minor tasks you failed earlier in life, but tried again a second or third time and ultimately succeeded at. Feel what it was like to overcome those struggles, those opponents, and win."
                 ]} />
-                <Delay minutes={0} seconds={20} initialTime={initialTime}>
-                    <IonCard className='card' style={{ margin: 20 }}>
-                        <IonLabel><span className="highlight">What did you achieve in life? What life obstacles did you overcome?</span></IonLabel>
-                        <IonTextarea autoGrow placeholder="Enter response here" onIonChange={(e) => {setResponse(e.detail.value as string, 0)}} />
-                    </IonCard>
-                </Delay>
+                <Input 
+                    minutes={0}
+                    seconds={20}
+                    initialTime={initialTime}
+                    title="What did you achieve in life? What life obstacles did you overcome?"
+                    onIonChange={(e:any) => setResponse(e.detail.value as string, 0)}
+                />
                 <Delay minutes={0} seconds={30} initialTime={initialTime}>
                     <List items={[
                         "Then get to work. Set ambitious goals before each workout and let those past victories carry you to new personal bests. If it’s a run or bike ride, include some time to do interval work and challenge yourself to beat your best mile split. Or simply maintain a maximum heart rate for a full minute, then two minutes. If you’re at home, focus on pull-ups or push-ups. Do as many as possible in two minutes. Then try to beat your best.",
@@ -67,6 +69,13 @@ const CookieJar: React.FC = () => {
                         <IonTextarea autoGrow placeholder="Enter response here" onIonChange={(e) => {setResponse(e.detail.value as string, 1)}} />
                     </IonCard>
                 </Delay>
+                <Input 
+                    minutes={0} 
+                    seconds={45}
+                    initialTime={initialTime}
+                    title="Think of any type of pain that you may encounter during this session when pushing yourself. What 'cookie' are you going to grab when that pain hits?"
+                    onIonChange={(e:any) => setResponse(e.detail.value as string, 1)}
+                />
                 <Delay minutes={1} seconds={0} initialTime={initialTime}>
                     <List items={[
                         "Because if you perform this challenge correctly and truly challenge yourself, you’ll come to a point in any exercise where pain, boredom, or self-doubt kicks in, and you’ll need to push back to get through it. The Cookie Jar is your shortcut to taking control of your own thought process. Use it that way!",
