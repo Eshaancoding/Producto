@@ -14,7 +14,7 @@ function HabitReflection (props:any) {
     
     useIonViewWillEnter(async () => {
         const habitsFil = await store.get("habitsNeedReflection")
-        if (habitsFil.length === 0) history.replace("/home")
+        if (habitsFil.length === 0) history.replace("/Home")
         setHabitsFiltered(habitsFil)
         var arr:any = []
         for (var i = 0; i < habitsFil.length; i++) {
@@ -47,7 +47,7 @@ function HabitReflection (props:any) {
             } 
             await store.set("habitsNeedReflection", [])
             await store.set("habits", origHabits)
-            history.replace("/home")
+            history.replace("/Home")
         }
     }
 

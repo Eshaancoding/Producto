@@ -43,7 +43,7 @@ const TimeDisplay = (props: any) => {
     seconds_text = "00";
   }
   return (
-    <p id="TimeDisplay">Time Spent: {minutes_text}:{seconds_text} <br /> Sessions Done: {props.NumberSesDone} </p>
+    <p id="TimeDisplay">Time Spent: {minutes_text}:{seconds_text} <br /> Sessions Done: {props.NumberSesDone} <br /><br />Set an countdown on your phone for {props.originalMinutes} minutes! </p>
   )
 }
 
@@ -103,7 +103,7 @@ const WorkSession: React.FC = () => {
 
   async function handleDone() {
     // Work Session End Notification 
-    await LocalNotifications.schedule({
+    LocalNotifications.schedule({
       notifications: [{
         title: "Motivation Session", 
         body: "It's time for the motivation session!",
@@ -112,7 +112,7 @@ const WorkSession: React.FC = () => {
           data: "Motivation Session Notification"
         }
       }]
-    })
+    }).catch((e:any) => console.log(e))
 
     const day: number = new Date().getDay()
     const original_habits = await store.get("habits")
@@ -145,34 +145,34 @@ const WorkSession: React.FC = () => {
         <CountBar minutes={originalMinutes} seconds={0} useStartTime logMinutes={setMinutes} logSeconds={setSeconds} finish={handleDone} />
         <IonText><p id="Title">Work Session</p></IonText>
         <IonText>
-          <TimeDisplay minutes={minutes} seconds={seconds} NumberSesDone={NumberSesDone} /> <br />
+          <TimeDisplay minutes={minutes} seconds={seconds} NumberSesDone={NumberSesDone} originalMinutes={originalMinutes} /> <br />
         </IonText>
         <IonButton id="CloseButton" onClick={handleCloseButton}>
           End Session
         </IonButton>
         <div id="footer" />
         <IonCard class="card">
-          <IonCardTitle>How you can push your past normal stopping point than before?</IonCardTitle>           
+          <IonCardTitle id="CardTitle">How you can push your past normal stopping point than before?</IonCardTitle>           
           <IonText><p id="Description">{pushPast}</p></IonText>
         </IonCard>
         <IonCard class="card">
-          <IonCardTitle>Last Failure: Then make a list of things that you can fix. Be brutally honest with yourself!</IonCardTitle>           
+          <IonCardTitle id="CardTitle">Last Failure: Then make a list of things that you can fix. Be brutally honest with yourself!</IonCardTitle>           
           <IonText><p id="Description">{failure}</p></IonText>
         </IonCard>
         <IonCard class="card">
-          <IonCardTitle>What is the goal that you want to achieve? What/How does it feel like, or look like?</IonCardTitle>           
+          <IonCardTitle id="CardTitle">What is the goal that you want to achieve? What/How does it feel like, or look like?</IonCardTitle>           
           <IonText><p id="Description">{one}</p></IonText>
         </IonCard>
         <IonCard class="card">
-          <IonCardTitle>What are your barriers that is limiting you to success? How will you attack those problems when they occur? (Remember you could use other techniques like the 40% rule, Cookie Jar, or anything else)</IonCardTitle>           
+          <IonCardTitle id="CardTitle">What are your barriers that is limiting you to success? How will you attack those problems when they occur? (Remember you could use other techniques like the 40% rule, Cookie Jar, or anything else)</IonCardTitle>           
           <IonText><p id="Description">{two}</p></IonText>
         </IonCard>
         <IonCard class="card">
-          <IonCardTitle>Why are you doing this? What is driving you toward this achievement? Where does the darkness you're using as fuel come from? What has calloused your mind?</IonCardTitle>           
+          <IonCardTitle id="CardTitle">Why are you doing this? What is driving you toward this achievement? Where does the darkness you're using as fuel come from? What has calloused your mind?</IonCardTitle>           
           <IonText><p id="Description">{three}</p></IonText>
         </IonCard>
         <IonCard class="card">
-          <IonCardTitle>What did you achieve in life? What life obstacles did you overcome?</IonCardTitle>           
+          <IonCardTitle id="CardTitle">What did you achieve in life? What life obstacles did you overcome?</IonCardTitle>           
           <IonText><p id="Description">{cookieResp}</p></IonText>
         </IonCard>
         

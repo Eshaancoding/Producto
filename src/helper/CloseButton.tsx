@@ -6,7 +6,7 @@ import "./CloseButton.css"
 function CloseButton (props:any) {
     const history = useHistory()
     function handleCloseButton () {
-        history.replace("/home") 
+        history.replace("/Home") 
     }
     return (
         <IonFab id="Fab">

@@ -155,7 +155,7 @@ function EditingHabitModal (props:any) {
         // set 
         setHabits(array)
         store.set("habits", array)
-        history.replace("/home")
+        history.replace("/Home")
     }    
 
     async function deleteHabit () {
@@ -163,7 +163,7 @@ function EditingHabitModal (props:any) {
         array.splice(habitId, 1)
         await store.set("habits", array)
         setHabits(array)
-        history.replace("/home")
+        history.replace("/Home")
     }
     
     function CondDeleteButton (props:any) {

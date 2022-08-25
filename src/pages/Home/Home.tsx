@@ -1,7 +1,6 @@
 import { IonText, IonContent, IonButton, IonPage, useIonViewWillEnter, useIonToast, isPlatform} from '@ionic/react';
-import { useEffect, useRef, useState } from 'react';
+import { useState } from 'react';
 import './Home.css';
-import RandomQuote from '../../helper/RandomQuote';
 import { Storage } from '@ionic/storage'
 import HabitCard from '../../helper/HabitCard';
 import { getDate, getWeekDifference, dayToString, getDifferenceDay, determineIfBetweenTime} from '../../helper/DateHelper';
@@ -22,10 +21,8 @@ const Home: React.FC = () => {
   // variables that update habit cards
   const [habits, setHabits] = useState([] as any)
 
-  const [debug, setDebug] = useState("Debug empty")
-
   async function viewEntered () {
-    LocalNotifications.requestPermissions().catch((e) => {setDebug(e.toString())})
+    LocalNotifications.requestPermissions().catch((e) => {console.log(e)})
     await store.set("IsTips", false)
     await store.set("habitId", null)
     await store.set("startTime", null)
@@ -93,7 +90,7 @@ const Home: React.FC = () => {
     await store.set("IsTips", false)
     const habits = await store.get("habits")
     // Check if habits is not null
-    if (habits == null || habits == undefined || habits.length === 0) {
+    if (habits === null || habits === undefined || habits.length === 0) {
       habitToast({
         buttons: [{ text: 'Hide', handler: () => dismissToast() }],
         message: "You must create at least one habit to start the session!",
@@ -110,7 +107,7 @@ const Home: React.FC = () => {
         if (determineIfBetweenTime(habits[x]["startTime"], habits[x]["endTime"])) i += 1
       }
     }
-    if (y == 0) {
+    if (y === 0) {
       habitToast({
         buttons: [{ text: 'Hide', handler: () => dismissToast() }],
         message: "You must create at least one habit to start the session!",
@@ -118,7 +115,7 @@ const Home: React.FC = () => {
       })
       return
     }
-    if (i == 0) {
+    if (i === 0) {
       habitToast({
         buttons: [{ text: 'Hide', handler: () => dismissToast() }],
         message: "Based on the current time, none of your habits are within start time and end time!",
@@ -171,7 +168,7 @@ const Home: React.FC = () => {
               endTime={object["endTime"] as string}
               MarkAsCompleteCallback={markAsComplete}
               didToday={object[dayToString(new Date().getDay())]}
-              isReminder={object["isReminder"] == undefined ? false : object["isReminder"]}
+              isReminder={object["isReminder"] === undefined ? false : object["isReminder"]}
             />
           )
         })}

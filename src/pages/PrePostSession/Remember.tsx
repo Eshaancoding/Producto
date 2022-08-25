@@ -82,6 +82,7 @@ function Remember (props:any) {
                         </p></IonCardContent>
                     </IonCard>
                 </>}
+                <br /> <br />
                 
                 <IonButton id="Continue" color={color} onClick={HandleContinue}>Continue</IonButton>
                 <div id="footer" />
