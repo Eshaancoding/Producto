@@ -43,7 +43,7 @@ const TimeDisplay = (props: any) => {
     seconds_text = "00";
   }
   return (
-    <p id="TimeDisplay">Time Spent: {minutes_text}:{seconds_text} <br /> Sessions Done: {props.NumberSesDone} </p>
+    <p id="TimeDisplay">Time Spent: {minutes_text}:{seconds_text} <br /> Sessions Done: {props.NumberSesDone} <br /><br />Set an countdown on your phone for {props.originalMinutes} minutes! </p>
   )
 }
 
@@ -145,7 +145,7 @@ const WorkSession: React.FC = () => {
         <CountBar minutes={originalMinutes} seconds={0} useStartTime logMinutes={setMinutes} logSeconds={setSeconds} finish={handleDone} />
         <IonText><p id="Title">Work Session</p></IonText>
         <IonText>
-          <TimeDisplay minutes={minutes} seconds={seconds} NumberSesDone={NumberSesDone} /> <br />
+          <TimeDisplay minutes={minutes} seconds={seconds} NumberSesDone={NumberSesDone} originalMinutes={originalMinutes} /> <br />
         </IonText>
         <IonButton id="CloseButton" onClick={handleCloseButton}>
           End Session

@@ -85,7 +85,7 @@ const Visualization: React.FC = () => {
                     <Input 
                         noDelay
                         title="Why are you doing this? What is driving you toward this achievement? Where does the darkness you're using as fuel come from? What has calloused your mind?"
-                        onIonChange={(e:any) => {setResponse(e.detail.value as string, 3)}}
+                        onIonChange={(e:any) => {setResponse(e.detail.value as string, 2)}}
                     />
                     <IonButton color={color} onClick={handleContinue} id="Continue">
                         Continue
