@@ -6,6 +6,7 @@ import { useHistory } from 'react-router';
 import Delay from '../../helper/Delay';
 import { getDate } from '../../helper/DateHelper';
 import Input from '../../helper/Input';
+import { navigate } from 'ionicons/icons';
 
 const NextHabit: React.FC = () => {
     const store = new Storage()
@@ -15,6 +16,7 @@ const NextHabit: React.FC = () => {
     const history = useHistory() 
     const [initialTime, setInitialTime] = useState(null as any)
     const [nextHabit, setNextHabit] = useState("")
+    const [nextHabitId, setNextHabitId] = useState(-1)
 
     useIonViewWillEnter(async () => {
         setInitialTime(getDate() as any)
@@ -23,6 +25,7 @@ const NextHabit: React.FC = () => {
         for (var i = habitId+1; i < habits.length; i++) {
             if (habits[i]["isReminder"] === false) {
                 setNextHabit(habits[i]["title"])
+                setNextHabitId(i)
                 break
             }
         }
@@ -54,13 +57,24 @@ const NextHabit: React.FC = () => {
         }
     }
 
+    async function goToNextHabit () {
+        if (color == "primary") {
+            await store.set("IsTips", false)
+            await store.set("habitId", nextHabitId)
+            await store.set("startTime", null)
+            await store.set("steps", [])
+            await store.set("NumberSessionsDone", 0)
+            history.replace("/WorkSession")
+        }
+    }
+
     return (
         <IonPage>
             <IonContent>
                 <IonText>
                     <p id='Title' className={isPlatform("ios") ? "ios" : undefined}>Visualize your next habit!</p>
                 </IonText>
-                {nextHabit !== "" && 
+                {nextHabit !== "" && nextHabitId > 0 && 
                     <IonText>
                         <p id="Header">Your Next Habit is: <strong>{nextHabit}</strong></p>
                     </IonText>
@@ -103,7 +117,13 @@ const NextHabit: React.FC = () => {
 
                     <IonButton color={color} onClick={handleContinue} id="Continue">
                         Continue
-                    </IonButton>
+                    </IonButton> <br />
+
+                    {nextHabit !== "" && nextHabitId > 0 && 
+                        <IonButton color={color} onClick={goToNextHabit} id="ContinueTwo">
+                            Start on {nextHabit}
+                        </IonButton>
+                    }
                 </Delay>
 
                 <div id="footer" />
