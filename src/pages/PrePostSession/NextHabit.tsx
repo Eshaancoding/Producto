@@ -17,16 +17,20 @@ const NextHabit: React.FC = () => {
     const [initialTime, setInitialTime] = useState(null as any)
     const [nextHabit, setNextHabit] = useState("")
     const [nextHabitId, setNextHabitId] = useState(-1)
+    const [nextReminder, setNextReminder] = useState("")
 
     useIonViewWillEnter(async () => {
         setInitialTime(getDate() as any)
         const habitId = await store.get("habitId")
         const habits = await store.get("habits")
         for (var i = habitId+1; i < habits.length; i++) {
-            if (habits[i]["isReminder"] === false) {
+            if (habits[i]["isReminder"] === false && nextHabit === "") {
                 setNextHabit(habits[i]["title"])
                 setNextHabitId(i)
                 break
+            } 
+            else if (habits[i]["isReminder"] === true && nextReminder === ""){
+                setNextReminder(habits[i]["title"])
             }
         }
     })
@@ -76,7 +80,12 @@ const NextHabit: React.FC = () => {
                 </IonText>
                 {nextHabit !== "" && nextHabitId > 0 && 
                     <IonText>
-                        <p id="Header">Your Next Habit is: <strong>{nextHabit}</strong></p>
+                        <p id="Header" style={{marginBottom: 20}}>Your Next Habit is: <strong>{nextHabit}</strong></p>
+                    </IonText>
+                }
+                {nextReminder !== "" && 
+                    <IonText>
+                        <p id="Header">Your Next Reminder is: <strong>{nextReminder}</strong></p>
                     </IonText>
                 }
                 <List items={[
