@@ -209,6 +209,7 @@ function EditingHabitModal (props:any) {
 
             <IonContent className="ion-padding">
                 <IonText> <p id="Title">Create Habit</p></IonText>
+                <IonText> <p id="Header">Make sure to set an alarm on your phone for this habit!</p></IonText>
                 <IonText>
                     <p id="Description" style={{textAlign: 'center'}}>
                         Do the <strong>3-week challenge!</strong>. During <strong>Week 1</strong>, take note only every action that you take using timestamps. Be super <strong>detailed</strong>! You should be able to answer exactly how much work you are actually doing and how much breaks we are taking. <br /> <br />
