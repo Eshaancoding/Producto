@@ -42,8 +42,7 @@ const TaskSelection: React.FC = () => {
 
   function handleContinue () {
     if (color === "primary") {
-      if (Math.floor(Math.random() * 101) < 40) history.replace("/Remember")
-      else history.replace("/PushPast")
+      history.replace("/WorkSession")
     }
   }
 
