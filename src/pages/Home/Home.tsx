@@ -23,7 +23,6 @@ const Home: React.FC = () => {
 
   async function viewEntered () {
     LocalNotifications.requestPermissions().catch((e) => {console.log(e)})
-    await store.set("IsTips", false)
     await store.set("habitId", null)
     await store.set("startTime", null)
     await store.set("steps", [])
@@ -87,7 +86,6 @@ const Home: React.FC = () => {
   }
 
   async function handleStart () {
-    await store.set("IsTips", false)
     const habits = await store.get("habits")
     // Check if habits is not null
     if (habits === null || habits === undefined || habits.length === 0) {
@@ -189,13 +187,6 @@ const Home: React.FC = () => {
         </IonButton>
         
         <br />
-
-        <IonButton id="StartButton" routerDirection="back" onClick={async () => {
-          await store.set("IsTips", true)
-          history.replace("/PushPast") 
-        }}>
-          Start Tips
-        </IonButton>
 
         {!isPlatform("ios") ? <div id="footer" /> : <></>}
       </IonContent>

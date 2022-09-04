@@ -42,7 +42,7 @@ const TaskSelection: React.FC = () => {
 
   function handleContinue () {
     if (color === "primary") {
-      history.replace("/WorkSession")
+      history.replace("/BigPicture")
     }
   }
 

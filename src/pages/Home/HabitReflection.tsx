@@ -67,24 +67,25 @@ function HabitReflection (props:any) {
     return (
         <IonPage>
             <IonContent>
-                <IonText> <p id="Title">Habit Reflection </p></IonText>
+                <IonText> <p id="Title">Be Brutally Honest</p></IonText>
+                <IonText> <p className="Description">In this step, you have to be brutally honest. Yes, it is going to hurt when you admit it. It hurts when you have to admit that you lost interest in an activity that you used to love. It hurts when you frustrated. However it will not be useful to let those feelings boil inside of you. You can't trick yourself forever.</p></IonText>
+                <br />
                 {habitsFiltered.map((value, index) => {
                     return (
                         <IonCard class="card" key={index}>
                             <IonCardTitle>{value["isBadHabit"] ? <>Bad Habit</> : <>Habit</>}: {value["title"]}</IonCardTitle>
                             <br />
                             <IonLabel><span className="highlight">
-                                {value["isBadHabit"] ? <>How often do you avoid the habit?</> : <>What steps can you make to push yourself while doing the habit (ex: more pushups, more studytime, etc.)</>}
+                                Be brutally honest with yourself. Are you frustrated? Have you lost interest? Are you starting to enjoy the activity? Are you doing a good job maintaining the habit?.
                             </span></IonLabel>
                             <IonInput type="text" placeholder={placeholderFill(index, 0)} onIonChange={(e) => handleChange(e.detail.value, index, 0)}/>
 
-                            <IonLabel><span className="highlight">
-                                {value["isBadHabit"] ? <>Do you think that you did a good job avoiding the bad habit using the advice on how to break habits?</> : <>Were you productive during those sessions?</>} 
+                            <IonLabel><span className="highlight">Shout your concerns in front of the mirror, loud. This is important so you remember your mistakes and feelings. What did you say?
                             </span></IonLabel>
                             <IonInput type="text" placeholder={placeholderFill(index, 1)} onIonChange={(e) => handleChange(e.detail.value, index, 1)}/>
 
                             <IonLabel><span className="highlight">
-                                {<>How do you feel about the habit (needs more work, needs less work, unable to do it, too hard, etc.)</>}
+                                What can you do to fix or improve your behavior? Remember to push yourself everday! 
                             </span></IonLabel>
                             <IonInput type="text" placeholder={placeholderFill(index, 2)} onIonChange={(e) => handleChange(e.detail.value, index, 2)}/>
                         </IonCard>

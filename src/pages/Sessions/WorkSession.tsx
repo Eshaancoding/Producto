@@ -120,8 +120,7 @@ const WorkSession: React.FC = () => {
     original_habits[habitId][dayToString(day)] += (originalMinutes) / 60
     await store.set("habits", original_habits)
     await store.set("NumberSessionsDone", NumberSesDone + 1)
-    if (Math.floor(Math.random() * 101) < 40) history.replace("/Remember")
-    else history.replace("/Visualization")
+    history.replace("/BigPicture")
   }
 
   async function handleCloseButton() {
@@ -136,7 +135,7 @@ const WorkSession: React.FC = () => {
     // set habits in store
     await store.set("habits", original_habits)
     // redirect to home (ending page after completed habit) 
-    history.replace("/Failure")
+    history.replace("/Home")
   }
 
   return (
@@ -150,32 +149,6 @@ const WorkSession: React.FC = () => {
         <IonButton id="CloseButton" onClick={handleCloseButton}>
           End Session
         </IonButton>
-        <div id="footer" />
-        <IonCard class="card">
-          <IonCardTitle id="CardTitle">How you can push your past normal stopping point than before?</IonCardTitle>           
-          <IonText><p id="Description">{pushPast}</p></IonText>
-        </IonCard>
-        <IonCard class="card">
-          <IonCardTitle id="CardTitle">Last Failure: Then make a list of things that you can fix. Be brutally honest with yourself!</IonCardTitle>           
-          <IonText><p id="Description">{failure}</p></IonText>
-        </IonCard>
-        <IonCard class="card">
-          <IonCardTitle id="CardTitle">What is the goal that you want to achieve? What/How does it feel like, or look like?</IonCardTitle>           
-          <IonText><p id="Description">{one}</p></IonText>
-        </IonCard>
-        <IonCard class="card">
-          <IonCardTitle id="CardTitle">What are your barriers that is limiting you to success? How will you attack those problems when they occur? (Remember you could use other techniques like the 40% rule, Cookie Jar, or anything else)</IonCardTitle>           
-          <IonText><p id="Description">{two}</p></IonText>
-        </IonCard>
-        <IonCard class="card">
-          <IonCardTitle id="CardTitle">Why are you doing this? What is driving you toward this achievement? Where does the darkness you're using as fuel come from? What has calloused your mind?</IonCardTitle>           
-          <IonText><p id="Description">{three}</p></IonText>
-        </IonCard>
-        <IonCard class="card">
-          <IonCardTitle id="CardTitle">What did you achieve in life? What life obstacles did you overcome?</IonCardTitle>           
-          <IonText><p id="Description">{cookieResp}</p></IonText>
-        </IonCard>
-        
         <div id="footer" />
       </IonContent>
     </IonPage>
