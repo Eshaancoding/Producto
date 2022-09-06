@@ -10,7 +10,7 @@ import "../ProductoStyle.css"
 const TaskSelection: React.FC = () => {
   let history = useHistory();
   const [color, setColor] = useState("secondary")
-  const [response, setResponse] = useState("")
+  const [response, setResponse] = useState(["", "", ""])
 
   // Habits list
   const store = new Storage()
@@ -20,29 +20,33 @@ const TaskSelection: React.FC = () => {
     store.get("habits").then(value => setHabitsList(value))
   }) 
 
-  async function handleResponses(e: any={}) {
-    await store.set("habitId", habitsList.findIndex((value) => value["title"] === e))
-    if (response != null && response.trim() !== "") {
-      setColor("primary")
-    } else {
-      setColor("secondary") 
+  async function handleResp(e:any, index:number) {
+    var copy = [...response]
+    if (index === 0)  {
+      const id = habitsList.findIndex((value) => value["title"] === e)
+      copy[index] = id.toString()
     }
-  }
+    else if (index == 1) {
+      copy[index] = e as string
+    }
+    else if (index == 2) {
+      copy[index] = e as string
+    }
+    setResponse(copy)
 
-  async function handleTextResponse (str: any) {
-    await store.set("pomoWork", parseInt(str))
-    const val:any = await store.get("habitId")
-    setResponse(val)
-    if (val != null && str !== "") {
+    if (copy.every((value:any) => (value !== ""))) {
       setColor("primary")
     } else {
       setColor("secondary")
     }
   }
-
-  function handleContinue () {
+  async function handleContinue () { 
     if (color === "primary") {
-      history.replace("/BigPicture")
+      await store.set("habitId", parseInt(response[0]))
+      await store.set("pomoWork", parseInt(response[1]))
+      await store.set("pomoBreak", parseInt(response[2]))
+
+      history.replace("/BreakSession")
     }
   }
 
@@ -58,7 +62,7 @@ const TaskSelection: React.FC = () => {
         </IonText>
         <br />
         <IonItem class="prompt">
-          <IonSelect interface='popover' placeholder='Select habit' onIonChange={(e) => handleResponses(e.detail.value)}>
+          <IonSelect interface='popover' placeholder='Select habit' onIonChange={(e) => handleResp(e.detail.value, 0)}>
             {habitsList.map(function(object, index) {
               if (!object["isBadHabit"] && !object["isReminder"] && determineIfBetweenTime(object["startTime"], object["endTime"])) {
                 return (
@@ -71,15 +75,17 @@ const TaskSelection: React.FC = () => {
 
         <IonCard class="card" style={{margin: 20}}>
           <IonLabel className='label'> <span className='highlight' style={{lineHeight: 1.5}}> Enter your Work Session Duration (minutes): <br /> <strong>Reminder:</strong> If you are more susceptible to distractions, then you should have a low work session duration (ex: 25 minutes)! If not, you should choose high work session duration (ex: 50 minutes). </span></IonLabel>
-          <IonInput type="number" placeholder="25" onIonChange={(e) => handleTextResponse(e.detail.value)} />
+          <IonInput type="number" placeholder="25" onIonChange={(e) => handleResp(e.detail.value, 1)} />
+        </IonCard>
+
+        <IonCard class="card" style={{margin: 20}}>
+          <IonLabel className='label'> <span className='highlight' style={{lineHeight: 1.5}}> Enter your Break Session Duration (minutes): </span></IonLabel>
+          <IonInput type="number" placeholder="5" onIonChange={(e) => handleResp(e.detail.value, 2)} />
         </IonCard>
 
         <br />
         <IonButton id="Continue" color={color} onClick={handleContinue}>Continue</IonButton>
-        <br />
-        <br />
-        <br />
-        <br />
+        <div id="footer" />
       </IonContent>
     </IonPage>
   )

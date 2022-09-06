@@ -4,6 +4,7 @@ import { IonReactRouter } from '@ionic/react-router';
 import Home from './pages/Home/Home';
 import TaskSelection from './pages/PrePostSession/TaskSelection'; 
 import WorkSession from './pages/Sessions/WorkSession';
+import BreakSession from './pages/Sessions/BreakSession';
 import HabitReflection from './pages/Home/HabitReflection';
 import EditingHabitModal from './pages/Home/Editing/Habit';
 import Failure from './pages/PrePostSession/Failure';
@@ -37,6 +38,7 @@ const App: React.FC = () => (
       <IonRouterOutlet>
         <Route exact path="/Home" component={Home} />
         <Route exact path="/WorkSession" component={WorkSession} />
+        <Route exact path="/BreakSession" component={BreakSession} />
 
         <Route exact path="/taskSelect" component={TaskSelection} />
         <Route exact path="/Failure" component={Failure} />

@@ -10,7 +10,7 @@ const BigPicture: React.FC = () => {
         <IonPage>
             <IonContent>
                 <CountBar useStartTime minutes={2} seconds={0} finish={() => setColor("primary")}/>
-                <IonText><p id="Title">The Big Picture</p></IonText> 
+                <IonText><p id="Title">The Big Picture: Why do you want to be productive?</p></IonText> 
                 <IonText><p className="Description">It is sometimes helpful to take a look at the big picture sometimes. Even though you may feel "in the zone", taking a look at the big picture will increase your motivation and your quality of work. <br /> <br /> 
                 Take a look at these questions that will help you visualize the big picture!  
                 </p></IonText> 
@@ -18,22 +18,22 @@ const BigPicture: React.FC = () => {
                 <br />
 
                 <IonCard className="card">
-                    <IonCardSubtitle style={{color: 'white'}}>How you can push your past normal stopping point? Remember that you have to remove that governor from your mind. You are only 40% capable of what you think you are. Stop that limit.</IonCardSubtitle>
+                    <IonCardSubtitle style={{color: 'white'}}>Look in front of the mirror, and be honest with yourself. What do you have to improve upon? What are you doing bad at? Shout it! Shout that you need to improve this, by yourself! Be truthful will HURT, but it is the first step towards success.</IonCardSubtitle>
                 </IonCard>
                 <IonCard className="card">
-                    <IonCardSubtitle style={{color: 'white'}}>What is the goal that you want to achieve? What/How does it feel like, or look like? Visualize it vividly in your mind and use it to push through your task.</IonCardSubtitle>
+                    <IonCardSubtitle style={{color: 'white'}}>How you can push your past normal stopping point on the task that you are planning on doing? Remember that you have to remove that governor from your mind. You are only 40% capable of what you think you are. Stop that limit.</IonCardSubtitle>
                 </IonCard>
                 <IonCard className="card">
-                    <IonCardSubtitle style={{color: 'white'}}>What are your barriers that is limiting you to success? How will you attack those problems when they occur? (Remember you could use other techniques like the 40% rule, Cookie Jar, or anything else)</IonCardSubtitle>
+                    <IonCardSubtitle style={{color: 'white'}}>What is the goal that you want to achieve? What/How does it feel like, or look like? Visualize it vividly in your mind and use it to push through your task. Visualize not only completing the task, but also being productive during the entire day!</IonCardSubtitle>
                 </IonCard>
                 <IonCard className="card">
-                    <IonCardSubtitle style={{color: 'white'}}>Why are you doing this? What is driving you toward this achievement? Where does the darkness you're using as fuel come from? What has calloused your mind? You need to have the answers to these questions in the forefront of your mind in order to push through the most difficult tasks.</IonCardSubtitle>
+                    <IonCardSubtitle style={{color: 'white'}}>What are your barriers that is limiting you to success? How will you attack those problems when they occur? (Remember you could use other techniques like the 40% rule, Cookie Jar, or anything else) Visualize overcoming those barriers during your session and even after your session is done! Visualize it throughout the day! </IonCardSubtitle>
+                </IonCard>
+                <IonCard className="card">
+                    <IonCardSubtitle style={{color: 'white'}}>Why are you doing this? What is driving you toward this achievement? Where does the darkness you're using as fuel come from? What has calloused your mind? You need to have the answers to these questions in the forefront of your mind in order to push through the most difficult tasks. Answer these questions for not only the task that you are doing, but also being productive!</IonCardSubtitle>
                 </IonCard>
                 <IonCard className="card">
                     <IonCardSubtitle style={{color: 'white'}}>What did you achieve in life? What life obstacles did you overcome? Capture the feeling of success during those moments.</IonCardSubtitle>
-                </IonCard>
-                <IonCard className="card">
-                    <IonCardSubtitle style={{color: 'white'}}>Look in front of the mirror, and be honest with yourself. What do you have to improve upon? What are you doing bad at? Shout it! Shout that you need to improve this, by yourself! Be truthful will HURT, but it is the first step towards success.</IonCardSubtitle>
                 </IonCard>
 
                 <br /> 

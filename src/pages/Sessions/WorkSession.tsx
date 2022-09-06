@@ -120,7 +120,7 @@ const WorkSession: React.FC = () => {
     original_habits[habitId][dayToString(day)] += (originalMinutes) / 60
     await store.set("habits", original_habits)
     await store.set("NumberSessionsDone", NumberSesDone + 1)
-    history.replace("/BigPicture")
+    history.replace("/BreakSession")
   }
 
   async function handleCloseButton() {
