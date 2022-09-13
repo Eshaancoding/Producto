@@ -68,7 +68,7 @@ function HabitReflection (props:any) {
         <IonPage>
             <IonContent>
                 <IonText> <p id="Title">Be Brutally Honest</p></IonText>
-                <IonText> <p className="Description">In this step, you have to be brutally honest. Yes, it is going to hurt when you admit it. It hurts when you have to admit that you lost interest in an activity that you used to love. It hurts when you frustrated. However it will not be useful to let those feelings boil inside of you. You can't trick yourself forever.</p></IonText>
+                <IonText> <p className="Description">In this step, you have to be brutally honest. Yes, it is going to hurt when you admit it. It hurts when you have to admit that you lost interest in an activity that you used to love. It hurts when you frustrated. However it will not be useful to let those feelings boil inside of you. You can't trick yourself forever. <br /> <br />Tips from David Goggin's book "Can't Hurt Me"</p></IonText>
                 <br />
                 {habitsFiltered.map((value, index) => {
                     return (

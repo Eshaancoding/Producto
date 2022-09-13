@@ -12,13 +12,13 @@ const BigPicture: React.FC = () => {
                 <CountBar useStartTime minutes={2} seconds={0} finish={() => setColor("primary")}/>
                 <IonText><p id="Title">The Big Picture: Why do you want to be productive?</p></IonText> 
                 <IonText><p className="Description">It is sometimes helpful to take a look at the big picture sometimes. Even though you may feel "in the zone", taking a look at the big picture will increase your motivation and your quality of work. <br /> <br /> 
-                Take a look at these questions that will help you visualize the big picture!  
+                Take a look at these questions that will help you visualize the big picture! The questions from David Goggin's book "Can't Hurt Me".
                 </p></IonText> 
 
                 <br />
 
                 <IonCard className="card">
-                    <IonCardSubtitle style={{color: 'white'}}>Look in front of the mirror, and be honest with yourself. What do you have to improve upon? What are you doing bad at? Shout it! Shout that you need to improve this, by yourself! Be truthful will HURT, but it is the first step towards success.</IonCardSubtitle>
+                    <IonCardSubtitle style={{color: 'white'}}>Be very truthful when you think! This may mean admitting that you are bad at school, or at your job, or that you are lazy and unproductive. That's okay! Being truthful is usually the first step that you need to take in order to improve. If you are strugging at becoming truthful to yourself, look at yourself at the mirror and say your thoughts out loud! Shout at yourself that you need to be more productive!!</IonCardSubtitle>
                 </IonCard>
                 <IonCard className="card">
                     <IonCardSubtitle style={{color: 'white'}}>How you can push your past normal stopping point on the task that you are planning on doing? Remember that you have to remove that governor from your mind. You are only 40% capable of what you think you are. Stop that limit.</IonCardSubtitle>
