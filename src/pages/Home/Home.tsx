@@ -182,12 +182,17 @@ const Home: React.FC = () => {
         </div>
 
 
-        <IonButton id="SessionButton" routerDirection="back" onClick={handleStart}>
+        <IonButton className="SessionButton" routerDirection="back" onClick={handleStart}>
           Start Session
+        </IonButton>
+
+        <br />
+
+        <IonButton className="SessionButton" id="TipButton" routerDirection="back" onClick={() => history.push("TipOne")}>
+          Start Tips
         </IonButton>
         
         <br />
-
         {!isPlatform("ios") ? <div id="footer" /> : <></>}
       </IonContent>
     </IonPage>

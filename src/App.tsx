@@ -30,6 +30,18 @@ import '@ionic/react/css/display.css';
 import './theme/variables.css';
 import CreateReminder from './pages/Home/Editing/Reminder';
 
+/* Tips imports */
+import { TipOne } from './pages/Tips/TipOne';
+import { TipTwo } from './pages/Tips/TipTwo';
+import { TipThree } from './pages/Tips/TipThree';
+import { TipFour } from './pages/Tips/TipFour';
+import { TipFive } from './pages/Tips/TipFive';
+import { TipSix } from './pages/Tips/TipSix';
+import { TipSeven } from './pages/Tips/TipSeven';
+import { TipEight } from './pages/Tips/TipEight';
+import { TipNine } from './pages/Tips/TipNine';
+import { TipTen } from './pages/Tips/TipTen';
+
 setupIonicReact();
 
 const App: React.FC = () => (
@@ -58,6 +70,19 @@ const App: React.FC = () => (
         <Route exact path="/editReminder">
           <CreateReminder create={false} />
         </Route>
+
+        {/* Tips! */}
+        <Route exact path="/TipOne" component={TipOne} />
+        <Route exact path="/TipTwo" component={TipTwo} />
+        <Route exact path="/TipThree" component={TipThree} />
+        <Route exact path="/TipFour" component={TipFour} />
+        <Route exact path="/TipFive" component={TipFive} />
+        <Route exact path="/TipSix" component={TipSix} />
+        <Route exact path="/TipSeven" component={TipSeven} />
+        <Route exact path="/TipEight" component={TipEight} />
+        <Route exact path="/TipNine" component={TipNine} />
+        <Route exact path="/TipTen" component={TipTen} />
+        
         <Redirect exact path="/" to="/home" />
       </IonRouterOutlet>
     </IonReactRouter>

@@ -16,11 +16,23 @@
     text-align: center;
 }
 
-#SessionButton {
+.SessionContainer {
+    background-color: blue;
+}
+
+.SessionButton {
     position: relative;
     top: 10%;
     left: 50%;
     transform: translate(-50%, -50%);
+}
+
+.SessionButton.ios {
+    margin-top: 40px;
+}
+
+#TipButton {
+    margin-top: 10px;
 }
 
 #StartButton {
@@ -29,10 +41,6 @@
     left: 50%;
     transform: translate(-50%, -50%);
     margin-top: 10px;
-}
-
-#SessionButton.ios {
-    margin-top: 40px;
 }
 
 svg {
