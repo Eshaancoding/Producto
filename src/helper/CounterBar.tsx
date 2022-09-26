@@ -31,37 +31,39 @@ function CountBar (props:any) {
     }
     useIonViewWillEnter(getStartTime) 
 
-    async function setStartTimeNull () {
-        await store.set("startTime", null)
-    }
-
     useEffect(() => {
-        interval = setInterval(() => {
-            if (startTime !== "") {
-                const startDate = new Date(startTime)
-                const endDate = getDate()
-                const [minutesSet, secondsSet] = getDifferenceMinuteSeconds(endDate, startDate)
-                const milliseconds = getMillisecondDifference(endDate, startDate)
-                setMinutes(minutesSet) 
-                setSeconds(secondsSet)
-                setMilli(milliseconds)
-                if (props.logMinutes != null) props.logMinutes(minutesSet)
-                if (props.logSeconds != null) props.logSeconds(secondsSet)
-                if (props.logMilli != null) props.logMilli(milliseconds)
-            } 
-            if (minutes >= originalMinutes && seconds >= originalSeconds) {
-                clearInterval(interval)
-                if (props.useStartTime) setStartTimeNull() 
-                interval = null
-                props.finish()
-            }
-        }, 100)
-        return () => {clearInterval(interval)}
+        if (originalMinutes > 0 && originalSeconds > -1) {
+            interval = setInterval(() => {
+                if (startTime !== "") {
+                    const startDate = new Date(startTime)
+                    const endDate = getDate()
+                    const [minutesSet, secondsSet] = getDifferenceMinuteSeconds(endDate, startDate)
+                    const milliseconds = getMillisecondDifference(endDate, startDate)
+                    setMinutes(minutesSet) 
+                    setSeconds(secondsSet)
+                    setMilli(milliseconds)
+                    if (props.logMinutes != null) props.logMinutes(minutesSet)
+                    if (props.logSeconds != null) props.logSeconds(secondsSet)
+                    if (props.logMilli != null) props.logMilli(milliseconds)
+                } 
+                if (minutes >= originalMinutes && seconds >= originalSeconds) {
+                    clearInterval(interval)
+                    interval = null
+                    props.finish()
+                }
+            }, 100)
+            return () => {clearInterval(interval)}
+        }
     })
 
-    return (
-        <IonProgressBar value={(minutes * 60 + seconds + (milli / 1000)) / (originalMinutes * 60 + originalSeconds)} />
-    ) 
+    if (originalMinutes > 0 && originalSeconds > -1) {
+        return (
+            <IonProgressBar value={(minutes * 60 + seconds + (milli / 1000)) / (originalMinutes * 60 + originalSeconds)} />
+        ) 
+    } 
+    else {
+        return (<></>)
+    }
 }
 
 export default CountBar;

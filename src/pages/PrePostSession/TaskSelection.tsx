@@ -44,9 +44,10 @@ const TaskSelection: React.FC = () => {
     if (color === "primary") {
       await store.set("habitId", parseInt(response[0]))
       await store.set("pomoWork", parseInt(response[1]))
-      await store.set("pomoBreak", parseInt(response[2]))
+      await store.set("tipMinutes", parseInt(response[2]))
+      await store.set("tipSeconds", 0)
 
-      history.replace("/BreakSession")
+      history.replace("/TipOne")
     }
   }
 

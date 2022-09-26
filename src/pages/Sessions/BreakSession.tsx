@@ -71,7 +71,7 @@ const BreakSession: React.FC = () => {
         }
       }]
     }).catch((e:any) => console.log(e))
-    history.replace("/BigPicture")
+    history.replace("/TipOne")
   }
 
   async function handleCloseButton() {

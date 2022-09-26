@@ -1,19 +1,53 @@
-import { IonText, IonToolbar, IonHeader, IonButton, IonButtons, IonContent, IonCard, IonPage, IonCardContent} from '@ionic/react';
+import { IonText, IonToolbar, IonHeader, IonButton, IonButtons, IonContent, IonCard, IonPage, IonCardContent, useIonViewDidEnter} from '@ionic/react';
 import { useHistory } from 'react-router';
+import { Storage } from '@ionic/storage';
+import { useState } from 'react';
+import CountBar from '../../helper/CounterBar';
 
 export function Tip (props:any) {
     const history = useHistory()
+    const [minutes, setMinutes] = useState(-1)
+    const [seconds, setSeconds] = useState(-1)
+    const [finishButtonVis, setFinishButtonVis] = useState(false)
+    const store = new Storage()
+    store.create()
+
+    useIonViewDidEnter(async () => {
+        var value = await store.get("tipSeconds")
+        if (value != undefined && value > -1) {
+            setSeconds(value)
+            console.log("Seconds:",value)
+        }
+        value = await store.get("tipMinutes")
+        if (value != undefined && value > 0) {
+            console.log("Minutes:", value)
+            setMinutes(value)
+        }
+    })
+
+    const handleFinish = async () => {
+        if (minutes > 0 && seconds > -1) {
+            await store.set("startTime", undefined)
+            history.replace("/WorkSession")
+        } else {
+            history.goBack()
+        }
+    }
+
     return (
         <IonPage>
             <IonHeader>
+                <CountBar minutes={minutes} seconds={seconds} useStartTime finish={() => {setFinishButtonVis(true)}}/> 
                 <IonToolbar>
                     <IonButtons slot="start">
                         <IonButton disabled={(props.prevHref === "" || props.prevHref == undefined) ? true : false} onClick={() => history.replace(props.prevHref)}>
                             Previous Tip
                         </IonButton>
-                        <IonButton strong={true} onClick={() => history.goBack()}>
-                           Go Home 
-                        </IonButton>
+                        {((minutes > 0 && seconds > -1 && finishButtonVis === true) || (minutes == -1 && seconds == -1)) &&
+                            <IonButton strong={true} onClick={handleFinish}>
+                            {minutes > 0 && seconds > -1 ? <>Enter Work Session</> : <>Go Home</>} 
+                            </IonButton>
+                        }
                     </IonButtons>
                     <IonButtons slot="end">
                         <IonButton disabled={(props.nextHref === "" || props.nextHref == undefined) ? true : false} strong={true} 
@@ -37,7 +71,7 @@ export function Tip (props:any) {
 
                 {props.list.map((element:any, index:number) => {
                     return (
-                    <IonCard>
+                    <IonCard key={index}>
                         <IonCardContent>
                             <IonText>
                                 <p><span className="highlight">{element}</span></p>

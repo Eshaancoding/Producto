@@ -23,6 +23,8 @@ const Home: React.FC = () => {
 
   async function viewEntered () {
     LocalNotifications.requestPermissions().catch((e) => {console.log(e)})
+    await store.set("tipMinutes", undefined)
+    await store.set("tipSeconds", undefined)
     await store.set("habitId", null)
     await store.set("startTime", null)
     await store.set("steps", [])
@@ -182,13 +184,13 @@ const Home: React.FC = () => {
         </div>
 
 
-        <IonButton className="SessionButton" routerDirection="back" onClick={handleStart}>
+        <IonButton className="SessionButton" onClick={handleStart}>
           Start Session
         </IonButton>
 
         <br />
 
-        <IonButton className="SessionButton" id="TipButton" routerDirection="back" onClick={() => history.push("TipOne")}>
+        <IonButton className="SessionButton" id="TipButton" onClick={() => history.push("TipOne")}>
           Start Tips
         </IonButton>
         
