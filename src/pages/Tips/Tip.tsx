@@ -24,7 +24,6 @@ export function Tip (props:any) {
                 </IonToolbar>
             </IonHeader>
 
-
             <IonContent>
                 <IonText><p id="Title">{props.Title}</p></IonText>
                 <IonText><p className="Description">All tips are from David Goggin's book "Can't Hurt Me". <br /> 
@@ -47,6 +46,10 @@ export function Tip (props:any) {
                     </IonCard>
                     )
                 })}
+
+                <br />
+                <br />
+                <br />
             </IonContent>
         </IonPage>
     )
