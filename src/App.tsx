@@ -41,6 +41,7 @@ import { TipSeven } from './pages/Tips/TipSeven';
 import { TipEight } from './pages/Tips/TipEight';
 import { TipNine } from './pages/Tips/TipNine';
 import { TipTen } from './pages/Tips/TipTen';
+import { QAPage } from './pages/Quiz/QAPage'
 
 setupIonicReact();
 
@@ -82,6 +83,7 @@ const App: React.FC = () => (
         <Route exact path="/TipEight" component={TipEight} />
         <Route exact path="/TipNine" component={TipNine} />
         <Route exact path="/TipTen" component={TipTen} />
+        <Route exact path="/QA" component={QAPage} />
         
         <Redirect exact path="/" to="/home" />
       </IonRouterOutlet>
