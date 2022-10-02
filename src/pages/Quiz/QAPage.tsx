@@ -39,7 +39,7 @@ export function QAPage (props:any) {
             <IonContent>
                 <CloseButton />
                 <IonText><p id="Title">Question Answer</p></IonText>
-                <IonText><p id="Header">Visualize the situation and think what about what you would do next. <br /> Then learn how David Goggins does next.</p></IonText>
+                <IonText><p id="Header">Visualize the situation and think what about what you would do next. <br /> Then learn how David Goggins does next. Visualize doing a similar action for yourself.</p></IonText>
 
                 <IonCard className="card">
                     <IonCardTitle>Visualize the situation:</IonCardTitle>
