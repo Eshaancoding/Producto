@@ -2,18 +2,56 @@ import { IonPage, IonButton, IonContent, IonText, useIonViewDidEnter, IonCardTit
 import { useState } from "react";
 import CloseButton from "../../helper/CloseButton";
 import { QuestionAnswer } from "./QuestionAnswers";
+import { useHistory } from "react-router";
+import { Storage } from "@ionic/storage";
+import CountBar from "../../helper/CounterBar";
 
 function getRandomInt(max:number) {
   return Math.floor(Math.random() * max);
 }
 
+function shuffle(array:any) {
+  let currentIndex = array.length,  randomIndex;
+
+  // While there remain elements to shuffle.
+  while (currentIndex != 0) {
+
+    // Pick a remaining element.
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex--;
+
+    // And swap it with the current element.
+    [array[currentIndex], array[randomIndex]] = [
+      array[randomIndex], array[currentIndex]];
+  }
+
+  return array;
+}
+
 export function QAPage (props:any) {
+    const [arr, setArr] = useState([])
     const [indx, setIndx] = useState(0)
     const [answerShown, setAnswerShown] = useState(false)
     const [buttonTitle, setButtonTitle] = useState("Show Answer")
+    const [minutes, setMinutes] = useState(-1)
+    const history = useHistory()
+    const store = new Storage()
+    store.create()
 
     useIonViewDidEnter(() => {
-        setIndx(getRandomInt(Object.keys(QuestionAnswer).length))
+        var array = [];
+        for (var i = 0; i < Object.keys(QuestionAnswer).length; i++) {
+            array.push(i)
+        }
+        array = shuffle(array);
+        setArr(array as any)
+        setIndx(0)
+    
+        if (props.useCountBar === true) {
+            store.get("pomoBreak").then((value:any) => {
+                setMinutes(value)
+            })
+        }
     })
 
     function handleClick () {
@@ -24,20 +62,29 @@ export function QAPage (props:any) {
         else if (buttonTitle == "Next Question") {
             setAnswerShown(false)
             setButtonTitle("Show Answer")
-            const prev_index = indx
-            var new_indx = getRandomInt(Object.keys(QuestionAnswer).length)
-            while (true) {
-                if (new_indx !== prev_index) break;
-                new_indx = getRandomInt(Object.keys(QuestionAnswer).length)
+            
+            if (indx < arr.length - 1) {
+                setIndx((value) => value + 1)
+            } else {
+                var array = [];
+                for (var i = 0; i < Object.keys(QuestionAnswer).length; i++) {
+                    array.push(i)
+                }
+                array = shuffle(array);
+                setArr(array as any)
+                setIndx(0)
             }
-            setIndx(new_indx)
         }
     }
 
     return (
         <IonPage>
             <IonContent>
-                <CloseButton />
+                <CountBar useStartTime minutes={minutes} seconds={0} finish={async () => {history.replace("/WorkSession"); await store.set("startTime", undefined)}} /> 
+    
+                {(props.useCountBar === false || props.useCountBar == undefined) && 
+                    <CloseButton />
+                }
                 <IonText><p id="Title">Question Answer</p></IonText>
                 <IonText><p id="Header">Visualize the situation and think what about what you would do next. <br /> Then learn how David Goggins does next. Visualize doing a similar action for yourself.</p></IonText>
 
@@ -46,7 +93,7 @@ export function QAPage (props:any) {
                     <br />
                     <IonText>
                         <p style={{color: 'white'}}>
-                            {Object.keys(QuestionAnswer)[indx]} 
+                            {Object.keys(QuestionAnswer)[arr[indx]]} 
                         </p>
                     </IonText>
                 </IonCard>
@@ -67,7 +114,7 @@ export function QAPage (props:any) {
                         <br />
                         <IonText>
                             <p style={{color: 'white'}}>
-                                {Object.values(QuestionAnswer)[indx]} 
+                                {Object.values(QuestionAnswer)[arr[indx]]} 
                             </p>
                         </IonText>
                     </IonCard>

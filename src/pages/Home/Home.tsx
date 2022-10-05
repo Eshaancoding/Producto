@@ -190,8 +190,8 @@ const Home: React.FC = () => {
 
         <br />
 
-        <IonButton className="SessionButton" id="TipButton" onClick={() => history.push("TipOne")}>
-          Start Tips
+        <IonButton className="SessionButton" id="TipButton" onClick={() => history.push("QA")}>
+          Start Trainer
         </IonButton>
         
         <br />

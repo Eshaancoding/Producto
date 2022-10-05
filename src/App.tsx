@@ -83,7 +83,11 @@ const App: React.FC = () => (
         <Route exact path="/TipEight" component={TipEight} />
         <Route exact path="/TipNine" component={TipNine} />
         <Route exact path="/TipTen" component={TipTen} />
+
         <Route exact path="/QA" component={QAPage} />
+        <Route exact path="/QABreakSession">
+          <QAPage useCountBar />
+        </Route>
         
         <Redirect exact path="/" to="/home" />
       </IonRouterOutlet>

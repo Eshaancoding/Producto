@@ -121,7 +121,7 @@ const WorkSession: React.FC = () => {
     await store.set("habits", original_habits)
     await store.set("NumberSessionsDone", NumberSesDone + 1)
     await store.set("startTime", undefined)
-    history.replace("/TipOne")
+    history.replace("/QABreakSession")
   }
 
   async function handleCloseButton() {
