@@ -32,27 +32,6 @@ const Home: React.FC = () => {
     const habit = await store.get("habits")
     if (habit !== null) {
       const currentDate = getDate()
-      
-      // Check if any habits that require reflection
-      var indexes:any = []
-      var habitsNeedReflection = habit.filter((value:any, index:any) => {
-        const lastRefl = value["lastRefl"]
-        if (getDifferenceDay(currentDate, lastRefl) >= value["intervalRefl"]) {
-          indexes.push(index)
-          return true
-        }
-        else return false
-      })
-      // if we have any habits that need reflection, then send it to HabitReflection
-      if (habitsNeedReflection.length > 0) {
-        // attach a habit Id on each
-        for (var i = 0; i < habitsNeedReflection.length; i++) {
-          habitsNeedReflection[i]["habitId"] = indexes[i]
-        }
-        await store.set("habitsNeedReflection", habitsNeedReflection)
-        history.replace("/HabitReflection")
-      }
-
       // clear if new week 
       const lastDateClear = await store.get("lastDateClear")
       if (lastDateClear === null || getWeekDifference(currentDate, lastDateClear) >= 1) {
