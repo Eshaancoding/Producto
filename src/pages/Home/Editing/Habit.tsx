@@ -1,5 +1,5 @@
-import { IonPage, IonContent, IonHeader, IonButton, IonItem, IonLabel, IonInput, useIonViewWillEnter, IonToggle, IonToolbar, IonButtons, IonText, IonCard, IonCardTitle, useIonToast} from "@ionic/react";
-import { useEffect, useRef, useState } from "react";
+import { IonPage, IonContent, IonHeader, IonButton, IonInput, useIonViewWillEnter, IonToolbar, IonButtons, IonText, IonCard, IonCardTitle, useIonToast} from "@ionic/react";
+import { useRef, useState } from "react";
 import { Storage } from "@ionic/storage";
 import { useHistory } from "react-router";
 import "./Habit.css"
@@ -60,15 +60,15 @@ function EditingHabitModal (props:any) {
         const intervalRefl:any = reflectionInterval.current?.value
 
         // check if we have any missing fields
-        if (newTitle == undefined) {
+        if (newTitle === undefined) {
             showToast("Please enter a title!")
             return
         }
-        if (newDescription == undefined) {
+        if (newDescription === undefined) {
             showToast("Please enter a description!")
             return
         }
-        if (intervalRefl == undefined) {
+        if (intervalRefl === undefined) {
             showToast("Please enter an interval!")
             return
         }         
@@ -80,11 +80,11 @@ function EditingHabitModal (props:any) {
             showToast("Interval Value must a whole number, not a decimal!")
             return
         } 
-        if (startTime == undefined) {
+        if (startTime === undefined) {
             showToast("Please enter a start time!")
             return
         } 
-        if (endTime == undefined) {
+        if (endTime === undefined) {
             showToast("Please enter an end time!")
             return
         }

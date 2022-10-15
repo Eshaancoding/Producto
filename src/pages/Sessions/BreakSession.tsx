@@ -1,5 +1,5 @@
-import { IonText, IonContent, IonPage, IonButton, useIonViewWillEnter} from '@ionic/react';
-import { useState} from 'react';
+import { IonText, IonContent, IonPage, IonButton, useIonViewWillEnter, IonCard, IonCardTitle } from '@ionic/react';
+import { useState } from 'react';
 import "./WorkSession.css"
 import CountBar from '../../helper/CounterBar';
 
@@ -21,7 +21,7 @@ const TimeDisplay = (props: any) => {
   }
   return (
     <p id="TimeDisplay">Time Spent: {minutes_text}:{seconds_text} <br />Set a timer for {props.originalMinutes} minutes!<br /><br />
-    This session is meant for you to clear your head. Do not worry about work for now, no matter how urgent. Just try to listen and pay attention to your surroundings. Recognize how you feel right now in the moment. Relax different parts of the body as you do so.
+      This session is meant for you to clear your head. Do not worry about work for now, no matter how urgent. Just try to listen and pay attention to your surroundings. Recognize how you feel right now in the moment. Relax different parts of the body as you do so. <br /> <br /> Also remember the distractions that you face, and how you can beat them!
     </p>
   )
 }
@@ -32,11 +32,21 @@ const BreakSession: React.FC = () => {
   const [minutes, setMinutes] = useState(0)
   const [seconds, setSeconds] = useState(0)
   const [NumberSesDone, setNumberSesDone] = useState(0)
+  const [arr, setArr] = useState([] as any)
+  const [arrOne, setArrOne] = useState([] as any)
 
   const store = new Storage()
   store.create()
 
   async function viewEnter() {
+    // Get distractions arr
+    const val = await store.get("DistractionData")
+    if (val !== undefined && val != null) setArr(val)
+
+    // get goal arr
+    const valOne = await store.get("VisualizeGoalData")
+    if (valOne !== undefined && val != null) setArrOne(valOne)
+
     // set Original minutes
     const pomoWork = await store.get("pomoBreak")
     setOriginalMinutes(pomoWork)
@@ -48,14 +58,14 @@ const BreakSession: React.FC = () => {
     // Work Session Notification
     LocalNotifications.schedule({
       notifications: [{
-        title: "Work Session", 
+        title: "Work Session",
         body: "It's time to work!",
         id: 1,
         extra: {
-            data: "Work Session Notification"
+          data: "Work Session Notification"
         }
       }]
-    }).catch((e:any) => console.log(e))
+    }).catch((e: any) => console.log(e))
   }
   useIonViewWillEnter(viewEnter)
 
@@ -63,15 +73,16 @@ const BreakSession: React.FC = () => {
     // Work Session End Notification 
     LocalNotifications.schedule({
       notifications: [{
-        title: "Motivation Session", 
+        title: "Motivation Session",
         body: "It's time for the motivation session!",
         id: 2,
         extra: {
           data: "Motivation Session Notification"
         }
       }]
-    }).catch((e:any) => console.log(e))
-    history.replace("/TipOne")
+    }).catch((e: any) => console.log(e))
+    await store.set("startTime", null)
+    history.replace("/WorkSession")
   }
 
   async function handleCloseButton() {
@@ -86,9 +97,39 @@ const BreakSession: React.FC = () => {
         <IonText>
           <TimeDisplay minutes={minutes} seconds={seconds} NumberSesDone={NumberSesDone} originalMinutes={originalMinutes} /> <br />
         </IonText>
+
+        {arr.map((object: any, index: any) => {
+          return (
+            <IonCard key={index} className="card">
+              <IonCardTitle>{object[0]}</IonCardTitle>
+              <IonText><p id="Description">What would overcoming the distraction look like? <span className="highlight">{object[1]}</span></p></IonText>
+            </IonCard>
+          )
+        })}
+        <br />
+
+        <IonText>
+          <p id="TimeDisplay">Now visualize your goals!</p>
+        </IonText>
+        
+        <br />
+
+        {arrOne.map((object: any, index: any) => {
+          return (
+            <IonCard key={index} className="card">
+              <IonCardTitle>{object[0]}</IonCardTitle>
+              <IonText><p id="Description">What would succeeding look like? <span className="highlight">{object[1]}</span></p></IonText>
+              <IonText><p id="Description">What would failing look like? <span className="highlight">{object[2]}</span></p></IonText>
+            </IonCard>
+          )
+        })}
+
+        <br />
+
         <IonButton id="CloseButton" onClick={handleCloseButton}>
           End Session
         </IonButton>
+
         <div id="footer" />
       </IonContent>
     </IonPage>

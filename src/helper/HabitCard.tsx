@@ -1,11 +1,9 @@
-import {IonCardHeader, IonCardSubtitle, IonCardTitle, IonFab, IonIcon, IonChip, IonCard, IonCardContent, IonBadge, IonFabButton, useIonToast, useIonViewDidEnter} from '@ionic/react';
-import { checkmarkOutline, closeOutline, cogOutline, createOutline } from 'ionicons/icons'
+import {IonCardSubtitle, IonCardTitle, IonIcon, IonChip, IonCard, IonCardContent, IonBadge, IonFabButton, useIonToast} from '@ionic/react';
+import { checkmarkOutline, cogOutline}  from 'ionicons/icons'
 import "./HabitCard.css"
 import { useHistory } from 'react-router';
 import { Storage } from '@ionic/storage';
-import { useState } from 'react';
 import { hoursToString } from './DateHelper.js'
-import { isPlatform } from '@ionic/react';
 
 function HabitCard (props:any) {
   const history = useHistory()
@@ -97,15 +95,9 @@ function HabitCard (props:any) {
       <IonCardContent>
         <IonCardTitle id="CardTitle" className={props.isReminder ? "reminder" : undefined}>{props.habitName} <TimeDisplay startTime={props.startTime} endTime={props.endTime} /> </IonCardTitle>
         <IonCardSubtitle>
-          {/* Description */}
-          {props.habitDescription !== "" && props.habitDescription != undefined && <> Description: {props.habitDescription} <br /> </>} 
-          {/* Interval */}
-          {props.intervalRefl != undefined && props.isReminder === false && <>Reflection every <span className='highlight'> {props.intervalRefl} </span> days.</>}  
-          {props.lastRefl != undefined && props.isReminder === false && <> Last reflection date: <span className='highlight'> {props.lastRefl.toDateString()}</span>.<br /> </>}
-          {/* Reflection */}
-          {(props.HabitOften !== "" && props.SessionsProductive !== "" && props.ReflectionFeeling !== "" && props.HabitOften != undefined && props.SessionsProductive != undefined && props.SessionsProductive != undefined && props.isReminder === false) && 
-          <> <br /> Last habit reflection:<br /> 
-          <span className='highlight'>{props.HabitOften} <br /> {props.SessionsProductive} <br /> {props.ReflectionFeeling}</span> </>}
+          {props.habitDescription !== "" && props.habitDescription !== undefined && <> Description: {props.habitDescription} <br /> </>} 
+          {props.intervalRefl !== undefined && props.isReminder === false && <>Reflection every <span className='highlight'> {props.intervalRefl} </span> days.</>}  
+          {props.lastRefl !== undefined && props.isReminder === false && <> Last reflection date: <span className='highlight'> {props.lastRefl.toDateString()}</span>.<br /> </>}
         </IonCardSubtitle>
         <IonFabButton id="edit" className={props.isReminder ? "reminder" : undefined} onClick={edit} size={props.isReminder ? "small" : undefined}>
           <IonIcon icon={cogOutline}></IonIcon>  

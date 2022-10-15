@@ -1,7 +1,7 @@
-import { IonCard, IonList, IonItem, IonText, IonContent, IonPage, IonButton, useIonViewWillEnter, useIonViewWillLeave, IonCardTitle } from '@ionic/react';
-import { useState, useEffect, useContext } from 'react';
+import { IonList, IonItem, IonText, IonContent, IonPage, IonButton, useIonViewWillEnter } from '@ionic/react';
+import { useState } from 'react';
 import "./WorkSession.css"
-import { getDate, getDifferenceDay, dayToString } from '../../helper/DateHelper';
+import { dayToString } from '../../helper/DateHelper';
 import CountBar from '../../helper/CounterBar';
 
 import { LocalNotifications } from '@capacitor/local-notifications'
@@ -54,12 +54,6 @@ const WorkSession: React.FC = () => {
   const [minutes, setMinutes] = useState(0)
   const [seconds, setSeconds] = useState(0)
   const [NumberSesDone, setNumberSesDone] = useState(0)
-  const [one, setOne] = useState("Not answered yet.")
-  const [two, setTwo] = useState("Not answered yet.")
-  const [three, setThree] = useState("Not answered yet.")
-  const [cookieResp, setCookieResp] = useState("Not answered yet.")
-  const [pushPast, setPushPast] = useState("Not answered yet.")
-  const [failure, setFailure] = useState("Not answered yet.")
 
   const store = new Storage()
   store.create()
@@ -76,28 +70,6 @@ const WorkSession: React.FC = () => {
     // set number sessions done
     const sessionsDone = await store.get("NumberSessionsDone")
     setNumberSesDone(sessionsDone)
-
-    // Get the rest of the details
-    store.get("VisualizationResponseOne").then((value:any) => setOne(value))
-    store.get("VisualizationResponseTwo").then((value:any) => setTwo(value))
-    store.get("VisualizationResponseThree").then((value:any) => setThree(value))
-    store.get("CookieResponse").then((value:any) => setCookieResp(value))
-    store.get("habits").then((value:any) => {
-      if ("pushPastDesc" in value[habitId]) setPushPast(value[habitId]["pushPastDesc"])
-      if ("failureResp" in value[habitId]) setFailure(value[habitId]["failureResp"][2])
-    })
-
-    // Work Session Notification
-    const result = await LocalNotifications.schedule({
-      notifications: [{
-        title: "Work Session", 
-        body: "It's time to work!",
-        id: 1,
-        extra: {
-            data: "Work Session Notification"
-        }
-      }]
-    })
   }
   useIonViewWillEnter(viewEnter)
 
@@ -121,7 +93,7 @@ const WorkSession: React.FC = () => {
     await store.set("habits", original_habits)
     await store.set("NumberSessionsDone", NumberSesDone + 1)
     await store.set("startTime", undefined)
-    history.replace("/QABreakSession")
+    history.replace("/BreakSession")
   }
 
   async function handleCloseButton() {

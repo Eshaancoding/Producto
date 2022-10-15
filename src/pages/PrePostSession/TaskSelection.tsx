@@ -26,10 +26,10 @@ const TaskSelection: React.FC = () => {
       const id = habitsList.findIndex((value) => value["title"] === e)
       copy[index] = id.toString()
     }
-    else if (index == 1) {
+    else if (index === 1) {
       copy[index] = e as string
     }
-    else if (index == 2) {
+    else if (index === 2) {
       copy[index] = e as string
     }
     setResponse(copy)
@@ -46,7 +46,7 @@ const TaskSelection: React.FC = () => {
       await store.set("pomoWork", parseInt(response[1]))
       await store.set("pomoBreak", parseInt(response[2]))
 
-      history.replace("/QABreakSession")
+      history.replace("/VisualizeGoal")
     }
   }
 
@@ -68,6 +68,8 @@ const TaskSelection: React.FC = () => {
                 return (
                   <IonSelectOption key={index} value={object["title"]}>{object["title"]}</IonSelectOption>
                 )
+              } else {
+                return (<></>)
               }
             })} 
           </IonSelect> 

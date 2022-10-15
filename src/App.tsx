@@ -6,6 +6,8 @@ import TaskSelection from './pages/PrePostSession/TaskSelection';
 import WorkSession from './pages/Sessions/WorkSession';
 import BreakSession from './pages/Sessions/BreakSession';
 import EditingHabitModal from './pages/Home/Editing/Habit';
+import { VisualizeGoal } from './pages/PrePostSession/VisualizeGoal';
+import { Distractions } from './pages/PrePostSession/Distractions';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -36,6 +38,8 @@ const App: React.FC = () => (
         <Route exact path="/Home" component={Home} />
         <Route exact path="/WorkSession" component={WorkSession} />
         <Route exact path="/BreakSession" component={BreakSession} />
+        <Route exact path="/VisualizeGoal" component={VisualizeGoal} />
+        <Route exact path="/Distractions" component={Distractions} />
 
         <Route exact path="/taskSelect" component={TaskSelection} />
 

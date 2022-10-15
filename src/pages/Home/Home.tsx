@@ -3,7 +3,7 @@ import { useState } from 'react';
 import './Home.css';
 import { Storage } from '@ionic/storage'
 import HabitCard from '../../helper/HabitCard';
-import { getDate, getWeekDifference, dayToString, getDifferenceDay, determineIfBetweenTime} from '../../helper/DateHelper';
+import { getDate, getWeekDifference, dayToString, determineIfBetweenTime} from '../../helper/DateHelper';
 import { useHistory } from 'react-router';
 import { LocalNotifications} from '@capacitor/local-notifications';
 
@@ -169,10 +169,6 @@ const Home: React.FC = () => {
 
         <br />
 
-        <IonButton className="SessionButton" id="TipButton" onClick={() => history.push("QA")}>
-          Start Trainer
-        </IonButton>
-        
         <br />
         {!isPlatform("ios") ? <div id="footer" /> : <></>}
       </IonContent>
